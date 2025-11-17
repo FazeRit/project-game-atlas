@@ -1,0 +1,315 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// TODO: add indexes
+
+model Game {
+    checksum             String   @id @default(uuid())
+    name                 String
+    summary              String?
+    storyline            String?
+    totalRating          Float?   @map("total_rating")
+    totalRatingCount     Int?     @map("total_rating_count")
+    url                  String?
+    firstReleaseDate     DateTime? @map("first_release_date")
+
+    cover                Cover?
+    screenshots          Screenshots[]
+
+    personalNotes        PersonalNote[]
+
+    gameGenres           GameGenre[]
+    gameAgeRatings       GameAgeRating[]
+
+    gameCompanies        GameCompany[]
+    gamePlatforms        GamePlatform[]
+
+	personalLibraryGames PersonalLibraryGame[]
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("games")
+}
+
+model GameAgeRating {
+    checksum             String   @id @default(uuid())
+    gameId               String   @map("game_id")
+    ageRatingId          String   @map("age_rating_id")
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+    ageRating            AgeRating   @relation(fields: [ageRatingId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("game_age_ratings")
+}
+
+
+model AgeRating {
+    checksum             String   @id @default(uuid())
+    ratingCategoryId     String   @unique @map("rating_category_id")
+    ratingCoverUrl       String   @map("rating_cover_url")
+
+    ratingCategory       AgeRatingCategories   @relation(fields: [ratingCategoryId], references: [checksum])
+    gameAgeRatings       GameAgeRating[]
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("age_ratings")
+}
+
+model AgeRatingCategories {
+    checksum             String   @id @default(uuid())
+    rating               Float
+
+    ratings              AgeRating?
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("age_rating_categories")
+}
+
+model GameCompany {
+    checksum             String   @id @default(uuid())
+    gameId               String   @map("game_id")
+    companyId            String   @map("company_id")
+
+    developer            Boolean
+    publisher            Boolean
+    supporting           Boolean
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+    company              Company  @relation(fields: [companyId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("game_companies")
+}
+
+model Company {
+    checksum             String   @id @default(uuid())
+    name                 String
+    slug                 String?
+    country              Int?
+    startDate            DateTime? @map("start_date")
+
+    gameCompanies        GameCompany[]
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("companies")
+}
+
+model Cover {
+    checksum             String   @id @default(uuid())
+    gameId               String   @unique @map("game_id")
+    imageId              String   @map("image_id")
+    height               Int?
+    width                Int?
+    url                  String?
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("covers")
+}
+
+model Screenshots {
+    checksum             String   @id @default(uuid())
+    gameId               String   @map("game_id")
+    imageId              String   @map("image_id")
+
+    height               Int?
+    width                Int?
+    url                  String?
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("screenshots")
+}
+
+model GameGenre {
+    checksum             String   @id @default(uuid())
+    gameId               String   @map("game_id")
+    genreId              String   @map("genre_id")
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+    genre                Genre    @relation(fields: [genreId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("game_genres")
+}
+
+model Genre {
+    checksum             String   @id @default(uuid())
+    name                 String
+    slug                 String
+
+    gameGenres           GameGenre[]
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("genres")
+}
+
+model User {
+    checksum             String   @id @default(uuid())
+    username             String   @unique
+    email                String   @unique
+    hashedPassword       String   @map("hashed_password")
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+	personalLibraries	 PersonalLibrary?
+    personalNotes        PersonalNote[]
+
+    @@map("users")
+}
+
+model PersonalNote {
+    checksum             String   @id @default(uuid())
+    userId               String   @map("user_id")
+    gameId               String   @map("game_id")
+
+    note                 String
+
+    user                 User     @relation(fields: [userId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("personal_notes")
+}
+
+model GamePlatform {
+    checksum             String   @id @default(uuid())
+    gameId               String   @map("game_id")
+    platformId           String   @map("platform_id")
+
+    game                 Game     @relation(fields: [gameId], references: [checksum])
+    platform             Platform @relation(fields: [platformId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("game_platforms")
+}
+
+model Platform {
+    checksum             String   @id @default(uuid())
+    platformLogoId       String   @unique @map("platform_logo_id")
+    platformTypeId       String   @unique @map("platform_type_id")
+
+    abbreviation         String?
+    name                 String
+    alternativeName      String   @map("alternative_name")
+    summary              String?
+
+    gamePlatforms        GamePlatform[]
+    platformLogo         PlatformLogo   @relation(fields: [platformLogoId ], references: [checksum])
+    platformType         PlatformType   @relation(fields: [platformTypeId ], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("platforms")
+}
+
+model PlatformLogo {
+    checksum             String   @id @default(uuid())
+    imageId              String   @map("image_id")
+
+    height               Int?
+    width                Int?
+    url                  String?
+
+    platform             Platform?
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("platform_logos")
+}
+
+model PlatformType {
+    checksum             String   @id @default(uuid())
+    name                 String
+
+    platforms            Platform?
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("platform_types")
+}
+
+model PersonalLibraryGame {
+    checksum             String   @id @default(uuid())
+	gameId				 String   @map("game_id")
+	personalLibraryId	 String   @map("personal_library_id")
+
+	status				 PlayStatus	  @default(BACKLOG)
+	rank				 TierRank @default(UNRANKED)
+
+	game 				 Game 	  @relation(fields: [gameId], references: [checksum])
+	personalLibrary		 PersonalLibrary   @relation(fields: [personalLibraryId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+	@@map("personal_library_games")
+}
+
+model PersonalLibrary {
+    checksum             String   @id @default(uuid())
+	userId				 String	  @map("user_id")   @unique
+
+	user				 User     @relation(fields: [userId], references: [checksum])
+
+	personalLibraryGames PersonalLibraryGame[]
+	
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+	@@map("personal_libraries")
+}
+
+enum PlayStatus {
+	PLAYING
+	COMPLETED
+	DROPPED
+	ON_HOLD
+	BACKLOG
+}
+
+enum TierRank {
+	S
+	A
+	B
+	C
+	D
+	F
+	UNRANKED
+}
