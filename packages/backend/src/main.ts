@@ -1,22 +1,38 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
+import { ApiResponseInterceptor } from './app/shared/interceptors/api-response.interceptor';
 import { AppModule } from './app/app.module';
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
-// TODO: add Pino logger
-// TODO: add cors
-// TODO: add cookies-parser
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+	const app = await NestFactory.create(AppModule, {
+		bufferLogs: true,
+	});
+
+	app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+
+	const globalPrefix = 'api';
+	app.setGlobalPrefix(globalPrefix);
+
+	app.use(cookieParser())
+
+	app.useGlobalPipes(new ValidationPipe({
+		whitelist: true,
+		transform: true,
+	}),);
+
+	app.useGlobalInterceptors(new ApiResponseInterceptor())
+
+	app.enableCors({
+		origin: '*',
+		methods: 'GET, PUT, POST, DELETE, PATCH',
+		allowedHeaders: 'Content-Type, Authorization',
+	});
+
+	const port = process.env.PORT || 3002;
+
+	await app.listen(port);
 }
 
 bootstrap();
