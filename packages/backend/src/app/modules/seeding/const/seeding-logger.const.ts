@@ -1,0 +1,4 @@
+export const SEEDING_LOGGER_PREFIXES = {
+	SEEDING: '[DATABASE SEEDING]:',
+	CLEANUP: '[DATABASE CLEANUP]:',
+} as const;

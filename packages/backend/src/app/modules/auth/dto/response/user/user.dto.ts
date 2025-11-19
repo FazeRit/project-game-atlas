@@ -11,13 +11,23 @@ export class UserResponseDto {
     @Expose()
     email: string;
 
+	@Expose()
+	createdAt: Date;
+
+	@Expose()
+	updatedAt: Date;
+
 	constructor(
 		checksum: string,
 		username: string,
-		email: string
+		email: string,
+		createdAt: Date,
+		updatedAt: Date
 	) {
 		this.checksum = checksum;
 		this.username = username;
 		this.email = email;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 }

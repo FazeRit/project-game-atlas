@@ -1,10 +1,18 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
-import { HttpAdapterHost } from "@nestjs/core";
-import { ApiResponseDto } from "../dto/api-response.dto";
+import { ApiResponseDto } from '../dto/api-response.dto';
+import {
+	ArgumentsHost,
+	Catch,
+	ExceptionFilter,
+	HttpException,
+	HttpStatus
+} from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter{
-	constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+	constructor(
+		private readonly httpAdapterHost: HttpAdapterHost,
+	) {}
 
 	catch(exception: unknown, host: ArgumentsHost): void {
 		const {
@@ -20,7 +28,9 @@ export class HttpExceptionFilter implements ExceptionFilter{
 
 		const responseBody = new ApiResponseDto(
 			httpStatus,
-			{},
+			{
+				message: exception instanceof Error ? exception.message : 'An error occurred while processing the request',
+			},
 			new Date().toISOString(),
 			false,
 			httpAdapter.getRequestUrl(ctx.getRequest()),
