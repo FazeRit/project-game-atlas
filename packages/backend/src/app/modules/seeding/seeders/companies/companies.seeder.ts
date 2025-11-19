@@ -1,8 +1,8 @@
 import igdb from 'igdb-api-node';
 import { CompanyCreateDto } from '../../../game/dto/request/company/company-create.dto';
+import { CompanyWriteService } from '../../../game/services/companies/company/company-write-service/company-write.service';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { ICompanyWriteRepository } from '../../../game/repositories/companies/company/abstracts/icompany-write.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
@@ -18,7 +18,7 @@ export class CompaniesSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly companyWriteRepository: ICompanyWriteRepository,
+		private readonly companyWriteService: CompanyWriteService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -38,7 +38,7 @@ export class CompaniesSeeder {
 			const companyDtos: Array<CompanyCreateDto> = batch.map(company => new CompanyCreateDto(company));
 
 			try {
-				await this.companyWriteRepository.createMany(companyDtos);
+				await this.companyWriteService.createMany(companyDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create companies batch`, {

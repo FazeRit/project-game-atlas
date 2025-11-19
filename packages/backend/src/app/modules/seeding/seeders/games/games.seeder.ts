@@ -4,7 +4,7 @@ import { EnvService } from '../../../../config/env/services/env.service';
 import { GameCreateDto } from '../../../game/dto/request/game/game-create.dto';
 import { GameGenresSeeder } from '../genres/game-genres.seeder';
 import { GameKeywordsSeeder } from '../keywords/game-keywords.seeder';
-import { IGameWriteRepository } from '../../../game/repositories/game/abstracts/igame-write.repository';
+import { GameWriteService } from '../../../game/services/game/game-write-service/game-write.service';
 import { IgdbGame } from './types/igdb-game.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
@@ -20,7 +20,7 @@ export class GamesSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly gameWriteRepository: IGameWriteRepository,
+		private readonly gameWriteService: GameWriteService,
 		private readonly gameGenresSeeder: GameGenresSeeder,
 		private readonly gameKeywordsSeeder: GameKeywordsSeeder,
 		private readonly envService: EnvService
@@ -53,7 +53,7 @@ export class GamesSeeder {
 			}));
 
 			try {
-				await this.gameWriteRepository.createMany(gameDtos);
+				await this.gameWriteService.createMany(gameDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create games batch`, {

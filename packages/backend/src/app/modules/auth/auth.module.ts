@@ -8,14 +8,20 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtTokenService } from './services/jwt-token/jwt-token.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { Module } from '@nestjs/common';
+import { OTP_PROVIDERS } from './providers/otp/otp.provider';
+import { OtpService } from './services/otp/otp.service';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from '../prisma/prisma.module';
+import { SmtpModule } from '../smtp/smtp.module';
 import { USER_PROVIDERS } from './providers/user';
+import { UserReadService } from './services/user/user-read-service/user-read.service';
+import { UserWriteService } from './services/user/user-write-service/user-write.service';
 
 @Module({
 	imports: [
 		PassportModule,
 		PrismaModule,
+		SmtpModule,
 		JwtModule.registerAsync({
 			useFactory: (envService: EnvService) => ({
 				privateKey: envService.get(EnvEnum.JWT_PRIVATE_KEY),
@@ -36,8 +42,15 @@ import { USER_PROVIDERS } from './providers/user';
 		LocalStrategy,
 		AtStrategy,
 		JwtTokenService,
+		OtpService,
+		UserReadService,
+		UserWriteService,
 		...USER_PROVIDERS,
+		...OTP_PROVIDERS,
 	],
-	exports: []
+	exports: [
+		UserReadService,
+		UserWriteService,
+	]
 })
 export class AuthModule {}

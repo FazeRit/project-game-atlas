@@ -1,10 +1,10 @@
 import igdb from 'igdb-api-node';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { IGameReadRepository } from '../../../game/repositories/game/abstracts/igame-read.repository';
+import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { IScreenshotsWriteRepository } from '../../../game/repositories/screenshots/abstracts/iscreenshots-write.repository';
 import { ScreenshotsCreateDto } from '../../../game/dto/request/screenshots/screenshots-create.dto';
+import { ScreenshotsWriteService } from '../../../game/services/screenshots/screenshots-write-service/screenshots-write.service';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
 @Injectable()
@@ -19,8 +19,8 @@ export class ScreenshotsSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly screenshotsWriteRepository: IScreenshotsWriteRepository,
-		private readonly gameReadRepository: IGameReadRepository,
+		private readonly screenshotsWriteService: ScreenshotsWriteService,
+		private readonly gameReadService: GameReadService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -45,7 +45,7 @@ export class ScreenshotsSeeder {
 					continue;
 				}
 
-				const game = await this.gameReadRepository.findById(gameChecksum);
+				const game = await this.gameReadService.findById(gameChecksum);
 				if (!game) {
 					this.logger.warn(`${this.prefix} Screenshot ${screenshot.checksum}: game ${gameChecksum} not found in database, skipping`);
 					continue;
@@ -66,7 +66,7 @@ export class ScreenshotsSeeder {
 			}
 
 			try {
-				await this.screenshotsWriteRepository.createMany(validScreenshotDtos);
+				await this.screenshotsWriteService.createMany(validScreenshotDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create screenshots batch`, {

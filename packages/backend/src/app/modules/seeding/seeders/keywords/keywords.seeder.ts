@@ -1,9 +1,9 @@
 import igdb from 'igdb-api-node';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { IKeywordWriteRepository } from '../../../game/repositories/keywords/keywords/abstracts/ikeyword-write.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { KeywordCreateDto } from '../../../game/dto/request/keywords/keyword-create.dto';
+import { KeywordWriteService } from '../../../game/services/keywords/keywords/keywords-write-service/keyword-write.service';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class KeywordsSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly keywordWriteRepository: IKeywordWriteRepository,
+		private readonly keywordWriteService: KeywordWriteService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -43,7 +43,7 @@ export class KeywordsSeeder {
 			}));
 
 			try {
-				await this.keywordWriteRepository.createMany(keywordDtos);
+				await this.keywordWriteService.createMany(keywordDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create keywords batch`, {

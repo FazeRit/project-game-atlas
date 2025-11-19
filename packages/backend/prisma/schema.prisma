@@ -170,7 +170,22 @@ model User {
 
 	personalLibraries	 PersonalLibrary?
 
+    otps                 Otp[]
     @@map("users")
+}
+
+model Otp {
+    checksum             String   @id @default(uuid())
+    userId               String   @map("user_id")
+    code                  String
+    expiresAt            DateTime
+
+    user                 User     @relation(fields: [userId], references: [checksum])
+
+    createdAt            DateTime @default(now()) @map("created_at")
+    updatedAt            DateTime @updatedAt @map("updated_at")
+
+    @@map("otps")
 }
 
 model GamePlatform {
@@ -243,7 +258,7 @@ model PersonalLibrary {
 	user				 User     @relation(fields: [userId], references: [checksum])
 
 	personalLibraryGames PersonalLibraryGame[]
-	
+
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 

@@ -1,33 +1,40 @@
 import {
-	COMPANIES_PROVIDERS,
-	COVERS_PROVIDERS,
-	GAME_COMPANY_PROVIDERS,
-	GAME_GENRE_PROVIDERS,
-	GAME_KEYWORD_PROVIDERS,
-	GAME_PROVIDERS,
-	GENRES_PROVIDERS,
-	KEYWORDS_PROVIDERS,
-	PLATFORM_PROVIDERS,
-	PLATFORM_TYPES_PROVIDERS,
-	SCREENSHOTS_PROVIDERS
+    COMPANIES_PROVIDERS,
+    COVERS_PROVIDERS,
+    GAME_COMPANY_PROVIDERS,
+    GAME_GENRE_PROVIDERS,
+    GAME_KEYWORD_PROVIDERS,
+    GAME_PROVIDERS,
+    GENRES_PROVIDERS,
+    KEYWORDS_PROVIDERS,
+    PLATFORM_PROVIDERS,
+    PLATFORM_TYPES_PROVIDERS,
+    SCREENSHOTS_PROVIDERS
 } from './providers';
-import { ICompanyReadRepository } from './repositories/companies/company/abstracts/icompany-read.repository';
-import { ICompanyWriteRepository } from './repositories/companies/company/abstracts';
-import { ICoverWriteRepository } from './repositories/covers/abstracts/icover-write.repository';
-import { IGameCompanyWriteRepository } from './repositories/companies/game-company/abstracts';
-import { IGameGenreWriteRepository } from './repositories/genres/game-genres/abstracts';
-import { IGameKeywordWriteRepository } from './repositories/keywords/game-keywords/abstracts/igame-keyword-write.repository';
-import { IGameReadRepository } from './repositories/game/abstracts/igame-read.repository';
-import { IGameWriteRepository } from './repositories/game/abstracts/igame-write.repository';
-import { IGenreReadRepository } from './repositories/genres/genres/abstracts/igenre-read.repository';
-import { IGenreWriteRepository } from './repositories/genres/genres/abstracts/igenre-write.repository';
-import { IKeywordReadRepository } from './repositories/keywords/keywords/abstracts/ikeyword-read.repository';
-import { IKeywordWriteRepository } from './repositories/keywords/keywords/abstracts/ikeyword-write.repository';
-import { IPlatformTypeWriteRepository } from './repositories/platforms/platform-type/abstracts';
-import { IPlatformWriteRepository } from './repositories/platforms/platform/abstracts';
-import { IScreenshotsWriteRepository } from './repositories/screenshots/abstracts/iscreenshots-write.repository';
+import { CompanyReadService } from './services/companies/company/company-read-service/company-read.service';
+import { CompanyWriteService } from './services/companies/company/company-write-service/company-write.service';
+import { CoversReadService } from './services/covers/covers-read-service/covers-read.service';
+import { CoversWriteService } from './services/covers/covers-write-service/covers-write.service';
+import { GameCompanyReadService } from './services/companies/game-company/game-company-read-service/game-company-read.service';
+import { GameCompanyWriteService } from './services/companies/game-company/game-company-write-service/game-company-write.service';
+import { GameGenresReadService } from './services/genres/game-genres/game-genres-read-service/game-genres-read.service';
+import { GameGenresWriteService } from './services/genres/game-genres/game-genres-write-service/game-genres-write.service';
+import { GameKeywordsReadService } from './services/keywords/game-keywords/game-keywords-read-service/game-keywords-read.service';
+import { GameKeywordsWriteService } from './services/keywords/game-keywords/game-keywords-write-service/game-keywords-write.service';
+import { GameReadService } from './services/game/game-read-service/game-read.service';
+import { GameWriteService } from './services/game/game-write-service/game-write.service';
+import { GenreReadService } from './services/genres/genres/genres-read-service/genre-read.service';
+import { GenreWriteService } from './services/genres/genres/genres-write-service/genre-write.service';
+import { KeywordReadService } from './services/keywords/keywords/keywords-read-service/keyword-read.service';
+import { KeywordWriteService } from './services/keywords/keywords/keywords-write-service/keyword-write.service';
 import { Module } from '@nestjs/common';
+import { PlatformReadService } from './services/platforms/platform/platform-read-service/platform-read.service';
+import { PlatformTypeReadService } from './services/platforms/platform-type/platform-type-read-service/platform-type-read.service';
+import { PlatformTypeWriteService } from './services/platforms/platform-type/platform-type-write-service/platform-type-write.service';
+import { PlatformWriteService } from './services/platforms/platform/platform-write-service/platform-write.service';
 import { PrismaModule } from '../prisma/prisma.module';
+import { ScreenshotsReadService } from './services/screenshots/screenshots-read-service/screenshots-read.service';
+import { ScreenshotsWriteService } from './services/screenshots/screenshots-write-service/screenshots-write.service';
 
 @Module({
 	imports: [
@@ -47,21 +54,28 @@ import { PrismaModule } from '../prisma/prisma.module';
 		...GAME_PROVIDERS,
 	],
 	exports: [
-		IPlatformTypeWriteRepository,
-		IPlatformWriteRepository,
-		ICompanyReadRepository,
-		ICompanyWriteRepository,
-		IGenreReadRepository,
-		IGenreWriteRepository,
-		IKeywordReadRepository,
-		IKeywordWriteRepository,
-		ICoverWriteRepository,
-		IScreenshotsWriteRepository,
-		IGameCompanyWriteRepository,
-		IGameGenreWriteRepository,
-		IGameKeywordWriteRepository,
-		IGameReadRepository,
-		IGameWriteRepository,
+		PlatformTypeReadService,
+		PlatformTypeWriteService,
+		PlatformReadService,
+		PlatformWriteService,
+		CompanyReadService,
+		CompanyWriteService,
+		GenreReadService,
+		GenreWriteService,
+		KeywordReadService,
+		KeywordWriteService,
+		CoversReadService,
+		CoversWriteService,
+		ScreenshotsReadService,
+		ScreenshotsWriteService,
+		GameCompanyReadService,
+		GameCompanyWriteService,
+		GameGenresReadService,
+		GameGenresWriteService,
+		GameKeywordsReadService,
+		GameKeywordsWriteService,
+		GameReadService,
+		GameWriteService,
 	],
 })
 
