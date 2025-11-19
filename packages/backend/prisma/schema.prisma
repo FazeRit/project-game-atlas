@@ -22,10 +22,8 @@ model Game {
     cover                Cover?
     screenshots          Screenshots[]
 
-    personalNotes        PersonalNote[]
-
     gameGenres           GameGenre[]
-    gameAgeRatings       GameAgeRating[]
+    gameKeywords         GameKeyword[]
 
     gameCompanies        GameCompany[]
     gamePlatforms        GamePlatform[]
@@ -38,45 +36,32 @@ model Game {
     @@map("games")
 }
 
-model GameAgeRating {
+model GameKeyword {
     checksum             String   @id @default(uuid())
     gameId               String   @map("game_id")
-    ageRatingId          String   @map("age_rating_id")
+    keywordId            String   @map("keyword_id")
 
     game                 Game     @relation(fields: [gameId], references: [checksum])
-    ageRating            AgeRating   @relation(fields: [ageRatingId], references: [checksum])
+    keyword              Keyword  @relation(fields: [keywordId], references: [checksum])
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
-    @@map("game_age_ratings")
+    @@map("game_keywords")
 }
 
-
-model AgeRating {
+model Keyword {
     checksum             String   @id @default(uuid())
-    ratingCategoryId     String   @unique @map("rating_category_id")
-    ratingCoverUrl       String   @map("rating_cover_url")
+    name                 String
+    slug                 String
+    url              String?
 
-    ratingCategory       AgeRatingCategories   @relation(fields: [ratingCategoryId], references: [checksum])
-    gameAgeRatings       GameAgeRating[]
+    gameKeywords         GameKeyword[]
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
-    @@map("age_ratings")
-}
-
-model AgeRatingCategories {
-    checksum             String   @id @default(uuid())
-    rating               Float
-
-    ratings              AgeRating?
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("age_rating_categories")
+    @@map("keywords")
 }
 
 model GameCompany {
@@ -176,31 +161,16 @@ model User {
     checksum             String   @id @default(uuid())
     username             String   @unique
     email                String   @unique
-    hashedPassword       String   @map("hashed_password")
+    password             String
+
+    tasteVector          Json?    @map("taste_vector") @default("{}")
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
 	personalLibraries	 PersonalLibrary?
-    personalNotes        PersonalNote[]
 
     @@map("users")
-}
-
-model PersonalNote {
-    checksum             String   @id @default(uuid())
-    userId               String   @map("user_id")
-    gameId               String   @map("game_id")
-
-    note                 String
-
-    user                 User     @relation(fields: [userId], references: [checksum])
-    game                 Game     @relation(fields: [gameId], references: [checksum])
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("personal_notes")
 }
 
 model GamePlatform {
@@ -219,8 +189,7 @@ model GamePlatform {
 
 model Platform {
     checksum             String   @id @default(uuid())
-    platformLogoId       String   @unique @map("platform_logo_id")
-    platformTypeId       String   @unique @map("platform_type_id")
+    platformTypeId       String   @map("platform_type_id")
 
     abbreviation         String?
     name                 String
@@ -228,7 +197,6 @@ model Platform {
     summary              String?
 
     gamePlatforms        GamePlatform[]
-    platformLogo         PlatformLogo   @relation(fields: [platformLogoId ], references: [checksum])
     platformType         PlatformType   @relation(fields: [platformTypeId ], references: [checksum])
 
     createdAt            DateTime @default(now()) @map("created_at")
@@ -237,27 +205,11 @@ model Platform {
     @@map("platforms")
 }
 
-model PlatformLogo {
-    checksum             String   @id @default(uuid())
-    imageId              String   @map("image_id")
-
-    height               Int?
-    width                Int?
-    url                  String?
-
-    platform             Platform?
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("platform_logos")
-}
-
 model PlatformType {
     checksum             String   @id @default(uuid())
     name                 String
 
-    platforms            Platform?
+    platforms            Platform[]
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -272,6 +224,8 @@ model PersonalLibraryGame {
 
 	status				 PlayStatus	  @default(BACKLOG)
 	rank				 TierRank @default(UNRANKED)
+
+    note                 String?
 
 	game 				 Game 	  @relation(fields: [gameId], references: [checksum])
 	personalLibrary		 PersonalLibrary   @relation(fields: [personalLibraryId], references: [checksum])
@@ -312,4 +266,17 @@ enum TierRank {
 	D
 	F
 	UNRANKED
+}
+
+enum RecommendationReason {
+    ANTI_BURNOUT
+    BLIND_SPOT
+    HIGH_COMPATIBILITY
+    BACKLOG_REMINDER
+}
+
+enum PredictionVerdict {
+    EXCELLENT
+    GOOD
+    RISKY
 }

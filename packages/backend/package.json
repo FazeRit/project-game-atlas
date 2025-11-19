@@ -2,6 +2,17 @@
   "name": "@project-game-atlas/backend",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "db:seed:platform-types": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/platforms/seed-platform-types.command.ts",
+    "db:seed:platforms": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/platforms/seed-platforms.command.ts",
+    "db:seed:companies": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/companies/seed-companies.command.ts",
+    "db:seed:genres": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/genres/seed-genres.command.ts",
+    "db:seed:keywords": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/keywords/seed-keywords.command.ts",
+    "db:seed:covers": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/covers/seed-covers.command.ts",
+    "db:seed:screenshots": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/screenshots/seed-screenshots.command.ts",
+    "db:seed:game-companies": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/companies/seed-game-companies.command.ts",
+    "db:seed:games": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/games/seed-games.command.ts"
+  },
   "nx": {
     "targets": {
       "build": {
