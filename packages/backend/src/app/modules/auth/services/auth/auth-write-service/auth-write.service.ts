@@ -1,16 +1,13 @@
-import * as bcrypt from 'bcrypt';
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { IUserReadRepository } from '../../../repositories/user/abstracts/iuser-read.repository';
-import { IUserWriteRepository } from '../../../repositories/user/abstracts/iuser-write.repository';
+import { Injectable } from '@nestjs/common';
 import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-payload.dto';
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
+import { UserWriteService } from '../../user/user-write-service/user-write.service';
 
 @Injectable()
 export class AuthWriteService {
     constructor(
-        private readonly userReadRepository: IUserReadRepository,
-        private readonly userWriteRepository: IUserWriteRepository,
+        private readonly userWriteService: UserWriteService,
         private readonly jwtTokenService: JwtTokenService,
     ) {}
 
@@ -34,22 +31,7 @@ export class AuthWriteService {
         return jwtTokenResponse;
     }
 
-    async register(data: UserCreateDto): Promise<void> {
-        const user = await this.userReadRepository.findByUsernameOrEmail(data.username, data.email);
-
-        if (user) {
-            throw new BadRequestException('User already exists');
-        }
-
-        const hashedPassword = await bcrypt.hash(data.password, 10);
-
-        const newUser = await this.userWriteRepository.create({
-            ...data,
-            password: hashedPassword,
-        })
-
-        if (!newUser) {
-            throw new InternalServerErrorException('Failed to create user');
-        }
+    async register(data: UserCreateDto): Promise<UserResponseDto> {
+        return this.userWriteService.create(data);
     }
 }

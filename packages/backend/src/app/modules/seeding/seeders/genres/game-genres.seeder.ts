@@ -1,6 +1,6 @@
 import { GameGenreCreateDto } from '../../../game/dto';
-import { IGameGenreWriteRepository } from '../../../game/repositories/genres/game-genres/abstracts/igame-genre-write.repository';
-import { IGenreReadRepository } from '../../../game/repositories/genres/genres/abstracts/igenre-read.repository';
+import { GameGenresWriteService } from '../../../game/services/genres/game-genres/game-genres-write-service/game-genres-write.service';
+import { GenreReadService } from '../../../game/services/genres/genres/genres-read-service/genre-read.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
@@ -10,8 +10,8 @@ export class GameGenresSeeder {
 	private readonly prefix = SEEDING_LOGGER_PREFIXES.SEEDING;
 
     constructor(
-		private readonly gameGenreWriteRepository: IGameGenreWriteRepository,
-		private readonly genreReadRepository: IGenreReadRepository
+		private readonly gameGenresWriteService: GameGenresWriteService,
+		private readonly genreReadService: GenreReadService
 	) {}
 
 	async seed(gameId: string, genreIds: string | Array<string>) {
@@ -29,7 +29,7 @@ export class GameGenresSeeder {
 		const missingGenreIds: string[] = [];
 
 		for (const genreId of idsArray) {
-			const genre = await this.genreReadRepository.findById(genreId);
+			const genre = await this.genreReadService.findById(genreId);
 			if (genre) {
 				existingGenreIds.push(genreId);
 			} else {
@@ -52,7 +52,7 @@ export class GameGenresSeeder {
 					gameId,
 					genreId: existingGenreIds[0],
 				});
-				await this.gameGenreWriteRepository.create(gameGenreDto);
+				await this.gameGenresWriteService.create(gameGenreDto);
 			} else {
 				const gameGenreDtos: Array<GameGenreCreateDto> = existingGenreIds.map(genreId => {
 					return new GameGenreCreateDto({
@@ -60,7 +60,7 @@ export class GameGenresSeeder {
 						genreId,
 					});
 				});
-				await this.gameGenreWriteRepository.createMany(gameGenreDtos);
+				await this.gameGenresWriteService.createMany(gameGenreDtos);
 			}
 		} catch (error: unknown) {
 			const genreIdsStr = existingGenreIds.length === 1 ? existingGenreIds[0] : existingGenreIds.join(', ');

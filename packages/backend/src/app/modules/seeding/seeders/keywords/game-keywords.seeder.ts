@@ -1,7 +1,7 @@
 import { GameKeywordCreateDto } from '../../../game/dto';
-import { IGameKeywordWriteRepository } from '../../../game/repositories/keywords/game-keywords/abstracts/igame-keyword-write.repository';
-import { IKeywordReadRepository } from '../../../game/repositories/keywords/keywords/abstracts/ikeyword-read.repository';
+import { GameKeywordsWriteService } from '../../../game/services/keywords/game-keywords/game-keywords-write-service/game-keywords-write.service';
 import { Injectable, Logger } from '@nestjs/common';
+import { KeywordReadService } from '../../../game/services/keywords/keywords/keywords-read-service/keyword-read.service';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
 @Injectable()
@@ -10,8 +10,8 @@ export class GameKeywordsSeeder {
 	private readonly prefix = SEEDING_LOGGER_PREFIXES.SEEDING;
 
     constructor(
-		private readonly gameKeywordWriteRepository: IGameKeywordWriteRepository,
-		private readonly keywordReadRepository: IKeywordReadRepository
+		private readonly gameKeywordsWriteService: GameKeywordsWriteService,
+		private readonly keywordReadService: KeywordReadService
 	) {}
 
 	async seed(gameId: string, keywordIds: string | Array<string>) {
@@ -29,7 +29,7 @@ export class GameKeywordsSeeder {
 		const missingKeywordIds: string[] = [];
 
 		for (const keywordId of idsArray) {
-			const keyword = await this.keywordReadRepository.findById(keywordId);
+			const keyword = await this.keywordReadService.findById(keywordId);
 			if (keyword) {
 				existingKeywordIds.push(keywordId);
 			} else {
@@ -52,7 +52,7 @@ export class GameKeywordsSeeder {
 					gameId,
 					keywordId: existingKeywordIds[0],
 				});
-				await this.gameKeywordWriteRepository.create(gameKeywordDto);
+				await this.gameKeywordsWriteService.create(gameKeywordDto);
 			} else {
 				const gameKeywordDtos: Array<GameKeywordCreateDto> = existingKeywordIds.map(keywordId => {
 					return new GameKeywordCreateDto({
@@ -60,7 +60,7 @@ export class GameKeywordsSeeder {
 						keywordId,
 					});
 				});
-				await this.gameKeywordWriteRepository.createMany(gameKeywordDtos);
+				await this.gameKeywordsWriteService.createMany(gameKeywordDtos);
 			}
 		} catch (error: unknown) {
 			const keywordIdsStr = existingKeywordIds.length === 1 ? existingKeywordIds[0] : existingKeywordIds.join(', ');

@@ -1,10 +1,10 @@
 import igdb from 'igdb-api-node';
+import { CompanyReadService } from '../../../game/services/companies/company/company-read-service/company-read.service';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
 import { GameCompanyCreateDto } from '../../../game/dto/request/game-company/game-company-create.dto';
-import { ICompanyReadRepository } from '../../../game/repositories/companies/company/abstracts/icompany-read.repository';
-import { IGameCompanyWriteRepository } from '../../../game/repositories/companies/game-company/abstracts';
-import { IGameReadRepository } from '../../../game/repositories/game/abstracts/igame-read.repository';
+import { GameCompanyWriteService } from '../../../game/services/companies/game-company/game-company-write-service/game-company-write.service';
+import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
 import { IgdbInvolvedCompany } from './types/igdb-involved-company.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
@@ -21,9 +21,9 @@ export class GameCompaniesSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly gameCompanyWriteRepository: IGameCompanyWriteRepository,
-		private readonly gameReadRepository: IGameReadRepository,
-		private readonly companyReadRepository: ICompanyReadRepository,
+		private readonly gameCompanyWriteService: GameCompanyWriteService,
+		private readonly gameReadService: GameReadService,
+		private readonly companyReadService: CompanyReadService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -50,13 +50,13 @@ export class GameCompaniesSeeder {
 					continue;
 				}
 
-				const game = await this.gameReadRepository.findById(gameChecksum);
+				const game = await this.gameReadService.findById(gameChecksum);
 				if (!game) {
 					this.logger.warn(`${this.prefix} GameCompany ${gameCompany.checksum}: game ${gameChecksum} not found in database, skipping`);
 					continue;
 				}
 
-				const company = await this.companyReadRepository.findById(companyChecksum);
+				const company = await this.companyReadService.findById(companyChecksum);
 				if (!company) {
 					this.logger.warn(`${this.prefix} GameCompany ${gameCompany.checksum}: company ${companyChecksum} not found in database, skipping`);
 					continue;
@@ -77,7 +77,7 @@ export class GameCompaniesSeeder {
 			}
 
 			try {
-				await this.gameCompanyWriteRepository.createMany(validGameCompanyDtos);
+				await this.gameCompanyWriteService.createMany(validGameCompanyDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create game companies batch`, {

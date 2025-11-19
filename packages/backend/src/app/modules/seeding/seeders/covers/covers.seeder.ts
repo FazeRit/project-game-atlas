@@ -1,9 +1,9 @@
 import igdb from 'igdb-api-node';
 import { CoverCreateDto } from '../../../game/dto/request/covers/cover-create.dto';
+import { CoversWriteService } from '../../../game/services/covers/covers-write-service/covers-write.service';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { ICoverWriteRepository } from '../../../game/repositories/covers/abstracts/icover-write.repository';
-import { IGameReadRepository } from '../../../game/repositories/game/abstracts/igame-read.repository';
+import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
@@ -19,8 +19,8 @@ export class CoversSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly coverWriteRepository: ICoverWriteRepository,
-		private readonly gameReadRepository: IGameReadRepository,
+		private readonly coversWriteService: CoversWriteService,
+		private readonly gameReadService: GameReadService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -45,7 +45,7 @@ export class CoversSeeder {
 					continue;
 				}
 
-				const game = await this.gameReadRepository.findById(gameChecksum);
+				const game = await this.gameReadService.findById(gameChecksum);
 				if (!game) {
 					this.logger.warn(`${this.prefix} Cover ${cover.checksum}: game ${gameChecksum} not found in database, skipping`);
 					continue;
@@ -66,7 +66,7 @@ export class CoversSeeder {
 			}
 
 			try {
-				await this.coverWriteRepository.createMany(validCoverDtos);
+				await this.coversWriteService.createMany(validCoverDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create covers batch`, {

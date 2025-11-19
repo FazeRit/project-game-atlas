@@ -2,7 +2,7 @@ import igdb from 'igdb-api-node';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
 import { GenreCreateDto } from '../../../game/dto/request/genres/genre-create.dto';
-import { IGenreWriteRepository } from '../../../game/repositories/genres/genres/abstracts/igenre-write.repository';
+import { GenreWriteService } from '../../../game/services/genres/genres/genres-write-service/genre-write.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
@@ -18,7 +18,7 @@ export class GenresSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly genreWriteRepository: IGenreWriteRepository,
+		private readonly genreWriteService: GenreWriteService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -38,7 +38,7 @@ export class GenresSeeder {
 			const genreDtos: Array<GenreCreateDto> = batch.map(genre => new GenreCreateDto(genre));
 
 			try {
-				await this.genreWriteRepository.createMany(genreDtos);
+				await this.genreWriteService.createMany(genreDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create genres batch`, {

@@ -2,8 +2,8 @@ import igdb from 'igdb-api-node';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { IPlatformTypeWriteRepository } from '../../../game/repositories/platforms/platform-type/abstracts/iplatform-type-write.repository';
 import { PlatformTypeCreateDto } from '../../../game/dto/request/platform-type/platform-type-create.dto';
+import { PlatformTypeWriteService } from '../../../game/services/platforms/platform-type/platform-type-write-service/platform-type-write.service';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class PlatformTypesSeeder {
     private readonly LIMIT: number = 500;
 
     constructor(
-		private readonly platformTypesWriteRepository: IPlatformTypeWriteRepository,
+		private readonly platformTypeWriteService: PlatformTypeWriteService,
 		private readonly envService: EnvService
 	) {
 			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
@@ -38,7 +38,7 @@ export class PlatformTypesSeeder {
 			const platformTypeDtos: Array<PlatformTypeCreateDto> = batch.map(platformType => new PlatformTypeCreateDto(platformType));
 
 			try {
-				await this.platformTypesWriteRepository.createMany(platformTypeDtos);
+				await this.platformTypeWriteService.createMany(platformTypeDtos);
 			} catch (error: unknown) {
 				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
 				this.logger.error(`${this.prefix} Failed to create platform types batch`, {

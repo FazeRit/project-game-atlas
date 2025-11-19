@@ -1,20 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { IUserReadRepository } from '../../../repositories/user/abstracts/iuser-read.repository';
 import { plainToInstance } from 'class-transformer';
+import { UserReadService } from '../../user/user-read-service/user-read.service';
 import { UserResponseDto } from '../../../dto';
 
 @Injectable()
 export class AuthReadService {
 	constructor(
-		private readonly userReadRepository: IUserReadRepository,
+		private readonly userReadService: UserReadService,
 	) {}
 
-	async validateUser(email: string, password: string)  : Promise<UserResponseDto> {
-		const user = await this.userReadRepository.findByUsernameOrEmail(
-			"",
-			email
-		);
+	async validateUser(email: string, password: string): Promise<UserResponseDto> {
+		const user = await this.userReadService.findByEmailWithPassword(email);
 
 		if (!user) {
 			throw new UnauthorizedException('Invalid email');
@@ -25,10 +22,8 @@ export class AuthReadService {
 			throw new UnauthorizedException('Invalid password');
 		}
 
-		const response = plainToInstance(UserResponseDto, user, {
+		return plainToInstance(UserResponseDto, user, {
 			excludeExtraneousValues: true,
 		});
-
-		return response;
 	}
 }

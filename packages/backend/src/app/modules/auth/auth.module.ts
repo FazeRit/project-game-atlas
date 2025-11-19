@@ -11,6 +11,8 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from '../prisma/prisma.module';
 import { USER_PROVIDERS } from './providers/user';
+import { UserReadService } from './services/user/user-read-service/user-read.service';
+import { UserWriteService } from './services/user/user-write-service/user-write.service';
 
 @Module({
 	imports: [
@@ -36,8 +38,13 @@ import { USER_PROVIDERS } from './providers/user';
 		LocalStrategy,
 		AtStrategy,
 		JwtTokenService,
+		UserReadService,
+		UserWriteService,
 		...USER_PROVIDERS,
 	],
-	exports: []
+	exports: [
+		UserReadService,
+		UserWriteService,
+	]
 })
 export class AuthModule {}
