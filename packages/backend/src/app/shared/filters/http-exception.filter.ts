@@ -4,12 +4,15 @@ import {
 	Catch,
 	ExceptionFilter,
 	HttpException,
-	HttpStatus
+	HttpStatus,
+	Logger
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter{
+	private readonly logger = new Logger(HttpExceptionFilter.name);
+
 	constructor(
 		private readonly httpAdapterHost: HttpAdapterHost,
 	) {}
@@ -20,20 +23,37 @@ export class HttpExceptionFilter implements ExceptionFilter{
 		} = this.httpAdapterHost;
 
 		const ctx = host.switchToHttp();
+		const request = ctx.getRequest();
 
 		const httpStatus =
 			exception instanceof HttpException
 				? exception.getStatus()
 				: HttpStatus.INTERNAL_SERVER_ERROR;
 
+		const errorMessage = exception instanceof Error ? exception.message : 'An error occurred while processing the request';
+		const errorStack = exception instanceof Error ? exception.stack : undefined;
+		const url = httpAdapter.getRequestUrl(request);
+		const method = request.method;
+
+		if (httpStatus >= 500) {
+			this.logger.error(
+				`${method} ${url} - ${httpStatus} - ${errorMessage}`,
+				errorStack
+			);
+		} else if (httpStatus >= 400) {
+			this.logger.warn(
+				`${method} ${url} - ${httpStatus} - ${errorMessage}`
+			);
+		}
+
 		const responseBody = new ApiResponseDto(
 			httpStatus,
 			{
-				message: exception instanceof Error ? exception.message : 'An error occurred while processing the request',
+				message: errorMessage,
 			},
 			new Date().toISOString(),
 			false,
-			httpAdapter.getRequestUrl(ctx.getRequest()),
+			url,
 		)
 
 		httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)
