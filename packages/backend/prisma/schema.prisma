@@ -237,8 +237,8 @@ model PersonalLibraryGame {
 	gameId				 String   @map("game_id")
 	personalLibraryId	 String   @map("personal_library_id")
 
-	status				 PlayStatus	  @default(BACKLOG)
-	rank				 TierRank @default(UNRANKED)
+	status				 EPlayStatus	  @default(BACKLOG)
+	rank				 ETierRank @default(UNRANKED)
 
     note                 String?
 
@@ -265,7 +265,7 @@ model PersonalLibrary {
 	@@map("personal_libraries")
 }
 
-enum PlayStatus {
+enum EPlayStatus {
     PREFERENCE
 	PLAYING
 	COMPLETED
@@ -274,7 +274,7 @@ enum PlayStatus {
 	BACKLOG
 }
 
-enum TierRank {
+enum ETierRank {
 	S
 	A
 	B
@@ -284,14 +284,14 @@ enum TierRank {
 	UNRANKED
 }
 
-enum RecommendationReason {
+enum ERecommendationReason {
     ANTI_BURNOUT
     BLIND_SPOT
     HIGH_COMPATIBILITY
     BACKLOG_REMINDER
 }
 
-enum PredictionVerdict {
+enum EPredictionVerdict {
     EXCELLENT
     GOOD
     RISKY
