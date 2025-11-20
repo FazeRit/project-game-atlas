@@ -14,5 +14,13 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 			}
 		});
 	}
+
+	async findByPersonalLibraryId(personalLibraryId: string): Promise<PersonalLibraryGame[]> {
+		return this.prisma.personalLibraryGame.findMany({
+			where: {
+				personalLibraryId
+			}
+		});
+	}
 }
 

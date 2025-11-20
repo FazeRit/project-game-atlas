@@ -1,20 +1,20 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-payload.dto';
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
 import { OtpService } from '../../otp/otp.service';
+import { PersonalLibraryWriteService } from '../../../../personal-library/services/personal-library/personal-library-write-service/personal-library-write.service';
 import { SmtpAuthService } from '../../../../smtp/services/smtp-auth-service/smtp-auth.service';
 import { UserReadService } from '../../user/user-read-service/user-read.service';
 import { UserWriteService } from '../../user/user-write-service/user-write.service';
 
 @Injectable()
 export class AuthWriteService {
-    private readonly logger = new Logger(AuthWriteService.name);
-
     constructor(
         private readonly userWriteService: UserWriteService,
         private readonly userReadService: UserReadService,
+        private readonly personalLibraryWriteService: PersonalLibraryWriteService,
         private readonly jwtTokenService: JwtTokenService,
         private readonly otpService: OtpService,
         private readonly smtpAuthService: SmtpAuthService,
@@ -39,25 +39,28 @@ export class AuthWriteService {
     }
 
     async register(data: UserCreateDto): Promise<UserResponseDto> {
-        return this.userWriteService.create(data);
+        const user = await this.userWriteService.create(data);
+
+        if(!user) {
+            throw new BadRequestException('Failed to create user');
+        }
+
+        await this.personalLibraryWriteService.create({
+            userId: user.checksum,
+        });
+
+        return user;
     }
 
     async forgotPassword(email: string): Promise<void> {
-        this.logger.log(`Forgot password request received for email: ${email}`);
-
         const user = await this.userReadService.findByEmailWithPassword(email);
         if (!user) {
-            this.logger.warn(`Forgot password request for non-existent email: ${email}`);
             return;
         }
 
-        this.logger.log(`User found for forgot password: ${email}, userId: ${user.checksum}`);
-
         const otp = await this.otpService.createOtp(user.checksum);
-        this.logger.log(`OTP created for forgot password: ${email}, otpId: ${otp.checksum}`);
 
         await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code, user.username);
-        this.logger.log(`Forgot password email sent successfully: ${email}`);
     }
 
     async verifyForgotPassword(code: string): Promise<boolean> {

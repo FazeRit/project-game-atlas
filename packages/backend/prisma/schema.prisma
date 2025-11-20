@@ -266,6 +266,7 @@ model PersonalLibrary {
 }
 
 enum PlayStatus {
+    PREFERENCE
 	PLAYING
 	COMPLETED
 	DROPPED

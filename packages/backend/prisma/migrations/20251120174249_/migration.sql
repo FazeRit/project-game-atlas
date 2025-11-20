@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "PlayStatus" ADD VALUE 'PREFERENCE';
