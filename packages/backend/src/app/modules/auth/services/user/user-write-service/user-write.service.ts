@@ -38,7 +38,15 @@ export class UserWriteService {
 	}
 
 	async update(checksum: string, data: UserUpdateDto): Promise<UserResponseDto> {
-		const updatedUser = await this.userWriteRepository.update(checksum, data);
+		const updateData = {
+			...data,
+		};
+
+		if (updateData.password) {
+			updateData.password = await bcrypt.hash(updateData.password, 10);
+		}
+
+		const updatedUser = await this.userWriteRepository.update(checksum, updateData);
 
 		if (!updatedUser) {
 			throw new BadRequestException('User not found');

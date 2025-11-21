@@ -11,5 +11,9 @@ export class PersonalLibraryReadService {
 	async findById(checksum: string): Promise<PersonalLibrary | null> {
 		return this.personalLibraryReadRepository.findById(checksum);
 	}
+
+	async findByUserId(userId: string): Promise<PersonalLibrary | null> {
+		return this.personalLibraryReadRepository.findByUserId(userId);
+	}
 }
 

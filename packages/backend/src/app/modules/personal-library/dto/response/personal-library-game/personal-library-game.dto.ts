@@ -1,5 +1,5 @@
+import { EPlayStatus, ETierRank } from '@prisma/client';
 import { Exclude, Expose } from 'class-transformer';
-import { PlayStatus, TierRank } from '@prisma/client';
 
 @Exclude()
 export class PersonalLibraryGameResponseDto {
@@ -13,10 +13,10 @@ export class PersonalLibraryGameResponseDto {
 	personalLibraryId: string;
 
 	@Expose()
-	status: PlayStatus;
+	status: EPlayStatus;
 
 	@Expose()
-	rank: TierRank;
+	rank: ETierRank;
 
 	@Expose()
 	note?: string;
@@ -31,8 +31,8 @@ export class PersonalLibraryGameResponseDto {
 		checksum: string,
 		gameId: string,
 		personalLibraryId: string,
-		status: PlayStatus,
-		rank: TierRank,
+		status: EPlayStatus,
+		rank: ETierRank,
 		createdAt: Date,
 		updatedAt: Date,
 		note?: string

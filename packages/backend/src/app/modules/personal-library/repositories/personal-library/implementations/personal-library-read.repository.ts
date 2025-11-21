@@ -14,5 +14,13 @@ export class PersonalLibraryReadRepository implements IPersonalLibraryReadReposi
 			}
 		});
 	}
+
+	async findByUserId(userId: string): Promise<PersonalLibrary | null> {
+		return this.prisma.personalLibrary.findUnique({
+			where: {
+				userId
+			}
+		});
+	}
 }
 

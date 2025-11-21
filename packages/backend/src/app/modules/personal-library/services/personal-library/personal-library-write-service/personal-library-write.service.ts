@@ -21,14 +21,14 @@ export class PersonalLibraryWriteService {
 		return personalLibrary;
 	}
 
-	async update(checksum: string, data: PersonalLibraryUpdateDto): Promise<PersonalLibrary> {
-		const existingPersonalLibrary = await this.personalLibraryReadRepository.findById(checksum);
+	async update(userId: string, data: PersonalLibraryUpdateDto): Promise<PersonalLibrary> {
+		const existingPersonalLibrary = await this.personalLibraryReadRepository.findByUserId(userId);
 
 		if (!existingPersonalLibrary) {
 			throw new BadRequestException('Personal library not found');
 		}
 
-		const updatedPersonalLibrary = await this.personalLibraryWriteRepository.update(checksum, data);
+		const updatedPersonalLibrary = await this.personalLibraryWriteRepository.update(existingPersonalLibrary.checksum, data);
 
 		if (!updatedPersonalLibrary) {
 			throw new BadRequestException('Failed to update personal library');
@@ -37,14 +37,14 @@ export class PersonalLibraryWriteService {
 		return updatedPersonalLibrary;
 	}
 
-	async delete(checksum: string): Promise<void> {
-		const existingPersonalLibrary = await this.personalLibraryReadRepository.findById(checksum);
+	async delete(userId: string): Promise<void> {
+		const existingPersonalLibrary = await this.personalLibraryReadRepository.findByUserId(userId);
 
 		if (!existingPersonalLibrary) {
 			throw new BadRequestException('Personal library not found');
 		}
 
-		await this.personalLibraryWriteRepository.delete(checksum);
+		await this.personalLibraryWriteRepository.delete(existingPersonalLibrary.checksum);
 	}
 }
 
