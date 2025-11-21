@@ -14,7 +14,11 @@ export const SortParams = createParamDecorator(
 
 		const [field, order = ESortOrder.ASC] = sortString.split(':');
 
-		const normalizedOrder = order.toLowerCase();
+		if (!field || field.trim() === '') {
+			return undefined;
+		}
+
+		const normalizedOrder = order.toLowerCase() as ESortOrder;
 
 		if (normalizedOrder !== ESortOrder.ASC && normalizedOrder !== ESortOrder.DESC) {
 			return undefined;

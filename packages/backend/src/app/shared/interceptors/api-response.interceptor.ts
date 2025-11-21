@@ -1,6 +1,11 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
-import { ApiResponseDto } from "../dto/api-response.dto";
-import { map, Observable } from "rxjs";
+import { ApiResponseDto } from '../dto/response/api-response.dto';
+import {
+	CallHandler,
+	ExecutionContext,
+	Injectable,
+	NestInterceptor
+} from '@nestjs/common';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ApiResponseInterceptor<T>

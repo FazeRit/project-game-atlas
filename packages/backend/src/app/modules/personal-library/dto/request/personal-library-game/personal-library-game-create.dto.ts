@@ -1,5 +1,5 @@
+import { EPlayStatus, ETierRank } from '@prisma/client';
 import { Exclude, Expose } from 'class-transformer';
-import { PlayStatus, TierRank } from '@prisma/client';
 
 @Exclude()
 export class PersonalLibraryGameCreateDto {
@@ -10,10 +10,10 @@ export class PersonalLibraryGameCreateDto {
 	personalLibraryId: string;
 
 	@Expose()
-	status?: PlayStatus;
+	status?: EPlayStatus;
 
 	@Expose()
-	rank?: TierRank;
+	rank?: ETierRank;
 
 	@Expose()
 	note?: string;
@@ -21,8 +21,8 @@ export class PersonalLibraryGameCreateDto {
 	constructor(data: {
 		gameId: string;
 		personalLibraryId: string;
-		status?: PlayStatus;
-		rank?: TierRank;
+		status?: EPlayStatus;
+		rank?: ETierRank;
 		note?: string;
 	}) {
 		this.gameId = data.gameId;

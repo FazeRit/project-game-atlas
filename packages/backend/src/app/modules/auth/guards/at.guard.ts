@@ -15,9 +15,12 @@ export class AtAuthGuard extends AuthGuard('at') implements CanActivate {
     public override canActivate(
 		context: ExecutionContext,
 	): boolean | Promise<boolean> | Observable<boolean> {
-		const isPublic = this.reflector.get<boolean>(
+		const isPublic = this.reflector.getAllAndOverride<boolean>(
 			PUBLIC_KEY,
-			context.getHandler(),
+			[
+				context.getHandler(),
+				context.getClass(),
+			],
 		)
 
 		if (isPublic) {

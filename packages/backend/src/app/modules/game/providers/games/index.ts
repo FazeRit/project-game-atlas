@@ -1,2 +1,2 @@
-export * from './game.providers';
+export * from './games.providers';
 

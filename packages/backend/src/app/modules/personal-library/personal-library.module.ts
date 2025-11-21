@@ -1,3 +1,4 @@
+import { GameModule } from '../game/game.module';
 import { Module } from '@nestjs/common';
 import { PERSONAL_LIBRARY_GAME_PROVIDERS, PERSONAL_LIBRARY_PROVIDERS } from './providers';
 import { PersonalLibraryGameReadController } from './controllers/personal-library-game/personal-library-game-read-controller/personal-library-game-read.controller';
@@ -13,6 +14,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 @Module({
 	imports: [
 		PrismaModule,
+		GameModule,
 	],
 	controllers: [
 		PersonalLibraryReadController,

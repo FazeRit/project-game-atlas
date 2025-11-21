@@ -43,10 +43,7 @@ export class PersonalLibraryGameWriteService {
 			throw new BadRequestException('gameId is required');
 		}
 
-		const games = await this.personalLibraryGameReadRepository.findByPersonalLibraryId(personalLibrary.checksum);
-
-		const existingPersonalLibraryGame = games
-			.find(game => game.gameId === data.gameId);
+		const existingPersonalLibraryGame = await this.personalLibraryGameReadRepository.findByUserIdAndGameId(userId, data.gameId);
 
 		if (!existingPersonalLibraryGame) {
 			throw new BadRequestException('Personal library game not found');

@@ -15,7 +15,9 @@ import { PersonalLibraryModule } from '../personal-library/personal-library.modu
 import { PrismaModule } from '../prisma/prisma.module';
 import { SmtpModule } from '../smtp/smtp.module';
 import { USER_PROVIDERS } from './providers/user';
+import { UserReadController } from './controllers/user/user-read-controller/user-read.controller';
 import { UserReadService } from './services/user/user-read-service/user-read.service';
+import { UserWriteController } from './controllers/user/user-write-controller/user-write.controller';
 import { UserWriteService } from './services/user/user-write-service/user-write.service';
 
 @Module({
@@ -37,16 +39,16 @@ import { UserWriteService } from './services/user/user-write-service/user-write.
 	],
 	controllers: [
 		AuthWriteController,
+		UserReadController,
+		UserWriteController,
 	],
 	providers: [
 		AuthReadService,
 		AuthWriteService,
-		LocalStrategy,
 		AtStrategy,
+		LocalStrategy,
 		JwtTokenService,
 		OtpService,
-		UserReadService,
-		UserWriteService,
 		...USER_PROVIDERS,
 		...OTP_PROVIDERS,
 	],

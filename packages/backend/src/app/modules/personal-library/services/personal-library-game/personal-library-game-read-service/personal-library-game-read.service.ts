@@ -1,31 +1,38 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { IPersonalLibraryGameReadRepository } from '../../../repositories/personal-library-game/abstracts/ipersonal-library-game-read.repository';
-import { IPersonalLibraryReadRepository } from '../../../repositories/personal-library/abstracts/ipersonal-library-read.repository';
-import { PersonalLibraryGame } from '@prisma/client';
+import { PersonalLibraryGameDetailsResponseDto } from '../../../dto/response/personal-library-game/personal-library-game-details.dto';
+import { PersonalLibraryGameFiltersDto } from '../../../dto/request/personal-library-game/personal-library-game-filters.dto';
+import { PersonalLibraryGameMapService } from '../personal-library-game-map-service/personal-library-game-map.service';
 
 @Injectable()
 export class PersonalLibraryGameReadService {
 	constructor(
 		private readonly personalLibraryGameReadRepository: IPersonalLibraryGameReadRepository,
-		private readonly personalLibraryReadRepository: IPersonalLibraryReadRepository,
+		private readonly personalLibraryGameMapService: PersonalLibraryGameMapService,
 	) {}
 
-	async findById(checksum: string): Promise<PersonalLibraryGame | null> {
-		return this.personalLibraryGameReadRepository.findById(checksum);
-	}
+	async findById(checksum: string): Promise<PersonalLibraryGameDetailsResponseDto | null> {
+		const personalLibraryGame = await this.personalLibraryGameReadRepository.findById(checksum);
 
-	async findByPersonalLibraryId(personalLibraryId: string): Promise<PersonalLibraryGame[]> {
-		return this.personalLibraryGameReadRepository.findByPersonalLibraryId(personalLibraryId);
-	}
-
-	async findByUserId(userId: string): Promise<PersonalLibraryGame[]> {
-		const personalLibrary = await this.personalLibraryReadRepository.findByUserId(userId);
-
-		if (!personalLibrary) {
-			throw new BadRequestException('Personal library not found');
+		if (!personalLibraryGame) {
+			return null;
 		}
 
-		return this.personalLibraryGameReadRepository.findByPersonalLibraryId(personalLibrary.checksum);
+		return this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(personalLibraryGame);
+	}
+
+	async findAll(
+		userId: string,
+		page: number,
+		limit: number,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<Array<PersonalLibraryGameDetailsResponseDto>> {
+		const personalLibraryGames = await this.personalLibraryGameReadRepository.findAll(userId, page, limit, filters, search);
+
+		return personalLibraryGames.map(game =>
+			this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(game)
+		);
 	}
 }
 

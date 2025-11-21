@@ -4,10 +4,11 @@ import { EnvService } from '../../../../config/env/services/env.service';
 import { GameCreateDto } from '../../../game/dto/request/game/game-create.dto';
 import { GameGenresSeeder } from '../genres/game-genres.seeder';
 import { GameKeywordsSeeder } from '../keywords/game-keywords.seeder';
-import { GameWriteService } from '../../../game/services/game/game-write-service/game-write.service';
+import { GameWriteService } from '../../../game/services/games/game-write-service/game-write.service';
 import { IgdbGame } from './types/igdb-game.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
+
 @Injectable()
 export class GamesSeeder {
     private readonly clientId: string;
