@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cover } from '@prisma/client';
 import { CoverCreateDto } from '../../../dto/request/covers/cover-create.dto';
+import { CoversReadService } from '../covers-read-service/covers-read.service';
 import { CoverUpdateDto } from '../../../dto/request/covers/cover-update.dto';
-import { ICoverReadRepository } from '../../../repositories/covers/abstracts/icover-read.repository';
 import { ICoverWriteRepository } from '../../../repositories/covers/abstracts/icover-write.repository';
 
 @Injectable()
 export class CoversWriteService {
 	constructor(
-		private readonly coverReadRepository: ICoverReadRepository,
+		private readonly coversReadService: CoversReadService,
 		private readonly coverWriteRepository: ICoverWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class CoversWriteService {
 	}
 
 	async update(checksum: string, data: CoverUpdateDto): Promise<Cover> {
-		const existingCover = await this.coverReadRepository.findById(checksum);
+		const existingCover = await this.coversReadService.findById(checksum);
 
 		if (!existingCover) {
 			throw new BadRequestException('Cover not found');
@@ -39,7 +39,7 @@ export class CoversWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingCover = await this.coverReadRepository.findById(checksum);
+		const existingCover = await this.coversReadService.findById(checksum);
 
 		if (!existingCover) {
 			throw new BadRequestException('Cover not found');

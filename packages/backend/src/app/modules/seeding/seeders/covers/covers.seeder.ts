@@ -3,7 +3,7 @@ import { CoverCreateDto } from '../../../game/dto/request/covers/cover-create.dt
 import { CoversWriteService } from '../../../game/services/covers/covers-write-service/covers-write.service';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
+import { GameReadService } from '../../../game/services/games/game-read-service/game-read.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
@@ -36,7 +36,7 @@ export class CoversSeeder {
 
 		for (let i = 0; i < covers.length; i += batchSize) {
 			const batch = covers.slice(i, i + batchSize);
-			
+
 			const validCoverDtos: Array<CoverCreateDto> = [];
 
 			for (const cover of batch) {

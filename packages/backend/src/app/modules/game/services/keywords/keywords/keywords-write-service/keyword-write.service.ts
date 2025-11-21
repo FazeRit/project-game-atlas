@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { IKeywordReadRepository } from '../../../../repositories/keywords/keywords/abstracts/ikeyword-read.repository';
 import { IKeywordWriteRepository } from '../../../../repositories/keywords/keywords/abstracts/ikeyword-write.repository';
 import { Keyword } from '@prisma/client';
 import { KeywordCreateDto, KeywordUpdateDto } from '../../../../dto';
+import { KeywordReadService } from '../keywords-read-service/keyword-read.service';
 
 @Injectable()
 export class KeywordWriteService {
 	constructor(
-		private readonly keywordReadRepository: IKeywordReadRepository,
+		private readonly keywordReadService: KeywordReadService,
 		private readonly keywordWriteRepository: IKeywordWriteRepository,
 	) {}
 
@@ -22,7 +22,7 @@ export class KeywordWriteService {
 	}
 
 	async update(checksum: string, data: KeywordUpdateDto): Promise<Keyword> {
-		const existingKeyword = await this.keywordReadRepository.findById(checksum);
+		const existingKeyword = await this.keywordReadService.findById(checksum);
 
 		if (!existingKeyword) {
 			throw new BadRequestException('Keyword not found');
@@ -38,7 +38,7 @@ export class KeywordWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingKeyword = await this.keywordReadRepository.findById(checksum);
+		const existingKeyword = await this.keywordReadService.findById(checksum);
 
 		if (!existingKeyword) {
 			throw new BadRequestException('Keyword not found');

@@ -4,7 +4,7 @@ import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
 import { GameCompanyCreateDto } from '../../../game/dto/request/game-company/game-company-create.dto';
 import { GameCompanyWriteService } from '../../../game/services/companies/game-company/game-company-write-service/game-company-write.service';
-import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
+import { GameReadService } from '../../../game/services/games/game-read-service/game-read.service';
 import { IgdbInvolvedCompany } from './types/igdb-involved-company.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';

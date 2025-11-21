@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Company } from '@prisma/client';
 import { CompanyCreateDto } from '../../../../dto/request/company/company-create.dto';
+import { CompanyReadService } from '../company-read-service/company-read.service';
 import { CompanyUpdateDto } from '../../../../dto/request/company/company-update.dto';
-import { ICompanyReadRepository } from '../../../../repositories/companies/company/abstracts/icompany-read.repository';
 import { ICompanyWriteRepository } from '../../../../repositories/companies/company/abstracts/icompany-write.repository';
 
 @Injectable()
 export class CompanyWriteService {
 	constructor(
-		private readonly companyReadRepository: ICompanyReadRepository,
+		private readonly companyReadService: CompanyReadService,
 		private readonly companyWriteRepository: ICompanyWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class CompanyWriteService {
 	}
 
 	async update(checksum: string, data: CompanyUpdateDto): Promise<Company> {
-		const existingCompany = await this.companyReadRepository.findById(checksum);
+		const existingCompany = await this.companyReadService.findById(checksum);
 
 		if (!existingCompany) {
 			throw new BadRequestException('Company not found');
@@ -39,7 +39,7 @@ export class CompanyWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingCompany = await this.companyReadRepository.findById(checksum);
+		const existingCompany = await this.companyReadService.findById(checksum);
 
 		if (!existingCompany) {
 			throw new BadRequestException('Company not found');

@@ -1,21 +1,21 @@
 import * as bcrypt from 'bcrypt';
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { IUserReadRepository } from '../../../repositories/user/abstracts/iuser-read.repository';
 import { IUserWriteRepository } from '../../../repositories/user/abstracts/iuser-write.repository';
 import { plainToInstance } from 'class-transformer';
 import { UserCreateDto } from '../../../dto/request/user/user-create.dto';
+import { UserReadService } from '../user-read-service/user-read.service';
 import { UserResponseDto } from '../../../dto';
 import { UserUpdateDto } from '../../../dto/request/user/user-update.dto';
 
 @Injectable()
 export class UserWriteService {
 	constructor(
-		private readonly userReadRepository: IUserReadRepository,
+		private readonly userReadService: UserReadService,
 		private readonly userWriteRepository: IUserWriteRepository,
 	) {}
 
 	async create(data: UserCreateDto): Promise<UserResponseDto> {
-		const existingUser = await this.userReadRepository.findByUsernameOrEmail(data.username, data.email);
+		const existingUser = await this.userReadService.findByUsernameOrEmail(data.username, data.email);
 
 		if (existingUser) {
 			throw new BadRequestException('User already exists');

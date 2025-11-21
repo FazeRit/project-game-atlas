@@ -1,7 +1,7 @@
 import igdb from 'igdb-api-node';
 import { EnvEnum } from '../../../../config/env/enums/env.enum';
 import { EnvService } from '../../../../config/env/services/env.service';
-import { GameReadService } from '../../../game/services/game/game-read-service/game-read.service';
+import { GameReadService } from '../../../game/services/games/game-read-service/game-read.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ScreenshotsCreateDto } from '../../../game/dto/request/screenshots/screenshots-create.dto';
 import { ScreenshotsWriteService } from '../../../game/services/screenshots/screenshots-write-service/screenshots-write.service';

@@ -13,7 +13,7 @@ export class GameReadService {
 		private readonly gameMapService: GameMapService,
 	) {}
 
-	async findByIdWithDetails(checksum: string): Promise<GameDetailsResponseDto | null> {
+	async findById(checksum: string): Promise<GameDetailsResponseDto | null> {
 		const game = await this.gameReadRepository.findById(checksum);
 
 		if (!game) {
@@ -21,6 +21,11 @@ export class GameReadService {
 		}
 
 		return this.gameMapService.toGameDetailsDto(game);
+	}
+
+	async exists(checksum: string): Promise<boolean> {
+		const game = await this.gameReadRepository.findById(checksum);
+		return game !== null;
 	}
 
 	async findAll(

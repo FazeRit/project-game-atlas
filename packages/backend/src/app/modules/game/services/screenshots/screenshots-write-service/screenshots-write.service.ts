@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { IScreenshotsReadRepository } from '../../../repositories/screenshots/abstracts/iscreenshots-read.repository';
 import { IScreenshotsWriteRepository } from '../../../repositories/screenshots/abstracts/iscreenshots-write.repository';
 import { Screenshots } from '@prisma/client';
 import { ScreenshotsCreateDto } from '../../../dto/request/screenshots/screenshots-create.dto';
+import { ScreenshotsReadService } from '../screenshots-read-service/screenshots-read.service';
 import { ScreenshotsUpdateDto } from '../../../dto/request/screenshots/screenshots-update.dto';
 
 @Injectable()
 export class ScreenshotsWriteService {
 	constructor(
-		private readonly screenshotsReadRepository: IScreenshotsReadRepository,
+		private readonly screenshotsReadService: ScreenshotsReadService,
 		private readonly screenshotsWriteRepository: IScreenshotsWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class ScreenshotsWriteService {
 	}
 
 	async update(checksum: string, data: ScreenshotsUpdateDto): Promise<Screenshots> {
-		const existingScreenshot = await this.screenshotsReadRepository.findById(checksum);
+		const existingScreenshot = await this.screenshotsReadService.findById(checksum);
 
 		if (!existingScreenshot) {
 			throw new BadRequestException('Screenshot not found');
@@ -39,7 +39,7 @@ export class ScreenshotsWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingScreenshot = await this.screenshotsReadRepository.findById(checksum);
+		const existingScreenshot = await this.screenshotsReadService.findById(checksum);
 
 		if (!existingScreenshot) {
 			throw new BadRequestException('Screenshot not found');

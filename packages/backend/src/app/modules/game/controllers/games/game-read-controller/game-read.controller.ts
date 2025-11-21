@@ -21,7 +21,7 @@ export class GameReadController {
 	@Public()
 	@Get(':checksum')
 	async findById(@Param('checksum') checksum: string): Promise<GameDetailsResponseDto | null> {
-		return this.gameReadService.findByIdWithDetails(checksum);
+		return this.gameReadService.findById(checksum);
 	}
 
 	@Public()
