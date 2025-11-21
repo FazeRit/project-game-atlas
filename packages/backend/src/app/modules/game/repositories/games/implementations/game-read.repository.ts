@@ -41,7 +41,13 @@ export class GameReadRepository implements IGameReadRepository {
 		});
 	}
 
-	async findAll(page: number, limit: number, filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<Array<GameWithDetails>> {
+	async findAll(
+		page: number,
+		limit: number,
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>,
+		sort?: Record<string, unknown>
+	): Promise<Array<GameWithDetails>> {
 		const where = GameWhereBuilder.build(filters, search);
 
 		const skip = (page - 1) * limit;
@@ -74,6 +80,7 @@ export class GameReadRepository implements IGameReadRepository {
 			},
 			skip,
 			take: limit,
+			...(sort && { orderBy: sort }),
 		});
 	}
 

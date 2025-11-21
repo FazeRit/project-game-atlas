@@ -45,8 +45,19 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 		});
 	}
 
-	async findAll(userId: string, page: number, limit: number, filters?: PersonalLibraryGameFiltersDto, search?: Record<string, unknown>): Promise<Array<PersonalLibraryGameWithDetails>> {
-		const where = PersonalLibraryGameWhereBuilder.build(userId, filters, search);
+	async findAll(
+		userId: string,
+		page: number,
+		limit: number,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>,
+		sort?: Record<string, unknown>
+	): Promise<Array<PersonalLibraryGameWithDetails>> {
+		const where = PersonalLibraryGameWhereBuilder.build(
+			userId,
+			filters,
+			search
+		);
 
 		const skip = (page - 1) * limit;
 
@@ -82,6 +93,7 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 			},
 			skip,
 			take: limit,
+			...(sort && { orderBy: sort }),
 		});
 	}
 

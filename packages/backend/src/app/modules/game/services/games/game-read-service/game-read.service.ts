@@ -23,9 +23,15 @@ export class GameReadService {
 		return this.gameMapService.toGameDetailsDto(game);
 	}
 
-	async findAll(page: number, limit: number, filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<PaginatedResponseDto<GameDetailsResponseDto, PaginationMetaDto>> {
+	async findAll(
+		page: number,
+		limit: number,
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>,
+		sort?: Record<string, unknown>
+	): Promise<PaginatedResponseDto<GameDetailsResponseDto, PaginationMetaDto>> {
 		const [games, totalItems] = await Promise.all([
-			this.gameReadRepository.findAll(page, limit, filters, search),
+			this.gameReadRepository.findAll(page, limit, filters, search, sort),
 			this.gameReadRepository.count(filters, search),
 		]);
 

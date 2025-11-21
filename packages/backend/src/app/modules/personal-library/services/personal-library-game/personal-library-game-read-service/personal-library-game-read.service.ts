@@ -26,9 +26,10 @@ export class PersonalLibraryGameReadService {
 		page: number,
 		limit: number,
 		filters?: PersonalLibraryGameFiltersDto,
-		search?: Record<string, unknown>
+		search?: Record<string, unknown>,
+		sort?: Record<string, unknown>
 	): Promise<Array<PersonalLibraryGameDetailsResponseDto>> {
-		const personalLibraryGames = await this.personalLibraryGameReadRepository.findAll(userId, page, limit, filters, search);
+		const personalLibraryGames = await this.personalLibraryGameReadRepository.findAll(userId, page, limit, filters, search, sort);
 
 		return personalLibraryGames.map(game =>
 			this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(game)

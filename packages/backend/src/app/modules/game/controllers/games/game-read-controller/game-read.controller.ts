@@ -12,6 +12,7 @@ import { PaginatedResponseDto } from '../../../../../shared/dto/request/paginati
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 import { Public } from '../../../../../shared/decorators/public.decorator';
 import { SearchParams } from '../../../../../shared/decorators/pagination/search-params.decorator';
+import { SortParams } from '../../../../../shared/decorators/pagination/sort-params.decorator';
 
 @Controller('games')
 export class GameReadController {
@@ -29,6 +30,7 @@ export class GameReadController {
 		@Query() paginateDto: GamePaginateDto,
 		@Query() filtersDto: GameFiltersDto,
 		@SearchParams(['name']) search?: Record<string, unknown>,
+		@SortParams(['createdAt', 'updatedAt', 'name', 'totalRating', 'totalRatingCount']) sort?: Record<string, unknown>,
 	): Promise<PaginatedResponseDto<GameDetailsResponseDto, PaginationMetaDto>> {
 		const filters = new GameFiltersDto({
 			genres: filtersDto?.genres,
@@ -39,7 +41,8 @@ export class GameReadController {
 			paginateDto.page,
 			paginateDto.limit,
 			filters,
-			search
+			search,
+			sort
 		);
 	}
 }

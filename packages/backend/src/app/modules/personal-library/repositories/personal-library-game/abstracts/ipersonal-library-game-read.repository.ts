@@ -8,7 +8,8 @@ export abstract class IPersonalLibraryGameReadRepository extends IReadRepository
 		page: number,
 		limit: number,
 		filters?: PersonalLibraryGameFiltersDto,
-		search?: Record<string, unknown>
+		search?: Record<string, unknown>,
+		sort?: Record<string, unknown>
 	): Promise<Array<PersonalLibraryGameWithDetails>>;
 	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<PersonalLibraryGameWithDetails | null>;
 }
