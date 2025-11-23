@@ -136,7 +136,7 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 		});
 	}
 
-	async findByUserIdAndChecksum(userId: string, checksum: string): Promise<PersonalLibraryGameWithDetails | null> {
+	async findByUserIdAndId(userId: string, checksum: string): Promise<PersonalLibraryGameWithDetails | null> {
 		return this.prisma.personalLibraryGame.findFirst({
 			where: {
 				checksum,

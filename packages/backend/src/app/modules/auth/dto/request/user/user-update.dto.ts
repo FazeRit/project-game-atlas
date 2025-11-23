@@ -1,17 +1,36 @@
 import { Exclude, Expose } from 'class-transformer';
+import {
+	IsEmail,
+	IsOptional,
+	IsString,
+	MaxLength,
+	MinLength
+} from 'class-validator';
 
 @Exclude()
 export class UserUpdateDto {
-    @Expose()
-    username?: string;
+	@IsOptional()
+	@IsString()
+	@Expose()
+	username?: string;
 
-    @Expose()
-    email?: string;
+	@IsOptional()
+	@IsEmail()
+	@Expose()
+	email?: string;
 
-    @Expose()
-    password?: string;
+	@IsOptional()
+	@IsString()
+	@MinLength(8)
+	@MaxLength(32)
+	@Expose()
+	password?: string;
 
-    constructor(partial: Partial<UserUpdateDto>) {
-        Object.assign(this, partial);
-    }
+	@IsOptional()
+	@Expose()
+	tasteVector?: Record<string, number>;
+
+	constructor(partial: Partial<UserUpdateDto>) {
+		Object.assign(this, partial);
+	}
 }

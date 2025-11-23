@@ -11,7 +11,7 @@ export class AuthReadService {
 	) {}
 
 	async validateUser(email: string, password: string): Promise<UserResponseDto> {
-		const user = await this.userReadService.findByEmailWithPassword(email);
+		const user = await this.userReadService.findByUsernameOrEmail('', email);
 
 		if (!user) {
 			throw new UnauthorizedException('Invalid email');

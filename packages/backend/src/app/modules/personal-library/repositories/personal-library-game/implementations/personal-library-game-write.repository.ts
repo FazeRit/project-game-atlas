@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { IPersonalLibraryGameWriteRepository } from '../abstracts/ipersonal-library-game-write.repository';
 import { PersonalLibraryGame } from '@prisma/client';
 import { PersonalLibraryGameCreateDto, PersonalLibraryGameUpdateDto } from '../../../dto';
@@ -9,8 +9,38 @@ export class PersonalLibraryGameWriteRepository implements IPersonalLibraryGameW
 	constructor(private readonly prisma: PrismaService) {}
 
 	async create(data: PersonalLibraryGameCreateDto): Promise<PersonalLibraryGame | null> {
+		if (!data.gameId) {
+			throw new BadRequestException('gameId is required');
+		}
+
+		if (!data.personalLibraryId) {
+			throw new BadRequestException('personalLibraryId is required');
+		}
+
+		const {
+			gameId,
+			personalLibraryId,
+			status,
+			rank,
+			note,
+		} = data;
+
 		return this.prisma.personalLibraryGame.create({
-			data
+			data: {
+				status,
+				rank,
+				note,
+				game: {
+					connect: {
+						checksum: gameId
+					}
+				},
+				personalLibrary: {
+					connect: {
+						checksum: personalLibraryId
+					}
+				}
+			}
 		});
 	}
 

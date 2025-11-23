@@ -1,13 +1,20 @@
 import { Exclude, Expose } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 @Exclude()
 export class JwtTokenPayloadDto {
-    @Expose()
-    checksum!: string;
+	@IsString()
+	@IsNotEmpty()
+	@Expose()
+	checksum!: string;
 
-    @Expose()
-    username!: string;
+	@IsString()
+	@IsNotEmpty()
+	@Expose()
+	username!: string;
 
-    @Expose()
-    email!: string;
+	@IsEmail()
+	@IsNotEmpty()
+	@Expose()
+	email!: string;
 }

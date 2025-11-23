@@ -7,7 +7,7 @@ import { PassportStrategy } from '@nestjs/passport';
 
 // TODO: think about refresh token implementation
 @Injectable()
-export class AtStrategy extends PassportStrategy(Strategy) {
+export class AtStrategy extends PassportStrategy(Strategy, 'at') {
     constructor(
         private readonly envService: EnvService,
     ) {

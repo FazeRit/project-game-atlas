@@ -23,6 +23,7 @@ async function bootstrap() {
 		transform: true,
 		transformOptions: {
 			enableImplicitConversion: true,
+			excludeExtraneousValues: true,
 		},
 		disableErrorMessages: false,
 		stopAtFirstError: false,

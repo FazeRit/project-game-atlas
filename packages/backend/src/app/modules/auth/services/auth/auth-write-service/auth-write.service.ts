@@ -4,7 +4,6 @@ import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-pay
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
 import { OtpService } from '../../otp/otp.service';
-import { PersonalLibraryWriteService } from '../../../../personal-library/services/personal-library/personal-library-write-service/personal-library-write.service';
 import { SmtpAuthService } from '../../../../smtp/services/smtp-auth-service/smtp-auth.service';
 import { UserReadService } from '../../user/user-read-service/user-read.service';
 import { UserWriteService } from '../../user/user-write-service/user-write.service';
@@ -14,7 +13,6 @@ export class AuthWriteService {
     constructor(
         private readonly userWriteService: UserWriteService,
         private readonly userReadService: UserReadService,
-        private readonly personalLibraryWriteService: PersonalLibraryWriteService,
         private readonly jwtTokenService: JwtTokenService,
         private readonly otpService: OtpService,
         private readonly smtpAuthService: SmtpAuthService,
@@ -45,15 +43,16 @@ export class AuthWriteService {
             throw new BadRequestException('Failed to create user');
         }
 
-        await this.personalLibraryWriteService.create({
-            userId: user.checksum,
-        });
-
+        // Personal library will be created in the controller to avoid circular dependency
         return user;
     }
 
     async forgotPassword(email: string): Promise<void> {
-        const user = await this.userReadService.findByEmailWithPassword(email);
+        const user = await this.userReadService.findByUsernameOrEmail(
+			'',
+			email
+		);
+
         if (!user) {
             return;
         }

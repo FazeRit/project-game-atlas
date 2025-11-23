@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IUserReadRepository } from '../../../repositories/user/abstracts/iuser-read.repository';
-import { plainToInstance } from 'class-transformer';
 import { User } from '@prisma/client';
 import { UserResponseDto } from '../../../dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserReadService {
@@ -26,16 +26,8 @@ export class UserReadService {
 		return this.userReadRepository.findByUsernameOrEmail(username, email);
 	}
 
-	async findByEmail(email: string): Promise<User | null> {
-		return this.userReadRepository.findByUsernameOrEmail('', email);
-	}
-
-	async findByIdWithPassword(checksum: string): Promise<User | null> {
-		return this.userReadRepository.findById(checksum);
-	}
-
-	async findByEmailWithPassword(email: string): Promise<User | null> {
-		return this.userReadRepository.findByUsernameOrEmail('', email);
+	async getTasteProfile(userId: string): Promise<Record<string, number>>{
+		return this.userReadRepository.getTasteProfile(userId);
 	}
 }
 

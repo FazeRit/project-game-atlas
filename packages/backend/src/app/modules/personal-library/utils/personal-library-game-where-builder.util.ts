@@ -47,9 +47,7 @@ export class PersonalLibraryGameWhereBuilder {
 		if (filters?.genres && filters.genres.length > 0) {
 			const normalizedGenres = filters.genres.map(g => g.toLowerCase());
 
-			if (!where.game) {
-				where.game = {};
-			}
+			where.game = where.game ?? {}
 
 			where.game.gameGenres = {
 				some: {
@@ -77,9 +75,7 @@ export class PersonalLibraryGameWhereBuilder {
 		filters?: PersonalLibraryGameFiltersDto
 	): void {
 		if (filters?.keywords && filters.keywords.length > 0) {
-			if (!where.game) {
-				where.game = {};
-			}
+			where.game = where.game ?? {}
 
 			where.game.gameKeywords = {
 				some: {

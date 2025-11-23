@@ -1,22 +1,37 @@
 import { Exclude, Expose } from 'class-transformer';
+import {
+	IsBoolean,
+	IsNotEmpty,
+	IsOptional,
+	IsString
+} from 'class-validator';
 
 @Exclude()
 export class GameCompanyCreateDto {
+	@IsOptional()
+	@IsString()
 	@Expose()
 	checksum?: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	gameId: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	companyId: string;
 
+	@IsBoolean()
 	@Expose()
 	developer: boolean;
 
+	@IsBoolean()
 	@Expose()
 	publisher: boolean;
 
+	@IsBoolean()
 	@Expose()
 	supporting: boolean;
 

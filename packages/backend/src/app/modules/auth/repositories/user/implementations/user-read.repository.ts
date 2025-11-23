@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUserReadRepository } from '../abstracts/iuser-read.repository';
 import { PrismaService } from '../../../../prisma/prisma.service';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class UserReadRepository implements IUserReadRepository {
@@ -29,4 +29,21 @@ export class UserReadRepository implements IUserReadRepository {
 			}
 		})
 	}
+
+	async getTasteProfile(checksum: string): Promise<Record<string, number>> {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                checksum
+            },
+            select: {
+                tasteVector: true
+            }
+        });
+
+        if (!user?.tasteVector) {
+            throw new NotFoundException(`Not found taste vector of user ${checksum}`);
+        }
+
+        return user.tasteVector as Record<string, number>;
+    }
 }

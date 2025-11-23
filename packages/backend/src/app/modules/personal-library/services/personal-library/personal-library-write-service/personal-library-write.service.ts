@@ -12,6 +12,12 @@ export class PersonalLibraryWriteService {
 	) {}
 
 	async create(data: PersonalLibraryCreateDto): Promise<PersonalLibrary> {
+		const existingPersonalLibrary = await this.personalLibraryReadService.findByUserId(data.userId);
+
+		if (existingPersonalLibrary) {
+			throw new BadRequestException('Personal library already exists for this user');
+		}
+
 		const personalLibrary = await this.personalLibraryWriteRepository.create(data);
 
 		if (!personalLibrary) {

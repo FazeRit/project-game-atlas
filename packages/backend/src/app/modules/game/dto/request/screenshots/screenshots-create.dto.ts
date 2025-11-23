@@ -1,22 +1,44 @@
 import { Exclude, Expose } from 'class-transformer';
+import {
+	IsInt,
+	IsNotEmpty,
+	IsOptional,
+	IsString,
+	IsUrl,
+	Min
+} from 'class-validator';
 
 @Exclude()
 export class ScreenshotsCreateDto {
+	@IsOptional()
+	@IsString()
 	@Expose()
 	checksum?: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	gameId: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	imageId: string;
 
+	@IsOptional()
+	@IsInt()
+	@Min(0)
 	@Expose()
 	height?: number;
 
+	@IsOptional()
+	@IsInt()
+	@Min(0)
 	@Expose()
 	width?: number;
 
+	@IsOptional()
+	@IsUrl()
 	@Expose()
 	url?: string;
 

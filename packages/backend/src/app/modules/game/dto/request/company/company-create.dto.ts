@@ -1,19 +1,37 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
+import {
+	IsDate,
+	IsInt,
+	IsNotEmpty,
+	IsOptional,
+	IsString
+} from 'class-validator';
 
 @Exclude()
 export class CompanyCreateDto {
+	@IsOptional()
+	@IsString()
 	@Expose()
 	checksum?: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	name: string;
 
+	@IsOptional()
+	@IsString()
 	@Expose()
 	slug?: string;
 
+	@IsOptional()
+	@IsInt()
 	@Expose()
 	country?: number;
 
+	@IsOptional()
+	@IsDate()
+	@Type(() => Date)
 	@Expose()
 	startDate?: Date;
 

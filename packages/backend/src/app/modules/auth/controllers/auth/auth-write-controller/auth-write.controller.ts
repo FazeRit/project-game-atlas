@@ -20,7 +20,9 @@ import { VerifyForgotPasswordCodeDto } from '../../../dto/request/auth/verify-fo
 export class AuthWriteController {
 	private readonly logger = new Logger(AuthWriteController.name);
 
-	constructor(private readonly authWriteService: AuthWriteService) {}
+	constructor(
+		private readonly authWriteService: AuthWriteService,
+	) {}
 
 	@Public()
 	@UseGuards(LocalAuthGuard)
@@ -35,6 +37,7 @@ export class AuthWriteController {
 	@Post('/register')
 	async register(@Body() user: UserCreateDto): Promise<void> {
 		await this.authWriteService.register(user);
+		// Personal library should be created separately via POST /personal-libraries endpoint
 	}
 
 	@Public()

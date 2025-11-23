@@ -31,8 +31,8 @@ export class PersonalLibraryGameReadService {
 		return this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(personalLibraryGame);
 	}
 
-	async findByUserIdAndChecksum(userId: string, checksum: string): Promise<PersonalLibraryGameDetailsResponseDto | null> {
-		const personalLibraryGame = await this.personalLibraryGameReadRepository.findByUserIdAndChecksum(userId, checksum);
+	async findByUserIdAndId(userId: string, checksum: string): Promise<PersonalLibraryGameDetailsResponseDto | null> {
+		const personalLibraryGame = await this.personalLibraryGameReadRepository.findByUserIdAndId(userId, checksum);
 
 		if (!personalLibraryGame) {
 			return null;
