@@ -72,7 +72,11 @@ export class HeuristicEngineService {
         }
     }
 
-	private async applyWeightDelta(userId: string, gameId: string, weightDelta: number): Promise<void> {
+	private async applyWeightDelta(
+		userId: string,
+		gameId: string,
+		weightDelta: number
+	): Promise<void> {
 		const userVector = await this.userReadService.getTasteProfile(userId);
 
 		const gameVector = await this.gameReadService.getGameVector(gameId);

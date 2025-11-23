@@ -23,11 +23,7 @@ export class GameWriteService {
 	}
 
 	async update(checksum: string, data: GameUpdateDto): Promise<Game> {
-		const exists = await this.gameReadService.exists(checksum);
-
-		if (!exists) {
-			throw new BadRequestException('Game not found');
-		}
+		await this.gameReadService.findById(checksum);
 
 		const updatedGame = await this.gameWriteRepository.update(checksum, data);
 
@@ -39,11 +35,7 @@ export class GameWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const exists = await this.gameReadService.exists(checksum);
-
-		if (!exists) {
-			throw new BadRequestException('Game not found');
-		}
+		await this.gameReadService.findById(checksum);
 
 		await this.gameWriteRepository.delete(checksum);
 	}

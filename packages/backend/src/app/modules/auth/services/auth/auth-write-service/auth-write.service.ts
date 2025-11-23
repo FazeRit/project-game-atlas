@@ -43,7 +43,6 @@ export class AuthWriteService {
             throw new BadRequestException('Failed to create user');
         }
 
-        // Personal library will be created in the controller to avoid circular dependency
         return user;
     }
 

@@ -5,7 +5,6 @@ import { IGameReadRepository } from '../../../repositories/games/abstracts/igame
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class GameReadService {
@@ -22,11 +21,6 @@ export class GameReadService {
 		}
 
 		return this.gameMapService.toGameDetailsDto(game);
-	}
-
-	async exists(checksum: string): Promise<boolean> {
-		const game = await this.gameReadRepository.findById(checksum);
-		return game !== null;
 	}
 
 	async findAll(

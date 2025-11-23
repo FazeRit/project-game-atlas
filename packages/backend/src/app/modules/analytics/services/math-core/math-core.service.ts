@@ -3,20 +3,20 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class MathCoreService {
     calculateSimilarity(
-        userVector: Record<string, number>,
-        gameVector: Record<string, number>
+		firstVector: Record<string, number>,
+		secondVector: Record<string, number>
     ): number {
         const allKeys = Array.from(new Set([
-			...Object.keys(userVector),
-			...Object.keys(gameVector)
+			...Object.keys(firstVector),
+			...Object.keys(secondVector)
 		]));
 
 		const vecA = allKeys.map(key => {
-			return userVector[key] ?? 0
+			return firstVector[key] ?? 0
 		})
 
 		const vecB = allKeys.map(key => {
-			return gameVector[key] ?? 0
+			return secondVector[key] ?? 0
 		})
 
 		const dotProduct = vecA.reduce(
@@ -41,17 +41,20 @@ export class MathCoreService {
 		return dotProduct / (magnitudeA * magnitudeB);
 	}
 
-	mergeVector(oldVector: Record<string, number>, newVector: Record<string, number>): Record<string, number> {
+	mergeVector(
+		firstVector: Record<string, number>,
+		secondVector: Record<string, number>
+	): Record<string, number> {
 		const allKeys = Array.from(new Set([
-			...Object.keys(oldVector),
-			...Object.keys(newVector)
+			...Object.keys(firstVector),
+			...Object.keys(secondVector)
 		]));
 	
 		const result: Record<string, number> = {};
 
 		allKeys.forEach(key => {
-			const oldValue = oldVector[key] ?? 0;
-			const newValue = newVector[key] ?? 0;
+			const oldValue = firstVector[key] ?? 0;
+			const newValue = secondVector[key] ?? 0;
 
 			result[key] = oldValue + newValue;
 		});

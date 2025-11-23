@@ -1,0 +1,13 @@
+"filename", "language", "TypeScript", "comment", "blank", "total"
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/analytics/dto/request/profile-init.dto.ts", "TypeScript", 0, 0, -1, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/analytics/dto/response/index.ts", "TypeScript", 1, 0, -1, 0
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/analytics/dto/response/prediction-compatibility.dto.ts", "TypeScript", 27, 0, 5, 32
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/analytics/services/recommendation-curator/recommendation-curator-write.service.ts", "TypeScript", 0, 0, -2, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/analytics/services/recommendation-curator/recommendation-curator.service.ts", "TypeScript", 16, 0, 3, 19
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/game/controllers/games/game-read-controller/game-read.controller.ts", "TypeScript", 13, 0, 2, 15
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/modules/game/services/games/game-read-service/game-read.service.ts", "TypeScript", -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/shared/dto/response/api-response.dto.ts", "TypeScript", 5, 0, 0, 5
+"/home/denis/vscode_projects/project-game-atlas/packages/backend/src/app/shared/interceptors/api-response.interceptor.ts", "TypeScript", -34, 0, -3, -37
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/app.tsx", "TypeScript", 4, -4, 0, 0
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/nx-welcome.tsx", "TypeScript", -2, 0, 2, 0
+"Total", "-", 29, -4, 5, 30

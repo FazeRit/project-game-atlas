@@ -1,5 +1,4 @@
 import cookieParser from 'cookie-parser';
-import { ApiResponseInterceptor } from './app/shared/interceptors/api-response.interceptor';
 import { AppModule } from './app/app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -38,8 +37,6 @@ async function bootstrap() {
 			return new BadRequestException(messages);
 		},
 	}),);
-
-	app.useGlobalInterceptors(new ApiResponseInterceptor())
 
 	app.enableCors({
 		origin: '*',

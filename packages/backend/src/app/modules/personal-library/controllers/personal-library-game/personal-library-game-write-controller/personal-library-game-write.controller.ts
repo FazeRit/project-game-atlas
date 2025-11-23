@@ -2,9 +2,9 @@ import {
 	Body,
 	Controller,
 	Delete,
-	Param,
 	Post,
-	Put
+	Put,
+	Query
 } from '@nestjs/common';
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
 import { PersonalLibraryGame } from '@prisma/client';
@@ -36,7 +36,7 @@ export class PersonalLibraryGameWriteController {
 	@Delete(':checksum')
 	async delete(
         @GetUser('checksum') userId: string,
-        @Param('checksum') checksum: string,
+        @Query('checksum') checksum: string,
     ): Promise<void> {
 		return this.personalLibraryGameWriteService.delete(userId, checksum);
 	}
