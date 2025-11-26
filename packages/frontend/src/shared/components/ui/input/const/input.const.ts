@@ -1,3 +1,1 @@
-export const inputStyles = `
-    flex bg-[#171717] text-[#ADAEBC] file:bg-transparent disabled:opacity-50 shadow-sm px-4 py-2 border border-[#E5E7EB] file:border-0 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring w-full h-10 file:font-medium placeholder:text-[#ADAEBC] file:text-[#ADAEBC] sm:text-xs text-sm md:text-sm file:text-sm transition-colors disabled:cursor-not-allowed
-`
+export const inputStyles = "flex w-full bg-[#171717] text-[#ADAEBC] file:bg-transparent disabled:opacity-50 shadow-sm border border-[#E5E7EB] file:border-0 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring file:font-medium placeholder:text-[#ADAEBC] file:text-[#ADAEBC] transition-colors disabled:cursor-not-allowed  md:h-10 px-4 py-2 text-xs file:text-xs md:h-10 md:px-4 md:py-2 md:text-sm md:file:text-sm";

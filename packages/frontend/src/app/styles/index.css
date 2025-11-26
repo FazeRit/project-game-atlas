@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --breakpoint-xs: 360px
+  --breakpoint-sm: 360px
   --breakpoint-md: 1440px;
   --breakpoint-lg: 1920px;
 

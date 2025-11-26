@@ -29,9 +29,13 @@ export const RegisterForm = () => {
         >
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-col gap-6 bg-[#262626] p-8 rounded-xl w-full md:w-[448px]"
+                className="flex flex-col gap-4 md:gap-6 bg-[#262626] p-4 md:p-8 rounded-xl w-[320px] md:w-[448px]"
             >
-                <p className="self-center text-white text-2xl">Створити новий аккаунт</p>
+                <div className="flex flex-col items-center gap-2">
+                    <p className="text-white text-lg md:text-2xl text-center">
+                        Створити новий аккаунт
+                    </p>
+                </div>
                 
                 <FormField
                     control={form.control}
@@ -69,7 +73,7 @@ export const RegisterForm = () => {
 
                 <Button
                     variant="lightgray"
-                    size="lg"
+                    size="default"
                     type="submit"
                 >
                     Зареєструватися
@@ -77,7 +81,7 @@ export const RegisterForm = () => {
 
                 <Link
                     to={ROUTES.LOGIN}
-                    className="self-center text-[#a3a3a3] text-sm"
+                    className="self-center text-[#a3a3a3] text-xs md:text-sm"
                 >
                     Вже маєте аккаунт? <span className="font-bold">Ввійдіть у систему</span>
                 </Link>
