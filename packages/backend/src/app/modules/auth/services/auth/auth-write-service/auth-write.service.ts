@@ -21,14 +21,13 @@ export class AuthWriteService {
     async login(data: UserResponseDto): Promise<JwtTokenResponseDto> {
         const jwtTokenPayload: JwtTokenPayloadDto = {
             checksum: data.checksum,
-            username: data.username,
             email: data.email,
         };
 
         // TODO: move to env variable or const
         const accessToken = await this.jwtTokenService.generateToken(
             jwtTokenPayload,
-            '1h'
+            '1d'
         );
 
         const jwtTokenResponse = new JwtTokenResponseDto(accessToken);
@@ -36,19 +35,31 @@ export class AuthWriteService {
         return jwtTokenResponse;
     }
 
-    async register(data: UserCreateDto): Promise<UserResponseDto> {
+    async register(data: UserCreateDto): Promise<JwtTokenResponseDto> {
         const user = await this.userWriteService.create(data);
 
         if(!user) {
             throw new BadRequestException('Failed to create user');
         }
 
-        return user;
+        const jwtTokenPayload: JwtTokenPayloadDto = {
+            checksum: user.checksum,
+            email: user.email,
+        };
+
+        // TODO: move to env variable or const
+        const accessToken = await this.jwtTokenService.generateToken(
+            jwtTokenPayload,
+            '1d'
+        );
+
+        const jwtTokenResponse = new JwtTokenResponseDto(accessToken);
+
+        return jwtTokenResponse;
     }
 
     async forgotPassword(email: string): Promise<void> {
-        const user = await this.userReadService.findByUsernameOrEmail(
-			'',
+        const user = await this.userReadService.findByEmail(
 			email
 		);
 
@@ -58,7 +69,7 @@ export class AuthWriteService {
 
         const otp = await this.otpService.createOtp(user.checksum);
 
-        await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code, user.username);
+        await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code);
     }
 
     async verifyForgotPassword(code: string): Promise<boolean> {

@@ -22,8 +22,8 @@ export class UserReadService {
 		});
 	}
 
-	async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
-		return this.userReadRepository.findByUsernameOrEmail(username, email);
+	async findByEmail(email: string): Promise<User | null> {
+		return this.userReadRepository.findByEmail(email);
 	}
 
 	async getTasteProfile(userId: string): Promise<Record<string, number>>{

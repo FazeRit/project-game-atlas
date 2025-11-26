@@ -42,8 +42,17 @@ export class AuthWriteController {
 	@Public()
 	@HttpCode(HttpStatus.CREATED)
 	@Post('/register')
-	async register(@Body() user: UserCreateDto): Promise<void> {
-		await this.authWriteService.register(user);
+	async register(@Body() user: UserCreateDto): Promise<ApiResponseDto<JwtTokenResponseDto>> {
+		const token =  await this.authWriteService.register(user);
+
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data: token,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 
 	@Public()

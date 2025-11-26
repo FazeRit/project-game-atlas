@@ -8,11 +8,6 @@ export class JwtTokenPayloadDto {
 	@Expose()
 	checksum!: string;
 
-	@IsString()
-	@IsNotEmpty()
-	@Expose()
-	username!: string;
-
 	@IsEmail()
 	@IsNotEmpty()
 	@Expose()

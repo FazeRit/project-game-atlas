@@ -9,11 +9,6 @@ import {
 
 @Exclude()
 export class UserCreateDto {
-    @IsString()
-	@IsNotEmpty()
-	@Expose()
-	username!: string;
-
 	@IsEmail()
 	@IsNotEmpty()
 	@Expose()

@@ -39,7 +39,8 @@ async function bootstrap() {
 	}),);
 
 	app.enableCors({
-		origin: '*',
+		origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+		credentials: true,
 		methods: 'GET, PUT, POST, DELETE, PATCH',
 		allowedHeaders: 'Content-Type, Authorization',
 	});

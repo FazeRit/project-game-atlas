@@ -15,7 +15,7 @@ export class UserWriteService {
 	) {}
 
 	async create(data: UserCreateDto): Promise<UserResponseDto> {
-		const existingUser = await this.userReadService.findByUsernameOrEmail(data.username, data.email);
+		const existingUser = await this.userReadService.findByEmail(data.email);
 
 		if (existingUser) {
 			throw new BadRequestException('User already exists');

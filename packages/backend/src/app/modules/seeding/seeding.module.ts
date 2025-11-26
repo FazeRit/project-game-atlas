@@ -4,6 +4,7 @@ import { EnvModule } from '../../config/env/env.module';
 import { GameCompaniesSeeder } from './seeders/companies/game-companies.seeder';
 import { GameGenresSeeder } from './seeders/genres/game-genres.seeder';
 import { GameKeywordsSeeder } from './seeders/keywords/game-keywords.seeder';
+import { GamePlatformsSeeder } from './seeders/platforms/game-platforms.seeder';
 import { GameModule } from '../game/game.module';
 import { GamesSeeder } from './seeders/games/games.seeder';
 import { GenresSeeder } from './seeders/genres/genres.seeder';
@@ -29,6 +30,7 @@ import { ScreenshotsSeeder } from './seeders/screenshots/screenshots.seeder';
 		GameCompaniesSeeder,
 		GameGenresSeeder,
 		GameKeywordsSeeder,
+		GamePlatformsSeeder,
 		GamesSeeder,
 	],
 	exports: [
@@ -42,6 +44,7 @@ import { ScreenshotsSeeder } from './seeders/screenshots/screenshots.seeder';
 		GameCompaniesSeeder,
 		GameGenresSeeder,
 		GameKeywordsSeeder,
+		GamePlatformsSeeder,
 		GamesSeeder,
 	],
 })

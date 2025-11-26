@@ -10,11 +10,6 @@ import {
 @Exclude()
 export class UserUpdateDto {
 	@IsOptional()
-	@IsString()
-	@Expose()
-	username?: string;
-
-	@IsOptional()
 	@IsEmail()
 	@Expose()
 	email?: string;

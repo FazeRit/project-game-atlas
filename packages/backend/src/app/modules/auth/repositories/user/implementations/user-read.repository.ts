@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUserReadRepository } from '../abstracts/iuser-read.repository';
 import { PrismaService } from '../../../../prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserReadRepository implements IUserReadRepository {
@@ -15,17 +15,10 @@ export class UserReadRepository implements IUserReadRepository {
 		})
 	}
 
-	async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
+	async findByEmail(email: string): Promise<User | null> {
 		return this.prisma.user.findFirst({
 			where: {
-				OR: [
-					{
-						username
-					},
-					{
-						email
-					}
-				]
+				email
 			}
 		})
 	}

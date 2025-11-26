@@ -22,7 +22,7 @@ export class SmtpCoreService {
 
 	async sendEmail(to: string, subject: string, text: string, html?: string): Promise<void> {
 		try {
-			const { data, error } = await this.resend.emails.send({
+			const { error } = await this.resend.emails.send({
 				from: 'onboarding@resend.dev',
 				to: [to],
 				subject: subject,

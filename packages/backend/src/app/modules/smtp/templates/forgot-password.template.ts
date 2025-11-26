@@ -1,5 +1,5 @@
 export class ForgotPasswordTemplate {
-	static generateHtml(otpCode: string, userName?: string): string {
+	static generateHtml(otpCode: string, email?: string): string {
 		return `
 			<!DOCTYPE html>
 			<html>
@@ -11,7 +11,7 @@ export class ForgotPasswordTemplate {
 			<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
 				<div style="background-color: #f4f4f4; padding: 20px; border-radius: 5px;">
 					<h1 style="color: #333;">Password Reset Request</h1>
-					<p>Hello${userName ? ` ${userName}` : ''},</p>
+					<p>Hello${email ? ` ${email}` : ''},</p>
 					<p>We received a request to reset your password. Use the following code to reset it:</p>
 					<div style="text-align: center; margin: 30px 0;">
 						<div style="background-color: #fff; border: 2px solid #007bff; border-radius: 5px; padding: 20px; display: inline-block;">
@@ -28,11 +28,11 @@ export class ForgotPasswordTemplate {
 		`;
 	}
 
-	static generateText(otpCode: string, userName?: string): string {
+	static generateText(otpCode: string, email?: string): string {
 		return `
 Password Reset Request
 
-Hello${userName ? ` ${userName}` : ''},
+Hello${email ? ` ${email}` : ''},
 
 We received a request to reset your password. Use the following code to reset it:
 

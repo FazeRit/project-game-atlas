@@ -2,7 +2,10 @@ import { GameFiltersDto } from '../dto/request/game/game-filters.dto';
 import { Prisma } from '@prisma/client';
 
 export class GameWhereBuilder {
-	static build(filters?: GameFiltersDto, search?: Record<string, unknown>): Prisma.GameWhereInput {
+	static build(
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>
+	): Prisma.GameWhereInput {
 		const where: Prisma.GameWhereInput = {};
 
 		GameWhereBuilder.applyGenresFilter(where, filters);

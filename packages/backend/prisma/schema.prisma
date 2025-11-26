@@ -159,7 +159,6 @@ model Genre {
 
 model User {
     checksum             String   @id @default(uuid())
-    username             String   @unique
     email                String   @unique
     password             String
 
