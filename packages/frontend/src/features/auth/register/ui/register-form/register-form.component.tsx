@@ -7,8 +7,9 @@ import { ROUTES } from "@/shared"
 import { registerSchema, TRegisterSchema } from "../../model"
 import { useRegister } from "../../model/hooks"
 import { Button } from "@/shared/components"
+import { memo, useCallback } from "react"
 
-export const RegisterForm = () => {
+export const RegisterForm = memo(() => {
     const form = useForm({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -19,9 +20,9 @@ export const RegisterForm = () => {
 
     const mutation = useRegister();
 
-    const handleSubmit = async (data: TRegisterSchema) => {
+    const handleSubmit =  useCallback(async (data: TRegisterSchema) => {
         await mutation.mutateAsync(data);
-    }
+    }, [mutation]);
 
     return (
         <Form
@@ -88,4 +89,4 @@ export const RegisterForm = () => {
             </form>
         </Form>
     )
-}
+})

@@ -1,7 +1,8 @@
 import { cn } from "@/shared/utils";
 import { ICenteredLayoutProps } from "./interfaces"
+import { memo } from "react";
 
-export const CenteredLayout = (props: ICenteredLayoutProps) => {
+export const CenteredLayout = memo((props: ICenteredLayoutProps) => {
     const {
         children,
         className
@@ -16,4 +17,4 @@ export const CenteredLayout = (props: ICenteredLayoutProps) => {
             {children}
         </div>
     )
-}
+})

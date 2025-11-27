@@ -4,5 +4,3 @@ export interface IUser {
     createdAt: string;
     updatedAt: string;
 }
-
-export interface IUserResponseDto extends IUser {}

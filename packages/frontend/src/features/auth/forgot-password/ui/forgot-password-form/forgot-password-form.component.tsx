@@ -6,8 +6,9 @@ import { Input } from "@/shared/components/ui/input"
 import { Link } from "react-router-dom"
 import { ROUTES } from "@/shared"
 import { Button } from "@/shared/components"
+import { memo, useCallback } from "react"
 
-export const ForgotPasswordForm = () => {
+export const ForgotPasswordForm = memo(() => {
     const form = useForm({
         resolver: zodResolver(forgotPasswordSchema),
         defaultValues: {
@@ -17,9 +18,9 @@ export const ForgotPasswordForm = () => {
 
     const mutation = useForgotPassword();
 
-    const handleSubmit = (data: TForgotPasswordSchema) => {
-        mutation.mutateAsync(data);
-    }
+    const handleSubmit = useCallback(async (data: TForgotPasswordSchema) => {
+        await mutation.mutateAsync(data);
+    }, [mutation]);
 
     return (
         <Form
@@ -75,4 +76,4 @@ export const ForgotPasswordForm = () => {
             </form>
         </Form>
     )
-}
+})

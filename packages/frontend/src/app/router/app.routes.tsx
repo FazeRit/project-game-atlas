@@ -1,33 +1,40 @@
+import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { LoginPageAsync, RegisterPageAsync } from '@/pages'; 
+import { CatalogPageAsync, LoginPageAsync, RegisterPageAsync } from '@/pages'; 
 import { ROUTES } from '@/shared';
 import { PublicRoute } from './public-route';
 import { ProtectedRoute } from './protected-route';
 import { ForgotPasswordPageAsync } from '@/pages/auth/forgot-password';
 import { VerifyForgotPasswordPageAsync } from '@/pages/auth/verify-forgot-password';
 import { ResetPasswordPageAsync } from '@/pages/auth/reset-password';
+import { PageLoader } from '@/shared/components';
+import { MyLibraryPageAsync } from '@/pages/my-library';
+import { ProfilePageAsync } from '@/pages/profile';
+import { RankingsPageAsync } from '@/pages/rankings';
 
 export const AppRoutes = () => {
     return (
-        <Routes>
-            <Route element={<PublicRoute />}>
-                <Route path={ROUTES.LOGIN} element={<LoginPageAsync />} />
-                <Route path={ROUTES.REGISTER} element={<RegisterPageAsync />} />
-                <Route path={ROUTES.FORGET_PASSWORD} element={<ForgotPasswordPageAsync />} />
-                <Route path={ROUTES.VERIFY_FORGOT_PASSWORD} element={<VerifyForgotPasswordPageAsync />} />
-                <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPageAsync />} />
-            </Route>
+        <Suspense fallback={<PageLoader />}>
+            <Routes>
+                <Route element={<PublicRoute />}>
+                    <Route path={ROUTES.LOGIN} element={<LoginPageAsync />} />
+                    <Route path={ROUTES.REGISTER} element={<RegisterPageAsync />} />
+                    <Route path={ROUTES.FORGET_PASSWORD} element={<ForgotPasswordPageAsync />} />
+                    <Route path={ROUTES.VERIFY_FORGOT_PASSWORD} element={<VerifyForgotPasswordPageAsync />} />
+                    <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPageAsync />} />
+                </Route>
 
-            <Route element={<ProtectedRoute />}> 
-                <Route path={ROUTES.PROFILE_INIT} element={<div>profile init</div>} />
-                <Route path={ROUTES.MY_LIBRARY} element={<div>my library</div>} />
-                <Route path={ROUTES.PROFILE} element={<div>profile</div>} />
-                <Route path={ROUTES.RANKINGS} element={<div>rankings</div>} />
-                <Route path={ROUTES.COMPATIBILITY} element={<div>compatibility</div>} />
-            </Route>
+                <Route element={<ProtectedRoute />}> 
+                    <Route path={ROUTES.PROFILE_INIT} element={<div>profile init</div>} />
+                    <Route path={ROUTES.MY_LIBRARY} element={<MyLibraryPageAsync />} />
+                    <Route path={ROUTES.PROFILE} element={<ProfilePageAsync />} />
+                    <Route path={ROUTES.RANKINGS} element={<RankingsPageAsync />} />
+                    <Route path={ROUTES.COMPATIBILITY} element={<div>compatibility</div>} />
+                </Route>
 
-            <Route path={ROUTES.CATALOG} element={<div>catalog</div>} />
-            <Route path={ROUTES.CATALOG_ITEM} element={<div>catalog item</div>} />
-        </Routes>
+                <Route index path={ROUTES.CATALOG} element={<CatalogPageAsync />} />
+                <Route path={ROUTES.CATALOG_ITEM} element={<div>catalog item</div>} />
+            </Routes>
+        </Suspense>
     );
 };

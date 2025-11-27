@@ -1,8 +1,9 @@
 import ControllerIcon from '@/assets/icons/controller.svg?react'
 import { IAuthLayoutProps } from "./interfaces"
 import { CenteredLayout } from '../centered-layout';
+import { memo } from 'react';
 
-export const AuthLayout = (props: IAuthLayoutProps) => {
+export const AuthLayout = memo((props: IAuthLayoutProps) => {
     const {
         children
     } = props;
@@ -27,4 +28,4 @@ export const AuthLayout = (props: IAuthLayoutProps) => {
             </div>
         </CenteredLayout>
     )
-}
+})

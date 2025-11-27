@@ -1,9 +1,9 @@
 import { apiInstance } from "@/shared/api"
-import { IUserResponseDto } from "../model";
+import { IUser } from "../model";
 
-export const getUser = async (): Promise<IUserResponseDto> => {
+export const getUser = async (): Promise<IUser> => {
     const response = await apiInstance
-        .get<IUserResponseDto>('/users');
+        .get<IUser>('/users');
 
     return response.data;
 }   

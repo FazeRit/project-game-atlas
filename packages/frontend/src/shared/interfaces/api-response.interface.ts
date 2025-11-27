@@ -16,3 +16,12 @@ export interface IApiErrorResponse {
     timestamp: string;
     path: string;
 }
+
+export interface IApiPaginateResponseMeta {
+    page: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+}

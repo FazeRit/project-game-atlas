@@ -6,8 +6,9 @@ import { Input } from "@/shared/components/ui/input"
 import { Link } from "react-router-dom"
 import { ROUTES } from "@/shared"
 import { Button } from "@/shared/components"
+import { memo, useCallback } from "react"
 
-export const LoginForm = () => {
+export const LoginForm = memo(() => {
     const form = useForm({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -18,9 +19,9 @@ export const LoginForm = () => {
 
     const mutation = useLogin();
 
-    const handleSubmit = (data: TLoginSchema) => {
-        mutation.mutateAsync(data);
-    }
+    const handleSubmit = useCallback(async (data: TLoginSchema) => {
+        await mutation.mutateAsync(data);
+    }, [mutation])
 
     return (
         <Form
@@ -101,4 +102,4 @@ export const LoginForm = () => {
             </form>
         </Form>
     )
-}
+})

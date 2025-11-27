@@ -5,8 +5,9 @@ import { Link } from "react-router-dom"
 import { ROUTES } from "@/shared"
 import { Button, InputOTP, InputOTPGroup, InputOTPSlot } from "@/shared/components"
 import { TVerifyForgotPasswordSchema, useVerifyForgotPassword, verifyForgotPasswordSchema } from "../../model"
+import { memo, useCallback } from "react"
 
-export const VerifyForgotPasswordForm = () => {
+export const VerifyForgotPasswordForm = memo(() => {
     const form = useForm({
         resolver: zodResolver(verifyForgotPasswordSchema),
         defaultValues: {
@@ -16,9 +17,9 @@ export const VerifyForgotPasswordForm = () => {
 
     const mutation = useVerifyForgotPassword();
 
-    const handleSubmit = (data: TVerifyForgotPasswordSchema) => {
-        mutation.mutateAsync(data);
-    }
+    const handleSubmit = useCallback(async (data: TVerifyForgotPasswordSchema) => {
+        await mutation.mutateAsync(data);
+    }, [mutation]);
 
     return (
         <Form
@@ -83,4 +84,4 @@ export const VerifyForgotPasswordForm = () => {
             </form>
         </Form>
     )
-}
+})

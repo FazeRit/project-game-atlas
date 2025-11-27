@@ -7,8 +7,9 @@ import { Button } from "@/shared/components"
 import { ROUTES } from "@/shared"
 import { resetPasswordSchema, TResetPasswordSchema, useResetPassword } from "../../model"
 import { toast } from "react-toastify"
+import { memo, useCallback } from "react"
 
-export const ResetPasswordForm = () => {
+export const ResetPasswordForm = memo(() => {
     const { code } = useParams<{ code: string }>();
     
     const form = useForm({
@@ -21,17 +22,17 @@ export const ResetPasswordForm = () => {
 
     const mutation = useResetPassword();
 
-    const handleSubmit = (data: TResetPasswordSchema) => {
+    const handleSubmit = useCallback(async (data: TResetPasswordSchema) => {
         if (!code) {
             toast.error("Невірне посилання для відновлення пароля.");
             return;
         }
 
-        mutation.mutateAsync({
+        await mutation.mutateAsync({
             newPassword: data.password,
             code: code 
         });
-    }
+    }, [mutation, code]);
 
     return (
         <Form
@@ -103,4 +104,4 @@ export const ResetPasswordForm = () => {
             </form>
         </Form>
     )
-}
+})
