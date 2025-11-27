@@ -36,20 +36,12 @@ export const useLogin = () => {
             setUser(userData);
             setIsAuthenticated(true);
 
-            toast.success('Login successful!');
+            toast.success('Вхід виконано успішно!');
 
             navigate(ROUTES.CATALOG);
         },
-        onError: (error) => {
-            const message = error.response?.data?.data?.message;
-
-            if (Array.isArray(message)) {
-                message.forEach(msg => toast.error(msg));
-            } else if (typeof message === 'string') {
-                toast.error(message);
-            } else {
-                toast.error('Login failed.');
-            }
+        onError: () => {
+            toast.error('Не вдалося увійти в систему.');
         },
     });
 };

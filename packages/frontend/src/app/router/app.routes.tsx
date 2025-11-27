@@ -4,6 +4,8 @@ import { ROUTES } from '@/shared';
 import { PublicRoute } from './public-route';
 import { ProtectedRoute } from './protected-route';
 import { ForgotPasswordPageAsync } from '@/pages/auth/forgot-password';
+import { VerifyForgotPasswordPageAsync } from '@/pages/auth/verify-forgot-password';
+import { ResetPasswordPageAsync } from '@/pages/auth/reset-password';
 
 export const AppRoutes = () => {
     return (
@@ -12,8 +14,8 @@ export const AppRoutes = () => {
                 <Route path={ROUTES.LOGIN} element={<LoginPageAsync />} />
                 <Route path={ROUTES.REGISTER} element={<RegisterPageAsync />} />
                 <Route path={ROUTES.FORGET_PASSWORD} element={<ForgotPasswordPageAsync />} />
-                <Route path={ROUTES.VERIFY_FORGOT_PASSWORD} element={<div>verify forgot password</div>} />
-                <Route path={ROUTES.RESET_PASSWORD} element={<div>reset password</div>} />
+                <Route path={ROUTES.VERIFY_FORGOT_PASSWORD} element={<VerifyForgotPasswordPageAsync />} />
+                <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPageAsync />} />
             </Route>
 
             <Route element={<ProtectedRoute />}> 

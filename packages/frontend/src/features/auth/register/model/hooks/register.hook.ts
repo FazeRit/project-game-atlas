@@ -37,23 +37,15 @@ export const useRegister = () => {
             setUser(userData); 
             setIsAuthenticated(true);
 
-            toast.success('Registration successful!');
+            toast.success('Реєстрація успішна! Ласкаво просимо.');
 
             navigate(`/${ROUTES.PROFILE_INIT}`, {
                 replace: true
             });
         },
         
-        onError: (error) => {
-            const message = error.response?.data?.data?.message;
-
-            if (Array.isArray(message)) {
-                message.forEach(msg => toast.error(msg));
-            } else if (typeof message === 'string') {
-                toast.error(message);
-            } else {
-                toast.error('Registration failed.');
-            }
+        onError: () => {
+            toast.error('Не вдалося зареєструватися. Спробуйте ще раз.');
         },
     });
 };

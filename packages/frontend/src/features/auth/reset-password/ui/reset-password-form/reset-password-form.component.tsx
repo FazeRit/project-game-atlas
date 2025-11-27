@@ -1,25 +1,36 @@
 import { useForm } from "react-hook-form"
+import { useParams, Link } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginSchema, TLoginSchema, useLogin } from "../../model"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form/form.component"
 import { Input } from "@/shared/components/ui/input"
-import { Link } from "react-router-dom"
-import { ROUTES } from "@/shared"
 import { Button } from "@/shared/components"
+import { ROUTES } from "@/shared"
+import { resetPasswordSchema, TResetPasswordSchema, useResetPassword } from "../../model"
+import { toast } from "react-toastify"
 
-export const LoginForm = () => {
+export const ResetPasswordForm = () => {
+    const { code } = useParams<{ code: string }>();
+    
     const form = useForm({
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(resetPasswordSchema),
         defaultValues: {
-            email: "",
             password: "",
+            confirmPassword: "",
         }
     })
 
-    const mutation = useLogin();
+    const mutation = useResetPassword();
 
-    const handleSubmit = (data: TLoginSchema) => {
-        mutation.mutateAsync(data);
+    const handleSubmit = (data: TResetPasswordSchema) => {
+        if (!code) {
+            toast.error("Невірне посилання для відновлення пароля.");
+            return;
+        }
+
+        mutation.mutateAsync({
+            newPassword: data.password,
+            code: code 
+        });
     }
 
     return (
@@ -30,45 +41,25 @@ export const LoginForm = () => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="flex flex-col gap-4 md:gap-6 bg-[#262626] p-4 md:p-8 rounded-xl w-[320px] md:w-[448px]"
             >
-                
-                <div className="flex flex-col items-center gap-2">
-                    <p className="text-white text-lg md:text-2xl">
-                        Ввійти в Game Atlas
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <p className="font-semibold text-white text-lg md:text-2xl">
+                        Скидання пароля
                     </p>
                     <p className="text-[#a3a3a3] text-xs md:text-sm">
-                        З поверненням! Будь ласка, введіть свої дані.
+                        Придумайте новий надійний пароль для вашого облікового запису.
                     </p>
                 </div>
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>
-                                Електронна пошта
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="Введіть пошту"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
 
                 <FormField
                     control={form.control}
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>
-                                Пароль
-                            </FormLabel>
+                            <FormLabel>Новий пароль</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Введіть пароль"
+                                    type="password"
+                                    placeholder="Введіть новий пароль"
                                     {...field}
                                 />
                             </FormControl>
@@ -76,27 +67,38 @@ export const LoginForm = () => {
                         </FormItem>
                     )}
                 />
-                
-                <Link
-                    to={ROUTES.FORGET_PASSWORD}
-                    className="self-end text-[#a3a3a3] text-xs md:text-sm"
-                >
-                    Забули пароль?
-                </Link>
+
+                <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Підтвердження пароля</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="password"
+                                    placeholder="Повторіть пароль"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
                 <Button
                     variant="lightgray"
                     size="default"
                     type="submit"
                 >
-                    Ввійти
+                    Змінити пароль
                 </Button>
 
                 <Link
-                    to={ROUTES.REGISTER}
-                    className="self-center text-[#a3a3a3] text-xs md:text-sm"
+                    to={ROUTES.LOGIN}
+                    className="self-center text-[#a3a3a3] hover:text-white text-xs md:text-sm transition-colors"
                 >
-                    Не маєте аккаунт? <span className="font-bold">Зареєструйтеся</span>
+                    <span className="font-bold">Повернутися до входу</span>
                 </Link>
             </form>
         </Form>

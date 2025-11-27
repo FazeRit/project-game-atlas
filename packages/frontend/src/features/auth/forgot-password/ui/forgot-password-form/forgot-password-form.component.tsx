@@ -67,7 +67,7 @@ export const ForgotPasswordForm = () => {
                 </Button>
 
                 <Link
-                    to={`${ROUTES.LOGIN}`}
+                    to={ROUTES.LOGIN}
                     className="self-center text-[#a3a3a3] text-xs md:text-sm hover:underline"
                 >
                     Згадали пароль? <span className="font-bold text-white">Ввійти</span>

@@ -1,11 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from 'react-toastify';
 import { AxiosError } from "axios";
-import { IApiResponse, IApiErrorResponse } from "@/shared";
+import { IApiResponse, IApiErrorResponse, ROUTES } from "@/shared";
 import { forgotPasswordApi } from "../../api";
 import { IForgotPasswordRequestDto } from "../interfaces/forgot-password-request.interface";
+import { useNavigate } from "react-router-dom";
 
 export const useForgotPassword = () => {
+    const navigate = useNavigate()
+
     return useMutation<
         IApiResponse<void>,
         AxiosError<IApiErrorResponse>,
@@ -14,18 +17,12 @@ export const useForgotPassword = () => {
         mutationFn: forgotPasswordApi,
         mutationKey: ['forgot-password'],
         onSuccess: () => {
-            toast.success('OTP code was sent to your email')
-        },
-        onError: (error) => {
-            const message = error.response?.data?.data?.message;
+            toast.success('Код підтвердження надіслано на вашу пошту')
 
-            if (Array.isArray(message)) {
-                message.forEach(msg => toast.error(msg));
-            } else if (typeof message === 'string') {
-                toast.error(message);
-            } else {
-                toast.error('Forget password failed.');
-            }
+            navigate(ROUTES.VERIFY_FORGOT_PASSWORD)
+        },
+        onError: () => {
+            toast.error('Не вдалося надіслати запит відновлення.');
         },
     });
 };
