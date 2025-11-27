@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Genre } from '@prisma/client';
 import { GenreCreateDto } from '../../../../dto/request/genres/genre-create.dto';
+import { GenreReadService } from '../genres-read-service/genre-read.service';
 import { GenreUpdateDto } from '../../../../dto/request/genres/genre-update.dto';
-import { IGenreReadRepository } from '../../../../repositories/genres/genres/abstracts/igenre-read.repository';
 import { IGenreWriteRepository } from '../../../../repositories/genres/genres/abstracts/igenre-write.repository';
 
 @Injectable()
 export class GenreWriteService {
 	constructor(
-		private readonly genreReadRepository: IGenreReadRepository,
+		private readonly genreReadService: GenreReadService,
 		private readonly genreWriteRepository: IGenreWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class GenreWriteService {
 	}
 
 	async update(checksum: string, data: GenreUpdateDto): Promise<Genre> {
-		const existingGenre = await this.genreReadRepository.findById(checksum);
+		const existingGenre = await this.genreReadService.findById(checksum);
 
 		if (!existingGenre) {
 			throw new BadRequestException('Genre not found');
@@ -39,7 +39,7 @@ export class GenreWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingGenre = await this.genreReadRepository.findById(checksum);
+		const existingGenre = await this.genreReadService.findById(checksum);
 
 		if (!existingGenre) {
 			throw new BadRequestException('Genre not found');

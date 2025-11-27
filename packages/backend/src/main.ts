@@ -1,5 +1,4 @@
 import cookieParser from 'cookie-parser';
-import { ApiResponseInterceptor } from './app/shared/interceptors/api-response.interceptor';
 import { AppModule } from './app/app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -23,6 +22,7 @@ async function bootstrap() {
 		transform: true,
 		transformOptions: {
 			enableImplicitConversion: true,
+			excludeExtraneousValues: true,
 		},
 		disableErrorMessages: false,
 		stopAtFirstError: false,
@@ -38,10 +38,9 @@ async function bootstrap() {
 		},
 	}),);
 
-	app.useGlobalInterceptors(new ApiResponseInterceptor())
-
 	app.enableCors({
-		origin: '*',
+		origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+		credentials: true,
 		methods: 'GET, PUT, POST, DELETE, PATCH',
 		allowedHeaders: 'Content-Type, Authorization',
 	});

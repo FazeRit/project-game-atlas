@@ -1,7 +1,7 @@
+import 'reflect-metadata';
 import { CompaniesSeeder } from '../../seeders/companies/companies.seeder';
 import { NestFactory } from '@nestjs/core';
 import { SeedingModule } from '../../seeding.module';
-import 'reflect-metadata';
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.createApplicationContext(SeedingModule,)
@@ -17,4 +17,3 @@ async function bootstrap(): Promise<void> {
 }
 
 bootstrap()
-

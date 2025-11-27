@@ -1,13 +1,20 @@
 import { Exclude, Expose } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class GameKeywordCreateDto {
+	@IsOptional()
+	@IsString()
 	@Expose()
 	checksum?: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	gameId: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	keywordId: string;
 

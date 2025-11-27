@@ -4,7 +4,6 @@ import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-pay
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
 import { OtpService } from '../../otp/otp.service';
-import { PersonalLibraryWriteService } from '../../../../personal-library/services/personal-library/personal-library-write-service/personal-library-write.service';
 import { SmtpAuthService } from '../../../../smtp/services/smtp-auth-service/smtp-auth.service';
 import { UserReadService } from '../../user/user-read-service/user-read.service';
 import { UserWriteService } from '../../user/user-write-service/user-write.service';
@@ -14,7 +13,6 @@ export class AuthWriteService {
     constructor(
         private readonly userWriteService: UserWriteService,
         private readonly userReadService: UserReadService,
-        private readonly personalLibraryWriteService: PersonalLibraryWriteService,
         private readonly jwtTokenService: JwtTokenService,
         private readonly otpService: OtpService,
         private readonly smtpAuthService: SmtpAuthService,
@@ -23,14 +21,13 @@ export class AuthWriteService {
     async login(data: UserResponseDto): Promise<JwtTokenResponseDto> {
         const jwtTokenPayload: JwtTokenPayloadDto = {
             checksum: data.checksum,
-            username: data.username,
             email: data.email,
         };
 
         // TODO: move to env variable or const
         const accessToken = await this.jwtTokenService.generateToken(
             jwtTokenPayload,
-            '1h'
+            '1d'
         );
 
         const jwtTokenResponse = new JwtTokenResponseDto(accessToken);
@@ -38,29 +35,41 @@ export class AuthWriteService {
         return jwtTokenResponse;
     }
 
-    async register(data: UserCreateDto): Promise<UserResponseDto> {
+    async register(data: UserCreateDto): Promise<JwtTokenResponseDto> {
         const user = await this.userWriteService.create(data);
 
         if(!user) {
             throw new BadRequestException('Failed to create user');
         }
 
-        await this.personalLibraryWriteService.create({
-            userId: user.checksum,
-        });
+        const jwtTokenPayload: JwtTokenPayloadDto = {
+            checksum: user.checksum,
+            email: user.email,
+        };
 
-        return user;
+        // TODO: move to env variable or const
+        const accessToken = await this.jwtTokenService.generateToken(
+            jwtTokenPayload,
+            '1d'
+        );
+
+        const jwtTokenResponse = new JwtTokenResponseDto(accessToken);
+
+        return jwtTokenResponse;
     }
 
     async forgotPassword(email: string): Promise<void> {
-        const user = await this.userReadService.findByEmailWithPassword(email);
+        const user = await this.userReadService.findByEmail(
+			email
+		);
+
         if (!user) {
             return;
         }
 
         const otp = await this.otpService.createOtp(user.checksum);
 
-        await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code, user.username);
+        await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code);
     }
 
     async verifyForgotPassword(code: string): Promise<boolean> {

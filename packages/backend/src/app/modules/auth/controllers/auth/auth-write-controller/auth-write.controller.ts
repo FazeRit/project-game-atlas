@@ -4,7 +4,6 @@ import {
 	Controller,
 	HttpCode,
 	HttpStatus,
-	Logger,
 	Post,
 	UseGuards
 } from '@nestjs/common';
@@ -15,42 +14,68 @@ import { LocalAuthGuard } from '../../../guards/local.guard';
 import { Public } from '../../../../../shared/decorators/public.decorator';
 import { ResetPasswordDto } from '../../../dto/request/auth/reset-password.dto';
 import { VerifyForgotPasswordCodeDto } from '../../../dto/request/auth/verify-forgot-password-code.dto';
+import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 
 @Controller('/auth')
 export class AuthWriteController {
-	private readonly logger = new Logger(AuthWriteController.name);
-
-	constructor(private readonly authWriteService: AuthWriteService) {}
+	constructor(
+		private readonly authWriteService: AuthWriteService,
+	) {}
 
 	@Public()
 	@UseGuards(LocalAuthGuard)
 	@HttpCode(HttpStatus.OK)
 	@Post('/login')
-	async login(@GetUser() user: UserResponseDto): Promise<JwtTokenResponseDto> {
-		return await this.authWriteService.login(user);
+	async login(@GetUser() user: UserResponseDto): Promise<ApiResponseDto<JwtTokenResponseDto>> {
+		const token =  await this.authWriteService.login(user);
+
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data: token,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 
 	@Public()
 	@HttpCode(HttpStatus.CREATED)
 	@Post('/register')
-	async register(@Body() user: UserCreateDto): Promise<void> {
-		await this.authWriteService.register(user);
+	async register(@Body() user: UserCreateDto): Promise<ApiResponseDto<JwtTokenResponseDto>> {
+		const token =  await this.authWriteService.register(user);
+
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data: token,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 
 	@Public()
 	@HttpCode(HttpStatus.OK)
 	@Post('/forgot-password')
 	async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<void> {
-		this.logger.log(`POST /auth/forgot-password - Request received for email: ${forgotPasswordDto.email}`);
 		await this.authWriteService.forgotPassword(forgotPasswordDto.email);
-		this.logger.log(`POST /auth/forgot-password - Request processed for email: ${forgotPasswordDto.email}`);
 	}
 
 	@Public()
 	@HttpCode(HttpStatus.OK)
 	@Post('/verify-forgot-password')
-	async verifyForgotPassword(@Body() verifyDto: VerifyForgotPasswordCodeDto): Promise<boolean> {
-		return await this.authWriteService.verifyForgotPassword(verifyDto.code);
+	async verifyForgotPassword(@Body() verifyDto: VerifyForgotPasswordCodeDto): Promise<ApiResponseDto<boolean>> {
+		const result =  await this.authWriteService.verifyForgotPassword(verifyDto.code);
+
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data: result,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 
 	@Public()

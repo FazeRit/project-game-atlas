@@ -2,7 +2,7 @@ import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { GameMapService } from '../game-map-service/game-map.service';
 import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 
@@ -13,7 +13,7 @@ export class GameReadService {
 		private readonly gameMapService: GameMapService,
 	) {}
 
-	async findByIdWithDetails(checksum: string): Promise<GameDetailsResponseDto | null> {
+	async findById(checksum: string): Promise<GameDetailsResponseDto | null> {
 		const game = await this.gameReadRepository.findById(checksum);
 
 		if (!game) {
@@ -53,5 +53,33 @@ export class GameReadService {
 			meta,
 		};
 	}
+
+	async getGameVector(checksum: string): Promise<Record<string, number>> {
+        const game = await this.gameReadRepository.findById(checksum);
+
+        if (!game) {
+            throw new NotFoundException(`Game with id ${checksum} not found`);
+        }
+
+        const dnaVector: Record<string, number> = {};
+
+        if (game.gameGenres && Array.isArray(game.gameGenres)) {
+            game.gameGenres.forEach(gameGenre => {
+                if (gameGenre.genre?.slug) {
+                    dnaVector[gameGenre.genre.slug] = 10;
+                }
+            });
+        }
+
+        if (game.gameKeywords && Array.isArray(game.gameKeywords)) {
+            game.gameKeywords.forEach(gameKeyword => {
+                if (gameKeyword.keyword?.slug) {
+                    dnaVector[gameKeyword.keyword.slug] = 10;
+                }
+            });
+        }
+
+        return dnaVector;
+    }
 }
 

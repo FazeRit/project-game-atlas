@@ -1,3 +1,4 @@
+import { AnalyticsModule } from '../analytics/analytics.module';
 import { GameModule } from '../game/game.module';
 import { Module } from '@nestjs/common';
 import { PERSONAL_LIBRARY_GAME_PROVIDERS, PERSONAL_LIBRARY_PROVIDERS } from './providers';
@@ -15,6 +16,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 	imports: [
 		PrismaModule,
 		GameModule,
+		AnalyticsModule,
 	],
 	controllers: [
 		PersonalLibraryReadController,

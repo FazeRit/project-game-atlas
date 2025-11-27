@@ -6,9 +6,6 @@ export class UserResponseDto {
     checksum: string;
 
     @Expose()
-    username: string;
-
-    @Expose()
     email: string;
 
 	@Expose()
@@ -19,13 +16,11 @@ export class UserResponseDto {
 
 	constructor(
 		checksum: string,
-		username: string,
 		email: string,
 		createdAt: Date,
 		updatedAt: Date
 	) {
 		this.checksum = checksum;
-		this.username = username;
 		this.email = email;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;

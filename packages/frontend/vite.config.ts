@@ -1,23 +1,33 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
+import path from "path"
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite'
+import svgr from 'vite-plugin-svgr';
 
-export default defineConfig(() => ({
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss(),
+    svgr(),
+  ],
+
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/frontend',
-  server:{
+  server: {
     port: 3001,
     host: 'localhost',
   },
-  preview:{
+  preview: {
     port: 3001,
     host: 'localhost',
   },
-  plugins: [react()],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+
   build: {
     outDir: './dist',
     emptyOutDir: true,
@@ -26,4 +36,4 @@ export default defineConfig(() => ({
       transformMixedEsModules: true,
     },
   },
-}));
+});

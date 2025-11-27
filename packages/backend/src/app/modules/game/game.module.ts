@@ -37,6 +37,9 @@ import { PlatformWriteService } from './services/platforms/platform/platform-wri
 import { PrismaModule } from '../prisma/prisma.module';
 import { ScreenshotsReadService } from './services/screenshots/screenshots-read-service/screenshots-read.service';
 import { ScreenshotsWriteService } from './services/screenshots/screenshots-write-service/screenshots-write.service';
+import { GAME_PLATFORM_PROVIDERS } from './providers/platforms/game-platform.providers';
+import { GamePlatformsReadService } from './services/platforms/game-platforms/game-platforms-read-service/game-platforms-read.service';
+import { GamePlatformsWriteService } from './services/platforms/game-platforms/game-platforms-write-service/game-platforms-write.service';
 
 @Module({
 	imports: [
@@ -46,6 +49,7 @@ import { ScreenshotsWriteService } from './services/screenshots/screenshots-writ
 		GameReadController,
 	],
 	providers: [
+		...GAME_PLATFORM_PROVIDERS,
 		...PLATFORM_TYPES_PROVIDERS,
 		...PLATFORM_PROVIDERS,
 		...COMPANIES_PROVIDERS,
@@ -59,6 +63,8 @@ import { ScreenshotsWriteService } from './services/screenshots/screenshots-writ
 		...GAME_PROVIDERS,
 	],
 	exports: [
+		GamePlatformsReadService,
+		GamePlatformsWriteService,
 		PlatformTypeReadService,
 		PlatformTypeWriteService,
 		PlatformReadService,

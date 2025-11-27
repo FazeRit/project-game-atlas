@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { GameCompany } from '@prisma/client';
 import { GameCompanyCreateDto } from '../../../../dto/request/game-company/game-company-create.dto';
+import { GameCompanyReadService } from '../game-company-read-service/game-company-read.service';
 import { GameCompanyUpdateDto } from '../../../../dto/request/game-company/game-company-update.dto';
-import { IGameCompanyReadRepository } from '../../../../repositories/companies/game-company/abstracts/igame-company-read.repository';
 import { IGameCompanyWriteRepository } from '../../../../repositories/companies/game-company/abstracts/igame-company-write.repository';
 
 @Injectable()
 export class GameCompanyWriteService {
 	constructor(
-		private readonly gameCompanyReadRepository: IGameCompanyReadRepository,
+		private readonly gameCompanyReadService: GameCompanyReadService,
 		private readonly gameCompanyWriteRepository: IGameCompanyWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class GameCompanyWriteService {
 	}
 
 	async update(checksum: string, data: GameCompanyUpdateDto): Promise<GameCompany> {
-		const existingGameCompany = await this.gameCompanyReadRepository.findById(checksum);
+		const existingGameCompany = await this.gameCompanyReadService.findById(checksum);
 
 		if (!existingGameCompany) {
 			throw new BadRequestException('Game company not found');
@@ -39,7 +39,7 @@ export class GameCompanyWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingGameCompany = await this.gameCompanyReadRepository.findById(checksum);
+		const existingGameCompany = await this.gameCompanyReadService.findById(checksum);
 
 		if (!existingGameCompany) {
 			throw new BadRequestException('Game company not found');

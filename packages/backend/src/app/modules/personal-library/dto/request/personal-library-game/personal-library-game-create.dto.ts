@@ -1,35 +1,37 @@
 import { EPlayStatus, ETierRank } from '@prisma/client';
 import { Exclude, Expose } from 'class-transformer';
+import {
+	IsEnum,
+	IsNotEmpty,
+	IsOptional,
+	IsString
+} from 'class-validator';
 
 @Exclude()
 export class PersonalLibraryGameCreateDto {
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
-	gameId: string;
+	gameId!: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
-	personalLibraryId: string;
+	personalLibraryId!: string;
 
+	@IsOptional()
+	@IsEnum(EPlayStatus)
 	@Expose()
 	status?: EPlayStatus;
 
+	@IsOptional()
+	@IsEnum(ETierRank)
 	@Expose()
 	rank?: ETierRank;
 
+	@IsOptional()
+	@IsString()
 	@Expose()
 	note?: string;
-
-	constructor(data: {
-		gameId: string;
-		personalLibraryId: string;
-		status?: EPlayStatus;
-		rank?: ETierRank;
-		note?: string;
-	}) {
-		this.gameId = data.gameId;
-		this.personalLibraryId = data.personalLibraryId;
-		this.status = data.status;
-		this.rank = data.rank;
-		this.note = data.note;
-	}
 }
 

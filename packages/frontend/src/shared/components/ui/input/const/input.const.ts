@@ -1,0 +1,3 @@
+export const inputStyles = `
+    flex bg-[#171717] text-[#ADAEBC] file:bg-transparent disabled:opacity-50 shadow-sm px-4 py-2 border border-[#E5E7EB] file:border-0 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring w-full h-10 file:font-medium placeholder:text-[#ADAEBC] file:text-[#ADAEBC] sm:text-xs text-sm md:text-sm file:text-sm transition-colors disabled:cursor-not-allowed
+`

@@ -37,6 +37,7 @@ export class GamesSeeder {
 		const batchSize = 500;
 		let processedCount = 0;
 		let totalGenresCreated = 0;
+		let totalPlatfrosmCreated = 0;
 		let totalKeywordsCreated = 0;
 
 		for (let i = 0; i < games.length; i += batchSize) {
@@ -69,13 +70,14 @@ export class GamesSeeder {
 
 			for (const game of batch) {
 				totalGenresCreated += await this.seedGameGenres(game);
+				totalPlatfrosmCreated += await this.seedGamePlatforms(game);
 				totalKeywordsCreated += await this.seedGameKeywords(game);
 			}
 
 			processedCount += batch.length;
 		}
 
-		this.logger.log(`${this.prefix} ✅ Seeded ${processedCount} games, ${totalGenresCreated} genres, ${totalKeywordsCreated} keywords`);
+		this.logger.log(`${this.prefix} ✅ Seeded ${processedCount} games, ${totalGenresCreated} genres, ${totalPlatfrosmCreated} platforms, ${totalKeywordsCreated} keywords`);
 	}
 
 	private async seedGameGenres(game: IgdbGame): Promise<number> {
@@ -90,6 +92,22 @@ export class GamesSeeder {
 			await this.gameGenresSeeder.seed(game.checksum, genreIds);
 
 			return genreIds.length;
+		}
+		return 0;
+	}
+
+		private async seedGamePlatforms(game: IgdbGame): Promise<number> {
+		if (game.platforms && Array.isArray(game.genres) && game.platforms.length > 0) {
+			const platformIds = game.platforms.map((platform: number | string | { checksum: string }) => {
+				if (typeof platform === 'object' && platform !== null && 'checksum' in platform) {
+					return platform.checksum;
+				}
+				return platform.toString();
+			});
+
+			await this.gameGenresSeeder.seed(game.checksum, platformIds);
+
+			return platformIds.length;
 		}
 		return 0;
 	}

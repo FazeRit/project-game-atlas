@@ -17,66 +17,74 @@ export class PlatformsSeeder {
 
     private readonly LIMIT: number = 500;
 
-    private readonly PLATFORM_TYPE_CHECKSUM_PREFIX: string = '123e4567-e89b-12d3-a456-42661417600';
-
     constructor(
-		private readonly platformWriteService: PlatformWriteService,
-		private readonly envService: EnvService
-	) {
-			this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
-			this.accessToken = this.envService.get(EnvEnum.IGDB_ACCESS_TOKEN);
-	}
+        private readonly platformWriteService: PlatformWriteService,
+        private readonly envService: EnvService
+    ) {
+        this.clientId = this.envService.get(EnvEnum.IGDB_CLIENT_ID);
+        this.accessToken = this.envService.get(EnvEnum.IGDB_ACCESS_TOKEN);
+    }
 
-	async seed() {
-		this.logger.log(`${this.prefix} Starting platforms seeding...`);
-		const platforms = await this.getData();
+    async seed() {
+        this.logger.log(`${this.prefix} Starting platforms seeding...`);
+        const platforms = await this.getData();
 
-		const batchSize = 500;
-		let processedCount = 0;
+        const batchSize = 500;
+        let processedCount = 0;
 
-		for (let i = 0; i < platforms.length; i += batchSize) {
-			const batch = platforms.slice(i, i + batchSize);
+        for (let i = 0; i < platforms.length; i += batchSize) {
+            const batch = platforms.slice(i, i + batchSize);
 
-			const platformDtos: Array<PlatformCreateDto> = batch.map(platform => new PlatformCreateDto({
-				checksum: platform.checksum,
-				platformTypeId: this.PLATFORM_TYPE_CHECKSUM_PREFIX + platform.platform_type,
-				abbreviation: platform.abbreviation || undefined,
-				name: platform.name,
-				alternativeName: platform.alternative_name || '',
-				summary: platform.summary || undefined,
-			}));
+            const platformDtos: Array<PlatformCreateDto> = batch
+                .filter(platform => platform.platform_type?.checksum)
+                .map(platform => new PlatformCreateDto({
+                    checksum: platform.checksum,
+                    platformTypeId: platform.platform_type.checksum,
+                    abbreviation: platform.abbreviation || undefined,
+                    name: platform.name,
+                    alternativeName: platform.alternative_name || '',
+                    summary: platform.summary || undefined,
+                }));
 
-			try {
-				await this.platformWriteService.createMany(platformDtos);
-			} catch (error: unknown) {
-				const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
-				this.logger.error(`${this.prefix} Failed to create platforms batch`, {
-					batchStart: i + 1,
-					batchEnd: i + batch.length,
-					errorCode: prismaError.code,
-					errorMessage: prismaError.message,
-					error: error,
-				});
-				throw error;
-			}
+            if (platformDtos.length === 0) {
+                this.logger.log(`${this.prefix} Skipping batch from ${i + 1} as no platforms had a valid platformTypeId.`);
+                continue; // Move to the next batch
+            }
 
-			processedCount += batch.length;
-		}
+            this.logger.log(`${this.prefix} Seeding platforms ${i + 1} to ${i + batch.length} of ${platforms.length}...`);
 
-		this.logger.log(`${this.prefix} ✅ Seeded ${processedCount} platforms`);
-	}
+            try {
+                await this.platformWriteService.createMany(platformDtos);
+            } catch (error: unknown) {
+                const prismaError = error as { code?: string; meta?: { target?: string[] }; message?: string };
+                this.logger.error(`${this.prefix} Failed to create platforms batch`, {
+                    batchStart: i + 1,
+                    batchEnd: i + batch.length,
+                    errorCode: prismaError.code,
+                    errorMessage: prismaError.message,
+                    error: error,
+                });
+                throw error;
+            }
 
-	async getData() {
+            processedCount += batch.length;
+        }
+
+        this.logger.log(`${this.prefix} ✅ Seeded ${processedCount} platforms`);
+    }
+
+    async getData() {
         let hasMore = true;
         let offset = 0;
         const allData = [];
 
-        while(hasMore) {
+        while (hasMore) {
             try {
                 const {
                     data
                 } = await igdb(this.clientId, this.accessToken)
-                    .fields('checksum,platform_type,abbreviation,name,alternative_name,summary')
+                    // Request the checksum from the related platform_type
+                    .fields('checksum,platform_type.checksum,abbreviation,name,alternative_name,summary')
                     .limit(this.LIMIT)
                     .offset(offset)
                     .request('platforms');

@@ -21,6 +21,26 @@ export class PersonalLibraryGameReadService {
 		return this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(personalLibraryGame);
 	}
 
+	async findByUserIdAndGameId(userId: string, gameId: string): Promise<PersonalLibraryGameDetailsResponseDto | null> {
+		const personalLibraryGame = await this.personalLibraryGameReadRepository.findByUserIdAndGameId(userId, gameId);
+
+		if (!personalLibraryGame) {
+			return null;
+		}
+
+		return this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(personalLibraryGame);
+	}
+
+	async findByUserIdAndId(userId: string, checksum: string): Promise<PersonalLibraryGameDetailsResponseDto | null> {
+		const personalLibraryGame = await this.personalLibraryGameReadRepository.findByUserIdAndId(userId, checksum);
+
+		if (!personalLibraryGame) {
+			return null;
+		}
+
+		return this.personalLibraryGameMapService.toPersonalLibraryGameDetailsDto(personalLibraryGame);
+	}
+
 	async findAll(
 		userId: string,
 		page: number,

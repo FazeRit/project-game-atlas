@@ -33,7 +33,7 @@ export class HttpExceptionFilter implements ExceptionFilter{
 
 		let errorMessage = exception instanceof Error ? exception.message : 'An error occurred while processing the request';
 		const errorStack = exception instanceof Error ? exception.stack : undefined;
-		const url = httpAdapter.getRequestUrl(request);
+		const path = httpAdapter.getRequestUrl(request);
 		const method = request.method;
 
 		if (exception instanceof BadRequestException) {
@@ -42,7 +42,7 @@ export class HttpExceptionFilter implements ExceptionFilter{
 				const validationErrors = (response as any).message;
 				if (Array.isArray(validationErrors)) {
 					this.logger.warn(
-						`${method} ${url} - ${httpStatus} - Validation errors:`,
+						`${method} ${path} - ${httpStatus} - Validation errors:`,
 						JSON.stringify(validationErrors, null, 2)
 					);
 					this.logger.warn(
@@ -52,7 +52,7 @@ export class HttpExceptionFilter implements ExceptionFilter{
 					errorMessage = validationErrors.join(', ');
 				} else if (typeof validationErrors === 'string') {
 					this.logger.warn(
-						`${method} ${url} - ${httpStatus} - ${validationErrors}`
+						`${method} ${path} - ${httpStatus} - ${validationErrors}`
 					);
 					this.logger.warn(
 						`Query params:`,
@@ -65,24 +65,24 @@ export class HttpExceptionFilter implements ExceptionFilter{
 
 		if (httpStatus >= 500) {
 			this.logger.error(
-				`${method} ${url} - ${httpStatus} - ${errorMessage}`,
+				`${method} ${path} - ${httpStatus} - ${errorMessage}`,
 				errorStack
 			);
 		} else if (httpStatus >= 400 && !(exception instanceof BadRequestException)) {
 			this.logger.warn(
-				`${method} ${url} - ${httpStatus} - ${errorMessage}`
+				`${method} ${path} - ${httpStatus} - ${errorMessage}`
 			);
 		}
 
-		const responseBody = new ApiResponseDto(
-			httpStatus,
-			{
+		const responseBody = new ApiResponseDto({
+			statusCode: httpStatus,
+			data: {
 				message: errorMessage,
 			},
-			new Date().toISOString(),
-			false,
-			url,
-		)
+			timestamp: new Date().toISOString(),
+			success: false,
+			path
+		})
 
 		httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)
 	}

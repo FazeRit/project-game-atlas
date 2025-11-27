@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { GameGenre } from '@prisma/client';
 import { GameGenreCreateDto } from '../../../../dto/request/game-genre/game-genre-create.dto';
+import { GameGenresReadService } from '../game-genres-read-service/game-genres-read.service';
 import { GameGenreUpdateDto } from '../../../../dto/request/game-genre/game-genre-update.dto';
-import { IGameGenreReadRepository } from '../../../../repositories/genres/game-genres/abstracts/igame-genre-read.repository';
 import { IGameGenreWriteRepository } from '../../../../repositories/genres/game-genres/abstracts/igame-genre-write.repository';
 
 @Injectable()
 export class GameGenresWriteService {
 	constructor(
-		private readonly gameGenreReadRepository: IGameGenreReadRepository,
+		private readonly gameGenresReadService: GameGenresReadService,
 		private readonly gameGenreWriteRepository: IGameGenreWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class GameGenresWriteService {
 	}
 
 	async update(checksum: string, data: GameGenreUpdateDto): Promise<GameGenre> {
-		const existingGameGenre = await this.gameGenreReadRepository.findById(checksum);
+		const existingGameGenre = await this.gameGenresReadService.findById(checksum);
 
 		if (!existingGameGenre) {
 			throw new BadRequestException('Game genre not found');
@@ -39,7 +39,7 @@ export class GameGenresWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingGameGenre = await this.gameGenreReadRepository.findById(checksum);
+		const existingGameGenre = await this.gameGenresReadService.findById(checksum);
 
 		if (!existingGameGenre) {
 			throw new BadRequestException('Game genre not found');

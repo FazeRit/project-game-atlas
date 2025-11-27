@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUserReadRepository } from '../abstracts/iuser-read.repository';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { User } from '@prisma/client';
@@ -15,18 +15,28 @@ export class UserReadRepository implements IUserReadRepository {
 		})
 	}
 
-	async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
+	async findByEmail(email: string): Promise<User | null> {
 		return this.prisma.user.findFirst({
 			where: {
-				OR: [
-					{
-						username
-					},
-					{
-						email
-					}
-				]
+				email
 			}
 		})
 	}
+
+	async getTasteProfile(checksum: string): Promise<Record<string, number>> {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                checksum
+            },
+            select: {
+                tasteVector: true
+            }
+        });
+
+        if (!user?.tasteVector) {
+            throw new NotFoundException(`Not found taste vector of user ${checksum}`);
+        }
+
+        return user.tasteVector as Record<string, number>;
+    }
 }

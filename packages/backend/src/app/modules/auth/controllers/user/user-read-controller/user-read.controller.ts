@@ -8,7 +8,7 @@ export class UserReadController {
 	constructor(private readonly userReadService: UserReadService) {}
 
 	@Get()
-	async findOne(@GetUser('checksum') userId: string): Promise<UserResponseDto | null> {
+	async findById(@GetUser('checksum') userId: string): Promise<UserResponseDto | null> {
 		return this.userReadService.findById(userId);
 	}
 }

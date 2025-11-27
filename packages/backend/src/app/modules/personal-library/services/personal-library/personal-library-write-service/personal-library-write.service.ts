@@ -1,17 +1,23 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { IPersonalLibraryReadRepository } from '../../../repositories/personal-library/abstracts/ipersonal-library-read.repository';
 import { IPersonalLibraryWriteRepository } from '../../../repositories/personal-library/abstracts/ipersonal-library-write.repository';
 import { PersonalLibrary } from '@prisma/client';
 import { PersonalLibraryCreateDto, PersonalLibraryUpdateDto } from '../../../dto';
+import { PersonalLibraryReadService } from '../personal-library-read-service/personal-library-read.service';
 
 @Injectable()
 export class PersonalLibraryWriteService {
 	constructor(
-		private readonly personalLibraryReadRepository: IPersonalLibraryReadRepository,
+		private readonly personalLibraryReadService: PersonalLibraryReadService,
 		private readonly personalLibraryWriteRepository: IPersonalLibraryWriteRepository,
 	) {}
 
 	async create(data: PersonalLibraryCreateDto): Promise<PersonalLibrary> {
+		const existingPersonalLibrary = await this.personalLibraryReadService.findByUserId(data.userId);
+
+		if (existingPersonalLibrary) {
+			throw new BadRequestException('Personal library already exists for this user');
+		}
+
 		const personalLibrary = await this.personalLibraryWriteRepository.create(data);
 
 		if (!personalLibrary) {
@@ -22,7 +28,7 @@ export class PersonalLibraryWriteService {
 	}
 
 	async update(userId: string, data: PersonalLibraryUpdateDto): Promise<PersonalLibrary> {
-		const existingPersonalLibrary = await this.personalLibraryReadRepository.findByUserId(userId);
+		const existingPersonalLibrary = await this.personalLibraryReadService.findByUserId(userId);
 
 		if (!existingPersonalLibrary) {
 			throw new BadRequestException('Personal library not found');
@@ -38,7 +44,7 @@ export class PersonalLibraryWriteService {
 	}
 
 	async delete(userId: string): Promise<void> {
-		const existingPersonalLibrary = await this.personalLibraryReadRepository.findByUserId(userId);
+		const existingPersonalLibrary = await this.personalLibraryReadService.findByUserId(userId);
 
 		if (!existingPersonalLibrary) {
 			throw new BadRequestException('Personal library not found');

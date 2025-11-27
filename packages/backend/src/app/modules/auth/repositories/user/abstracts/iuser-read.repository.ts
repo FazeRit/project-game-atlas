@@ -2,5 +2,6 @@ import { IReadRepository } from '../../../../../shared/repositories/iread.reposi
 import { User } from '@prisma/client';
 
 export abstract class IUserReadRepository extends IReadRepository<User> {
-    abstract findByUsernameOrEmail(username: string, email: string): Promise<User | null>;
+    abstract findByEmail(email: string): Promise<User | null>;
+    abstract getTasteProfile(userId: string): Promise<Record<string, number>>;
 }

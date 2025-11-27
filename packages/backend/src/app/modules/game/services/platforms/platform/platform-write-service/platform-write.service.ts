@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { IPlatformReadRepository } from '../../../../repositories/platforms/platform/abstracts/iplatform-read.repository';
 import { IPlatformWriteRepository } from '../../../../repositories/platforms/platform/abstracts/iplatform-write.repository';
 import { Platform } from '@prisma/client';
 import { PlatformCreateDto } from '../../../../dto/request/platform/platform-create.dto';
+import { PlatformReadService } from '../platform-read-service/platform-read.service';
 import { PlatformUpdateDto } from '../../../../dto/request/platform/platform-update.dto';
 
 @Injectable()
 export class PlatformWriteService {
 	constructor(
-		private readonly platformReadRepository: IPlatformReadRepository,
+		private readonly platformReadService: PlatformReadService,
 		private readonly platformWriteRepository: IPlatformWriteRepository,
 	) {}
 
@@ -23,7 +23,7 @@ export class PlatformWriteService {
 	}
 
 	async update(checksum: string, data: PlatformUpdateDto): Promise<Platform> {
-		const existingPlatform = await this.platformReadRepository.findById(checksum);
+		const existingPlatform = await this.platformReadService.findById(checksum);
 
 		if (!existingPlatform) {
 			throw new BadRequestException('Platform not found');
@@ -39,7 +39,7 @@ export class PlatformWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingPlatform = await this.platformReadRepository.findById(checksum);
+		const existingPlatform = await this.platformReadService.findById(checksum);
 
 		if (!existingPlatform) {
 			throw new BadRequestException('Platform not found');

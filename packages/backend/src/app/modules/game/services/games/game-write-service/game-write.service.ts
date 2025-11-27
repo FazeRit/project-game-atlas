@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Game } from '@prisma/client';
 import { GameCreateDto } from '../../../dto/request/game/game-create.dto';
+import { GameReadService } from '../game-read-service/game-read.service';
 import { GameUpdateDto } from '../../../dto/request/game/game-update.dto';
-import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
 import { IGameWriteRepository } from '../../../repositories/games/abstracts/igame-write.repository';
 
 @Injectable()
 export class GameWriteService {
 	constructor(
-		private readonly gameReadRepository: IGameReadRepository,
+		private readonly gameReadService: GameReadService,
 		private readonly gameWriteRepository: IGameWriteRepository,
 	) {}
 
@@ -23,11 +23,7 @@ export class GameWriteService {
 	}
 
 	async update(checksum: string, data: GameUpdateDto): Promise<Game> {
-		const existingGame = await this.gameReadRepository.findById(checksum);
-
-		if (!existingGame) {
-			throw new BadRequestException('Game not found');
-		}
+		await this.gameReadService.findById(checksum);
 
 		const updatedGame = await this.gameWriteRepository.update(checksum, data);
 
@@ -39,11 +35,7 @@ export class GameWriteService {
 	}
 
 	async delete(checksum: string): Promise<void> {
-		const existingGame = await this.gameReadRepository.findById(checksum);
-
-		if (!existingGame) {
-			throw new BadRequestException('Game not found');
-		}
+		await this.gameReadService.findById(checksum);
 
 		await this.gameWriteRepository.delete(checksum);
 	}

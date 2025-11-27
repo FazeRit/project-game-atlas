@@ -1,10 +1,15 @@
 import { Exclude, Expose } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class PlatformTypeCreateDto {
+	@IsOptional()
+	@IsString()
 	@Expose()
 	checksum?: string;
 
+	@IsString()
+	@IsNotEmpty()
 	@Expose()
 	name: string;
 

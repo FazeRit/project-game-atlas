@@ -21,7 +21,10 @@ export class PersonalLibraryWriteController {
         @GetUser('checksum') userId: string,
         @Body() data: PersonalLibraryCreateDto,
     ): Promise<PersonalLibrary> {
-		return this.personalLibraryWriteService.create({ ...data, userId });
+		return this.personalLibraryWriteService.create({
+			...data,
+			userId
+		});
 	}
 
 	@Put()
