@@ -7,8 +7,6 @@ import {
 	GAME_PROVIDERS,
 	GENRES_PROVIDERS,
 	KEYWORDS_PROVIDERS,
-	PLATFORM_PROVIDERS,
-	PLATFORM_TYPES_PROVIDERS,
 	SCREENSHOTS_PROVIDERS
 } from './providers';
 import { CompanyReadService } from './services/companies/company/company-read-service/company-read.service';
@@ -30,16 +28,9 @@ import { GenreWriteService } from './services/genres/genres/genres-write-service
 import { KeywordReadService } from './services/keywords/keywords/keywords-read-service/keyword-read.service';
 import { KeywordWriteService } from './services/keywords/keywords/keywords-write-service/keyword-write.service';
 import { Module } from '@nestjs/common';
-import { PlatformReadService } from './services/platforms/platform/platform-read-service/platform-read.service';
-import { PlatformTypeReadService } from './services/platforms/platform-type/platform-type-read-service/platform-type-read.service';
-import { PlatformTypeWriteService } from './services/platforms/platform-type/platform-type-write-service/platform-type-write.service';
-import { PlatformWriteService } from './services/platforms/platform/platform-write-service/platform-write.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ScreenshotsReadService } from './services/screenshots/screenshots-read-service/screenshots-read.service';
 import { ScreenshotsWriteService } from './services/screenshots/screenshots-write-service/screenshots-write.service';
-import { GAME_PLATFORM_PROVIDERS } from './providers/platforms/game-platform.providers';
-import { GamePlatformsReadService } from './services/platforms/game-platforms/game-platforms-read-service/game-platforms-read.service';
-import { GamePlatformsWriteService } from './services/platforms/game-platforms/game-platforms-write-service/game-platforms-write.service';
 
 @Module({
 	imports: [
@@ -49,9 +40,6 @@ import { GamePlatformsWriteService } from './services/platforms/game-platforms/g
 		GameReadController,
 	],
 	providers: [
-		...GAME_PLATFORM_PROVIDERS,
-		...PLATFORM_TYPES_PROVIDERS,
-		...PLATFORM_PROVIDERS,
 		...COMPANIES_PROVIDERS,
 		...GENRES_PROVIDERS,
 		...KEYWORDS_PROVIDERS,
@@ -63,12 +51,6 @@ import { GamePlatformsWriteService } from './services/platforms/game-platforms/g
 		...GAME_PROVIDERS,
 	],
 	exports: [
-		GamePlatformsReadService,
-		GamePlatformsWriteService,
-		PlatformTypeReadService,
-		PlatformTypeWriteService,
-		PlatformReadService,
-		PlatformWriteService,
 		CompanyReadService,
 		CompanyWriteService,
 		GenreReadService,

@@ -3,7 +3,6 @@ import { CoverResponseDto } from '../covers/cover.dto';
 import { Exclude, Expose, Type } from 'class-transformer';
 import { GenreResponseDto } from '../genres/genre.dto';
 import { KeywordResponseDto } from '../keywords/keyword.dto';
-import { PlatformResponseDto } from '../platform/platform.dto';
 import { ScreenshotsResponseDto } from '../screenshots/screenshots.dto';
 
 @Exclude()
@@ -57,10 +56,6 @@ export class GameDetailsResponseDto {
 	}>;
 
 	@Expose()
-	@Type(() => PlatformResponseDto)
-	platforms: Array<PlatformResponseDto>;
-
-	@Expose()
 	createdAt: Date;
 
 	@Expose()
@@ -85,7 +80,6 @@ export class GameDetailsResponseDto {
 			supporting: boolean;
 			company: CompanyResponseDto;
 		}>,
-		platforms: Array<PlatformResponseDto>,
 		createdAt: Date,
 		updatedAt: Date
 	) {
@@ -102,7 +96,6 @@ export class GameDetailsResponseDto {
 		this.genres = genres;
 		this.keywords = keywords;
 		this.companies = companies;
-		this.platforms = platforms;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

@@ -19,11 +19,6 @@ export type GameWithDetails = Prisma.GameGetPayload<{
 				company: true;
 			};
 		};
-		gamePlatforms: {
-			include: {
-				platform: true;
-			};
-		};
 	};
 }>;
 

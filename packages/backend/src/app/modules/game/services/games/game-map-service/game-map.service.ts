@@ -5,7 +5,6 @@ import { GameWithDetails } from '../../../types/game/game-with-details.type';
 import { GenreResponseDto } from '../../../dto/response/genres/genre.dto';
 import { Injectable } from '@nestjs/common';
 import { KeywordResponseDto } from '../../../dto/response/keywords/keyword.dto';
-import { PlatformResponseDto } from '../../../dto/response/platform/platform.dto';
 import { ScreenshotsResponseDto } from '../../../dto/response/screenshots/screenshots.dto';
 
 @Injectable()
@@ -65,17 +64,6 @@ export class GameMapService {
 			)
 		}));
 
-		const platformsDto = game.gamePlatforms.map(gamePlatform => new PlatformResponseDto(
-			gamePlatform.platform.checksum,
-			gamePlatform.platform.platformTypeId,
-			gamePlatform.platform.abbreviation,
-			gamePlatform.platform.name,
-			gamePlatform.platform.alternativeName,
-			gamePlatform.platform.summary,
-			gamePlatform.platform.createdAt,
-			gamePlatform.platform.updatedAt
-		));
-
 		return new GameDetailsResponseDto(
 			game.checksum,
 			game.name,
@@ -90,7 +78,6 @@ export class GameMapService {
 			genresDto,
 			keywordsDto,
 			companiesDto,
-			platformsDto,
 			game.createdAt,
 			game.updatedAt
 		);

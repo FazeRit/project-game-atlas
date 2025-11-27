@@ -32,11 +32,6 @@ export class GameReadRepository implements IGameReadRepository {
 						company: true
 					}
 				},
-				gamePlatforms: {
-					include: {
-						platform: true
-					}
-				},
 			},
 		});
 	}
@@ -72,11 +67,6 @@ export class GameReadRepository implements IGameReadRepository {
 						company: true
 					}
 				},
-				gamePlatforms: {
-					include: {
-						platform: true
-					}
-				},
 			},
 			skip,
 			take: limit,
@@ -84,7 +74,10 @@ export class GameReadRepository implements IGameReadRepository {
 		});
 	}
 
-	async count(filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<number> {
+	async count(
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number> {
 		const where = GameWhereBuilder.build(filters, search);
 		return this.prisma.game.count({ where });
 	}

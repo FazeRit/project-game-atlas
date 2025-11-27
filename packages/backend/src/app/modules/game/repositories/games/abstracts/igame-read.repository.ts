@@ -11,5 +11,8 @@ export abstract class IGameReadRepository extends IReadRepository<GameWithDetail
 		sort?: Record<string, unknown>
 	): Promise<Array<GameWithDetails>>;
 
-	abstract count(filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<number>;
+	abstract count(
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number>;
 }

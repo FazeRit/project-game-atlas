@@ -26,7 +26,6 @@ model Game {
     gameKeywords         GameKeyword[]
 
     gameCompanies        GameCompany[]
-    gamePlatforms        GamePlatform[]
 
 	personalLibraryGames PersonalLibraryGame[]
 
@@ -185,50 +184,6 @@ model Otp {
     updatedAt            DateTime @updatedAt @map("updated_at")
 
     @@map("otps")
-}
-
-model GamePlatform {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    platformId           String   @map("platform_id")
-
-    game                 Game     @relation(fields: [gameId], references: [checksum])
-    platform             Platform @relation(fields: [platformId], references: [checksum])
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("game_platforms")
-}
-
-model Platform {
-    checksum             String   @id @default(uuid())
-    platformTypeId       String   @map("platform_type_id")
-
-    abbreviation         String?
-    name                 String
-    alternativeName      String   @map("alternative_name")
-    summary              String?
-
-    gamePlatforms        GamePlatform[]
-    platformType         PlatformType   @relation(fields: [platformTypeId ], references: [checksum])
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("platforms")
-}
-
-model PlatformType {
-    checksum             String   @id @default(uuid())
-    name                 String
-
-    platforms            Platform[]
-
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
-
-    @@map("platform_types")
 }
 
 model PersonalLibraryGame {
