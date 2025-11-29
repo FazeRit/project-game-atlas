@@ -14,6 +14,7 @@ import { SearchParams } from '../../../../../shared/decorators/pagination/search
 import { SortParams } from '../../../../../shared/decorators/pagination/sort-params.decorator';
 import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
+import { PaginateGameResponseDto } from '../../../dto';
 
 @Controller('games')
 export class GameReadController {
@@ -41,7 +42,7 @@ export class GameReadController {
 		@Query() filtersDto: GameFiltersDto,
 		@SearchParams(['name']) search?: Record<string, unknown>,
 		@SortParams(['createdAt', 'updatedAt', 'name', 'totalRating', 'totalRatingCount']) sort?: Record<string, unknown>,
-	): Promise<ApiResponseDto<Array<GameDetailsResponseDto>, PaginationMetaDto>> {
+	): Promise<ApiResponseDto<Array<PaginateGameResponseDto>, PaginationMetaDto>> {
 		const filters = new GameFiltersDto({
 			genres: filtersDto?.genres,
 			keywords: filtersDto?.keywords,

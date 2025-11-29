@@ -14,5 +14,9 @@ export class GenreReadRepository implements IGenreReadRepository {
 			}
 		});
 	}
+
+	async findAll(): Promise<Array<Genre>> {
+		return this.prisma.genre.findMany();
+	}
 }
 

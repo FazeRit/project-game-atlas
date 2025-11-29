@@ -1,6 +1,6 @@
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { GameWhereBuilder } from '../../../utils/game-where-builder.util';
-import { GameWithDetails } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game-with-details.type';
 import { IGameReadRepository } from '../abstracts/igame-read.repository';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
@@ -9,7 +9,7 @@ import { PrismaService } from '../../../../prisma/prisma.service';
 export class GameReadRepository implements IGameReadRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async findById(checksum: string): Promise<GameWithDetails | null> {
+	async findById(checksum: string): Promise<TGameWithDetails | null> {
 		return this.prisma.game.findUnique({
 			where: {
 				checksum
@@ -42,7 +42,7 @@ export class GameReadRepository implements IGameReadRepository {
 		filters?: GameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<Array<GameWithDetails>> {
+	): Promise<Array<TPaginateGameDto>> {
 		const where = GameWhereBuilder.build(filters, search);
 
 		const skip = (page - 1) * limit;
@@ -50,21 +50,15 @@ export class GameReadRepository implements IGameReadRepository {
 		return this.prisma.game.findMany({
 			where,
 			include: {
-				cover: true,
+				cover: {
+					select: {
+						url: true
+					}
+				},
 				screenshots: true,
 				gameGenres: {
 					include: {
 						genre: true
-					}
-				},
-				gameKeywords: {
-					include: {
-						keyword: true
-					}
-				},
-				gameCompanies: {
-					include: {
-						company: true
 					}
 				},
 			},

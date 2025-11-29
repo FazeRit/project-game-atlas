@@ -1,15 +1,16 @@
 import { CompanyResponseDto } from '../../../dto/response/company/company.dto';
 import { CoverResponseDto } from '../../../dto/response/covers/cover.dto';
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
-import { GameWithDetails } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game-with-details.type';
 import { GenreResponseDto } from '../../../dto/response/genres/genre.dto';
 import { Injectable } from '@nestjs/common';
 import { KeywordResponseDto } from '../../../dto/response/keywords/keyword.dto';
 import { ScreenshotsResponseDto } from '../../../dto/response/screenshots/screenshots.dto';
+import { PaginateGameResponseDto } from '../../../dto';
 
 @Injectable()
 export class GameMapService {
-	toGameDetailsDto(game: GameWithDetails): GameDetailsResponseDto {
+	toGameDetailsDto(game: TGameWithDetails): GameDetailsResponseDto {
 		const coverDto = game.cover ? new CoverResponseDto(
 			game.cover.checksum,
 			game.cover.gameId,
@@ -82,5 +83,23 @@ export class GameMapService {
 			game.updatedAt
 		);
 	}
-}
 
+	toPaginateGameDto(game: TPaginateGameDto): PaginateGameResponseDto {
+		return new PaginateGameResponseDto({
+			checksum: game.checksum,
+			name: game.name,
+			summary: game.summary,
+			storyline: game.storyline,
+			totalRating: game.totalRating,
+			totalRatingCount: game.totalRatingCount,
+			url: game.url,
+			firstReleaseDate: game.firstReleaseDate,
+			coverUrl: game.cover?.url || null,
+			genres: game.gameGenres.map(gameGenre => new GenreResponseDto(
+				gameGenre.genre.checksum, gameGenre.genre.name, gameGenre.genre.slug, gameGenre.genre.createdAt, gameGenre.genre.updatedAt
+			)),
+			createdAt: game.createdAt,
+			updatedAt: game.updatedAt,
+		});
+	}
+}

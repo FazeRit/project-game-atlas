@@ -5,6 +5,7 @@ import { IGameReadRepository } from '../../../repositories/games/abstracts/igame
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
+import { PaginateGameResponseDto } from '../../../dto';
 
 @Injectable()
 export class GameReadService {
@@ -29,7 +30,7 @@ export class GameReadService {
 		filters?: GameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<PaginatedResponseDto<GameDetailsResponseDto, PaginationMetaDto>> {
+	): Promise<PaginatedResponseDto<PaginateGameResponseDto, PaginationMetaDto>> {
 		const [games, totalItems] = await Promise.all([
 			this.gameReadRepository.findAll(page, limit, filters, search, sort),
 			this.gameReadRepository.count(filters, search),
@@ -46,7 +47,9 @@ export class GameReadService {
 		meta.hasNext = page < totalPages;
 		meta.hasPrev = page > 1;
 
-		const data = games.map(game => this.gameMapService.toGameDetailsDto(game));
+		const data = games.map(
+			game => this.gameMapService.toPaginateGameDto(game)
+		);
 
 		return {
 			data,

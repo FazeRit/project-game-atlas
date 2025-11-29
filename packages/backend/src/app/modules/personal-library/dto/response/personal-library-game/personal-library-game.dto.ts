@@ -19,32 +19,33 @@ export class PersonalLibraryGameResponseDto {
 	rank: ETierRank;
 
 	@Expose()
-	note?: string;
-
-	@Expose()
 	createdAt: Date;
 
 	@Expose()
 	updatedAt: Date;
 
+	@Expose()
+	note?: string;
+
 	constructor(
-		checksum: string,
-		gameId: string,
-		personalLibraryId: string,
-		status: EPlayStatus,
-		rank: ETierRank,
-		createdAt: Date,
-		updatedAt: Date,
-		note?: string
+		data: {
+            checksum: string,
+            gameId: string,
+            personalLibraryId: string,
+            status: EPlayStatus,
+            rank: ETierRank,
+            createdAt: Date,
+            updatedAt: Date,
+            note?: string
+        }
 	) {
-		this.checksum = checksum;
-		this.gameId = gameId;
-		this.personalLibraryId = personalLibraryId;
-		this.status = status;
-		this.rank = rank;
-		this.note = note;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+		this.checksum = data.checksum;
+		this.gameId = data.gameId;
+		this.personalLibraryId = data.personalLibraryId;
+		this.status = data.status;
+		this.rank = data.rank;
+		this.createdAt = data.createdAt;
+		this.updatedAt = data.updatedAt;
+		this.note = data.note ?? undefined;
 	}
 }
-

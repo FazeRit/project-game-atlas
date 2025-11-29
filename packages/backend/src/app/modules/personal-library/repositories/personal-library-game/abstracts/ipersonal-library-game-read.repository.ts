@@ -1,8 +1,8 @@
 import { IReadRepository } from '../../../../../shared/repositories/iread.repository';
 import { PersonalLibraryGameFiltersDto } from '../../../dto/request/personal-library-game/personal-library-game-filters.dto';
-import { PersonalLibraryGameWithDetails } from '../../../types/personal-library-game/personal-library-game-with-details.type';
+import { TPersonalLibraryGameWithDetails, TPaginatePersonalLibraryGameDto } from '../../../types/personal-library-game/personal-library-game-with-details.type';
 
-export abstract class IPersonalLibraryGameReadRepository extends IReadRepository<PersonalLibraryGameWithDetails> {
+export abstract class IPersonalLibraryGameReadRepository extends IReadRepository<TPersonalLibraryGameWithDetails> {
 	abstract findAll(
 		userId: string,
 		page: number,
@@ -10,8 +10,13 @@ export abstract class IPersonalLibraryGameReadRepository extends IReadRepository
 		filters?: PersonalLibraryGameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<Array<PersonalLibraryGameWithDetails>>;
-	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<PersonalLibraryGameWithDetails | null>;
-	abstract findByUserIdAndId(userId: string, checksum: string): Promise<PersonalLibraryGameWithDetails | null>;
+	): Promise<Array<TPaginatePersonalLibraryGameDto>>;
+	abstract count(
+		userId: string,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number>;
+	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null>;
+	abstract findByUserIdAndId(userId: string, checksum: string): Promise<TPersonalLibraryGameWithDetails | null>;
 }
 

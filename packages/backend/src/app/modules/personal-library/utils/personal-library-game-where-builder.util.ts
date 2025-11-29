@@ -2,7 +2,11 @@ import { PersonalLibraryGameFiltersDto } from '../dto/request/personal-library-g
 import { Prisma } from '@prisma/client';
 
 export class PersonalLibraryGameWhereBuilder {
-	static build(userId: string, filters?: PersonalLibraryGameFiltersDto, search?: Record<string, unknown>): Prisma.PersonalLibraryGameWhereInput {
+	static build(
+		userId: string,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>
+	): Prisma.PersonalLibraryGameWhereInput {
 		const where: Prisma.PersonalLibraryGameWhereInput = {
 			personalLibrary: {
 				userId

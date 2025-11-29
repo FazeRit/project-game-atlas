@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export type GameWithDetails = Prisma.GameGetPayload<{
+export type TGameWithDetails = Prisma.GameGetPayload<{
 	include: {
 		cover: true;
 		screenshots: true;
@@ -22,3 +22,18 @@ export type GameWithDetails = Prisma.GameGetPayload<{
 	};
 }>;
 
+
+export type TPaginateGameDto = Prisma.GameGetPayload<{
+	include: {
+		cover: {
+			select: {
+				url: true,
+			},
+		};
+		gameGenres: {
+			include: {
+				genre: true;
+			};
+		};
+	};
+}>;
