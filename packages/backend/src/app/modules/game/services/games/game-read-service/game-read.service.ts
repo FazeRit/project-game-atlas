@@ -1,11 +1,11 @@
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
-import { GameMapService } from '../game-map-service/game-map.service';
 import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 import { PaginateGameResponseDto } from '../../../dto';
+import { GameMapService } from '../game-map-service/game-map.service';
 
 @Injectable()
 export class GameReadService {

@@ -1,4 +1,4 @@
-export interface IKeyword {
+export interface IKeywordResponse {
     checksum: string;
     name: string;
     slug: string;

@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query"
 import { getUser } from "../../api"
 import { useUserStore } from "../store";
-import { IUser } from "../interfaces";
+import { IUserResponseDto } from "../dto/user-response.dto";
+import { IApiResponse } from "@/shared";
 
 export const useGetUser = () => {
     const {
         isAuthenticated
     } = useUserStore();
 
-    return useQuery<IUser, Error>({
+    return useQuery<IApiResponse<IUserResponseDto>>({
         queryKey: ['user'],
-        queryFn: getUser,
+        queryFn: () => getUser(),
         enabled: isAuthenticated,
     });
 }

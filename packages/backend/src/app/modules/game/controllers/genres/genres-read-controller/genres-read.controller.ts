@@ -10,7 +10,7 @@ import { GenreReadService } from '../../../services/genres/genres/genres-read-se
 
 @Controller('genres')
 export class GenreReadController {
-	constructor(private readonly genreReadService: GenreReadService) {}
+	constructor(private readonly genreReadService: GenreReadService) { }
 
 	@Public()
 	@Get()

@@ -3,3 +3,6 @@ export * from './input';
 export * from './label';
 export * from './input-otp';
 export * from './sheet';
+export * from './pagination';
+export * from './popover';
+export * from './drawer';

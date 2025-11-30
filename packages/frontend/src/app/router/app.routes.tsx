@@ -8,9 +8,9 @@ import { ForgotPasswordPageAsync } from '@/pages/auth/forgot-password';
 import { VerifyForgotPasswordPageAsync } from '@/pages/auth/verify-forgot-password';
 import { ResetPasswordPageAsync } from '@/pages/auth/reset-password';
 import { PageLoader } from '@/shared/components';
-import { MyLibraryPageAsync } from '@/pages/my-library';
 import { ProfilePageAsync } from '@/pages/profile';
 import { RankingsPageAsync } from '@/pages/rankings';
+import { PersonalLibraryPageAsync } from '@/pages/personal-library';
 
 export const AppRoutes = () => {
     return (
@@ -26,7 +26,7 @@ export const AppRoutes = () => {
 
                 <Route element={<ProtectedRoute />}> 
                     <Route path={ROUTES.PROFILE_INIT} element={<div>profile init</div>} />
-                    <Route path={ROUTES.MY_LIBRARY} element={<MyLibraryPageAsync />} />
+                    <Route path={ROUTES.PERSONAL_LIBRARY} element={<PersonalLibraryPageAsync />} />
                     <Route path={ROUTES.PROFILE} element={<ProfilePageAsync />} />
                     <Route path={ROUTES.RANKINGS} element={<RankingsPageAsync />} />
                     <Route path={ROUTES.COMPATIBILITY} element={<div>compatibility</div>} />

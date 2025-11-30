@@ -1,4 +1,4 @@
-export interface IGenre {
+export interface IGenreResponse {
     checksum: string;
     name: string;
     slug: string;

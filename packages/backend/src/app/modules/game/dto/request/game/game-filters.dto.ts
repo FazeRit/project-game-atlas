@@ -43,9 +43,9 @@ export class GameFiltersDto {
 	constructor(data?: {
 		genres?: Array<string>;
 		keywords?: Array<string>;
+		userId?: string;
 	}) {
 		this.genres = data?.genres;
 		this.keywords = data?.keywords;
 	}
 }
-

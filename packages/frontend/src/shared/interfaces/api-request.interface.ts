@@ -1,8 +1,8 @@
 import { ESortOrder } from "../enums";
 
-export interface IApiBasePaginateDto<TSearchField, TSortField extends string> {
+export interface IApiBasePaginateDto<TSortField extends string> {
     page: number;
     limit: number;
-    searchQuery?: TSearchField;
+    searchQuery?: string;
     sort?: `${TSortField}:${ESortOrder}`;
 } 

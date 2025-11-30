@@ -1,7 +1,7 @@
 import { IApiBasePaginateDto } from "@/shared"
-import { TCatalogGameSearchField, TCatalogGameSortField } from "../types"
+import { ECatalogGameSortField } from "../enums"
 
-export interface IGetCatalogGamesRequestDto extends IApiBasePaginateDto<TCatalogGameSearchField, TCatalogGameSortField> {
-    genres: Array<string>
-    keywords: Array<string>
+export interface IGetCatalogGamesRequestDto extends IApiBasePaginateDto<ECatalogGameSortField> {
+    genres?: Array<string>
+    keywords?: Array<string>
 }

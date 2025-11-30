@@ -25,19 +25,23 @@ import { GameReadService } from './services/games/game-read-service/game-read.se
 import { GameWriteService } from './services/games/game-write-service/game-write.service';
 import { GenreReadService } from './services/genres/genres/genres-read-service/genre-read.service';
 import { GenreWriteService } from './services/genres/genres/genres-write-service/genre-write.service';
-import { KeywordReadService } from './services/keywords/keywords/keywords-read-service/keyword-read.service';
-import { KeywordWriteService } from './services/keywords/keywords/keywords-write-service/keyword-write.service';
+import { KeywordsWriteService } from './services/keywords/keywords/keywords-write-service/keywords-write.service';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ScreenshotsReadService } from './services/screenshots/screenshots-read-service/screenshots-read.service';
 import { ScreenshotsWriteService } from './services/screenshots/screenshots-write-service/screenshots-write.service';
+import { GenreReadController } from './controllers/genres/genres-read-controller/genres-read.controller';
+import { KeywordsReadService } from './services/keywords/keywords/keywords-read-service/keywords-read.service';
+import { KeywordsReadController } from './controllers/keywords/keywords-read-controller/keywords-read.controller';
 
 @Module({
 	imports: [
 		PrismaModule,
 	],
 	controllers: [
+		GenreReadController,
 		GameReadController,
+		KeywordsReadController
 	],
 	providers: [
 		...COMPANIES_PROVIDERS,
@@ -55,8 +59,8 @@ import { ScreenshotsWriteService } from './services/screenshots/screenshots-writ
 		CompanyWriteService,
 		GenreReadService,
 		GenreWriteService,
-		KeywordReadService,
-		KeywordWriteService,
+		KeywordsReadService,
+		KeywordsWriteService,
 		CoversReadService,
 		CoversWriteService,
 		ScreenshotsReadService,
@@ -73,4 +77,4 @@ import { ScreenshotsWriteService } from './services/screenshots/screenshots-writ
 	],
 })
 
-export class GameModule {}
+export class GameModule { }

@@ -1,7 +1,7 @@
 import { GameKeywordCreateDto } from '../../../game/dto';
 import { GameKeywordsWriteService } from '../../../game/services/keywords/game-keywords/game-keywords-write-service/game-keywords-write.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { KeywordReadService } from '../../../game/services/keywords/keywords/keywords-read-service/keyword-read.service';
+import { KeywordReadService } from '../../../game/services/keywords/keywords/keywords-read-service/keywords-read.service';
 import { SEEDING_LOGGER_PREFIXES } from '../../const/seeding-logger.const';
 
 @Injectable()
@@ -9,10 +9,10 @@ export class GameKeywordsSeeder {
 	private readonly logger = new Logger(GameKeywordsSeeder.name);
 	private readonly prefix = SEEDING_LOGGER_PREFIXES.SEEDING;
 
-    constructor(
+	constructor(
 		private readonly gameKeywordsWriteService: GameKeywordsWriteService,
 		private readonly keywordReadService: KeywordReadService
-	) {}
+	) { }
 
 	async seed(gameId: string, keywordIds: string | Array<string>) {
 		if (!keywordIds) {

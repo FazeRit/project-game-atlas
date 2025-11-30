@@ -1,20 +1,32 @@
 import ControllerIcon from '@/assets/icons/controller.svg?react'
-import { memo, useCallback, useEffect, startTransition } from 'react'
+import { memo, useCallback, useEffect, startTransition, useMemo } from 'react'
 import { headerConfig } from './config'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useHeader } from './providers'
 import clsx from 'clsx';
 import { ROUTES } from '@/shared'
 import { MobileHeader } from './ui'
+import { useUserStore } from '@/entities'
 
 export const Header = memo(() => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const isAuthenticated = useUserStore(state => state.isAuthenticated)
+
     const {
         activeIndex,
         setActiveIndex
     } = useHeader();
+
+    const filteredItems = useMemo(() => {
+        return headerConfig.filter((item) => {
+            if (isAuthenticated && item.onlyGuest) return false;
+            if (!isAuthenticated && item.onlyAuth) return false;
+            
+            return true;
+        });
+    }, [isAuthenticated]);
 
     useEffect(() => {
         const currentPath = location.pathname;
@@ -65,7 +77,7 @@ export const Header = memo(() => {
             </div>
 
             <div className='hidden md:flex md:flex-row gap-6'>
-                {headerConfig.map((item) => {
+                {filteredItems.map((item) => {
                     const isActive = activeIndex === item.index;
 
                     return (

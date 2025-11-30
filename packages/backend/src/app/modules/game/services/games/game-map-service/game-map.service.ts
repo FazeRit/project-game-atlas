@@ -1,7 +1,7 @@
 import { CompanyResponseDto } from '../../../dto/response/company/company.dto';
 import { CoverResponseDto } from '../../../dto/response/covers/cover.dto';
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
-import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game.types';
 import { GenreResponseDto } from '../../../dto/response/genres/genre.dto';
 import { Injectable } from '@nestjs/common';
 import { KeywordResponseDto } from '../../../dto/response/keywords/keyword.dto';
@@ -65,26 +65,37 @@ export class GameMapService {
 			)
 		}));
 
-		return new GameDetailsResponseDto(
-			game.checksum,
-			game.name,
-			game.summary,
-			game.storyline,
-			game.totalRating,
-			game.totalRatingCount,
-			game.url,
-			game.firstReleaseDate,
-			coverDto,
-			screenshotsDto,
-			genresDto,
-			keywordsDto,
-			companiesDto,
-			game.createdAt,
-			game.updatedAt
-		);
+		return new GameDetailsResponseDto({
+			checksum: game.checksum,
+			name: game.name,
+			summary: game.summary,
+			storyline: game.storyline,
+			totalRating: game.totalRating,
+			totalRatingCount: game.totalRatingCount,
+			url: game.url,
+			firstReleaseDate: game.firstReleaseDate,
+			cover: coverDto,
+			screenshots: screenshotsDto,
+			genres: genresDto,
+			keywords: keywordsDto,
+			companies: companiesDto,
+			createdAt:game.createdAt,
+			updatedAt: game.updatedAt
+		});
 	}
 
 	toPaginateGameDto(game: TPaginateGameDto): PaginateGameResponseDto {
+		const coverDto = game.cover ? new CoverResponseDto(
+			game.cover.checksum,
+			game.cover.gameId,
+			game.cover.imageId,
+			game.cover.height ?? 0,
+			game.cover.width ?? 0,
+			game.cover.url,
+			game.cover.createdAt,
+			game.cover.updatedAt
+		) : null;
+
 		return new PaginateGameResponseDto({
 			checksum: game.checksum,
 			name: game.name,
@@ -94,7 +105,7 @@ export class GameMapService {
 			totalRatingCount: game.totalRatingCount,
 			url: game.url,
 			firstReleaseDate: game.firstReleaseDate,
-			coverUrl: game.cover?.url || null,
+			cover: coverDto ?? undefined,
 			genres: game.gameGenres.map(gameGenre => new GenreResponseDto(
 				gameGenre.genre.checksum, gameGenre.genre.name, gameGenre.genre.slug, gameGenre.genre.createdAt, gameGenre.genre.updatedAt
 			)),

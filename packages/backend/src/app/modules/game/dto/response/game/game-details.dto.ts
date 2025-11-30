@@ -4,32 +4,12 @@ import { Exclude, Expose, Type } from 'class-transformer';
 import { GenreResponseDto } from '../genres/genre.dto';
 import { KeywordResponseDto } from '../keywords/keyword.dto';
 import { ScreenshotsResponseDto } from '../screenshots/screenshots.dto';
+import { GameResponseDto } from './game.dto';
 
 @Exclude()
-export class GameDetailsResponseDto {
+export class GameDetailsResponseDto extends GameResponseDto {
 	@Expose()
-	checksum: string;
-
-	@Expose()
-	name: string;
-
-	@Expose()
-	summary?: string;
-
-	@Expose()
-	storyline?: string;
-
-	@Expose()
-	totalRating?: number;
-
-	@Expose()
-	totalRatingCount?: number;
-
-	@Expose()
-	url?: string;
-
-	@Expose()
-	firstReleaseDate?: Date;
+	inLibrary: boolean;
 
 	@Expose()
 	@Type(() => CoverResponseDto)
@@ -55,49 +35,37 @@ export class GameDetailsResponseDto {
 		company: CompanyResponseDto;
 	}>;
 
-	@Expose()
-	createdAt: Date;
-
-	@Expose()
-	updatedAt: Date;
-
 	constructor(
-		checksum: string,
-		name: string,
-		summary: string | null,
-		storyline: string | null,
-		totalRating: number | null,
-		totalRatingCount: number | null,
-		url: string | null,
-		firstReleaseDate: Date | null,
-		cover: CoverResponseDto | null,
-		screenshots: Array<ScreenshotsResponseDto>,
-		genres: Array<GenreResponseDto>,
-		keywords: Array<KeywordResponseDto>,
-		companies: Array<{
-			developer: boolean;
-			publisher: boolean;
-			supporting: boolean;
-			company: CompanyResponseDto;
-		}>,
-		createdAt: Date,
-		updatedAt: Date
+		data: {
+			checksum: string,
+			name: string,
+			summary: string | null,
+			storyline: string | null,
+			totalRating: number | null,
+			totalRatingCount: number | null,
+			url: string | null,
+			firstReleaseDate: Date | null,
+			cover: CoverResponseDto | null,
+			screenshots: Array<ScreenshotsResponseDto>,
+			genres: Array<GenreResponseDto>,
+			keywords: Array<KeywordResponseDto>,
+			companies: Array<{
+				developer: boolean;
+				publisher: boolean;
+				supporting: boolean;
+				company: CompanyResponseDto;
+			}>,
+			inLibrary: boolean,
+			createdAt: Date,
+			updatedAt: Date
+		}
 	) {
-		this.checksum = checksum;
-		this.name = name;
-		this.summary = summary || undefined;
-		this.storyline = storyline || undefined;
-		this.totalRating = totalRating || undefined;
-		this.totalRatingCount = totalRatingCount || undefined;
-		this.url = url || undefined;
-		this.firstReleaseDate = firstReleaseDate || undefined;
-		this.cover = cover || undefined;
-		this.screenshots = screenshots;
-		this.genres = genres;
-		this.keywords = keywords;
-		this.companies = companies;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+		super(data);
+		this.cover = data.cover ?? undefined;
+		this.screenshots = data.screenshots;
+		this.genres = data.genres;
+		this.keywords = data.keywords;
+		this.companies = data.companies;
+		this.inLibrary = data.inLibrary;
 	}
 }
-

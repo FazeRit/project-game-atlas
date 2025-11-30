@@ -16,7 +16,9 @@ export const HeaderLayout = memo((props: IHeaderLayoutProps) => {
             }
         >
             <Header />
-            {children}
+            <div className="px-5 md:px-[112px] py-8">
+                {children}
+            </div>
         </div>
     )
 })

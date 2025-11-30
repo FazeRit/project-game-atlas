@@ -1,8 +1,8 @@
 export enum ROUTES {
-	CATALOG = "/catalog",
-	CATALOG_ITEM = "/catalog/:checksum",
+	CATALOG = "/",
+	CATALOG_ITEM = "/:checksum",
 
-	MY_LIBRARY = "/my-library",
+	PERSONAL_LIBRARY = "/personal-library",
 	PROFILE = "/profile",
 	RANKINGS = "/rankings",
 

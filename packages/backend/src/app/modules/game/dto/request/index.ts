@@ -9,4 +9,4 @@ export * from './keywords';
 export * from './platform';
 export * from './platform-type';
 export * from './screenshots';
-
+export * from './keywords';

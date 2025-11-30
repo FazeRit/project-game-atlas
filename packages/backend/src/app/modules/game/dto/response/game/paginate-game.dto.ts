@@ -1,44 +1,17 @@
 import { Exclude, Expose, Type } from 'class-transformer';
 import { GenreResponseDto } from '../genres';
+import { GameResponseDto } from './game.dto';
+import { CoverResponseDto } from '../covers';
 
 @Exclude()
-export class PaginateGameResponseDto {
+export class PaginateGameResponseDto extends GameResponseDto {
 	@Expose()
-	checksum: string;
-
-	@Expose()
-	name: string;
-
-	@Expose()
-	summary?: string;
-
-	@Expose()
-	storyline?: string;
-
-	@Expose()
-	totalRating?: number;
-
-	@Expose()
-	totalRatingCount?: number;
-
-	@Expose()
-	url?: string;
-
-	@Expose()
-	firstReleaseDate?: Date;
-
-	@Expose()
-	coverUrl?: string;
+	@Type(() => CoverResponseDto)
+	cover?: CoverResponseDto;
 
 	@Expose()
 	@Type(() => GenreResponseDto)
 	genres: Array<GenreResponseDto>;
-
-	@Expose()
-	createdAt: Date;
-
-	@Expose()
-	updatedAt: Date;
 
 	constructor(
 		data: {
@@ -50,24 +23,14 @@ export class PaginateGameResponseDto {
 			totalRatingCount: number | null,
 			url: string | null,
 			firstReleaseDate: Date | null,
-			coverUrl: string | null,
+			cover?: CoverResponseDto,
 			genres: Array<GenreResponseDto>,
 			createdAt: Date,
 			updatedAt: Date
 		}
 	) {
-		this.checksum = data.checksum;
-		this.name = data.name;
-		this.summary = data.summary || undefined;
-		this.storyline = data.storyline || undefined;
-		this.totalRating = data.totalRating || undefined;
-		this.totalRatingCount = data.totalRatingCount || undefined;
-		this.url = data.url || undefined;
-		this.firstReleaseDate = data.firstReleaseDate || undefined;
-		this.coverUrl = data.coverUrl || undefined;
+		super(data);
+		this.cover = data.cover;
 		this.genres = data.genres;
-		this.createdAt = data.createdAt;
-		this.updatedAt = data.updatedAt;
 	}
 }
-

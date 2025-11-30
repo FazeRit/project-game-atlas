@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, startTransition } from "react";
+import { memo, useCallback, useEffect, startTransition, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { headerConfig } from "../../config";
 import { useHeader } from "../../providers";
@@ -8,15 +8,27 @@ import clsx from "clsx";
 import { Button } from "@/shared/components/ui/button/button.component";
 import ControllerIcon from '@/assets/icons/controller.svg?react'
 import { ROUTES } from "@/shared";
+import { useUserStore } from "@/entities";
 
 export const MobileHeader = memo(() => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const isAuthenticated = useUserStore(state => state.isAuthenticated)
+
     const {
         activeIndex,
         setActiveIndex
     } = useHeader();
+
+    const filteredItems = useMemo(() => {
+        return headerConfig.filter((item) => {
+            if (isAuthenticated && item.onlyGuest) return false;
+            if (!isAuthenticated && item.onlyAuth) return false;
+            
+            return true;
+        });
+    }, [isAuthenticated]);
 
     useEffect(() => {
         const currentPath = location.pathname;
@@ -76,7 +88,7 @@ export const MobileHeader = memo(() => {
                 </div>
 
                 <div className="flex flex-col space-y-1 p-2">
-                    {headerConfig.map((item) => {
+                    {filteredItems.map((item) => {
                         const isActive = activeIndex === item.index;
 
                         return (

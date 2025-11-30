@@ -1,18 +1,24 @@
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { GameWhereBuilder } from '../../../utils/game-where-builder.util';
-import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game.types';
 import { IGameReadRepository } from '../abstracts/igame-read.repository';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 
 @Injectable()
 export class GameReadRepository implements IGameReadRepository {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(private readonly prisma: PrismaService) { }
 
-	async findById(checksum: string): Promise<TGameWithDetails | null> {
+	async findById(
+		checksum: string,
+		userId: string
+	): Promise<TGameWithDetails | null> {
 		return this.prisma.game.findUnique({
 			where: {
-				checksum
+				checksum,
+				personalLibraryGames: {
+					
+				}
 			},
 			include: {
 				cover: true,
@@ -50,11 +56,7 @@ export class GameReadRepository implements IGameReadRepository {
 		return this.prisma.game.findMany({
 			where,
 			include: {
-				cover: {
-					select: {
-						url: true
-					}
-				},
+				cover: true,
 				screenshots: true,
 				gameGenres: {
 					include: {

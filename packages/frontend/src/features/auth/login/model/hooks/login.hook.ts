@@ -33,7 +33,7 @@ export const useLogin = () => {
                 queryFn: getUser
             });
 
-            setUser(userData);
+            setUser(userData.data);
             setIsAuthenticated(true);
 
             toast.success('Вхід виконано успішно!');
