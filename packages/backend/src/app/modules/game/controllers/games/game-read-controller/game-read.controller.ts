@@ -15,6 +15,8 @@ import { SortParams } from '../../../../../shared/decorators/pagination/sort-par
 import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 import { PaginateGameResponseDto } from '../../../dto';
+import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
+import { UserResponseDto } from '../../../../auth/dto';
 
 @Controller('games')
 export class GameReadController {
@@ -22,8 +24,14 @@ export class GameReadController {
 
 	@Public()
 	@Get(':checksum')
-	async findById(@Param('checksum') checksum: string): Promise<ApiResponseDto<GameDetailsResponseDto | null>> {
-		const data = await this.gameReadService.findById(checksum)
+	async findById(
+		@GetUser() user: UserResponseDto,
+		@Param('checksum') checksum: string
+	): Promise<ApiResponseDto<GameDetailsResponseDto | null>> {
+		const data = await this.gameReadService.findById(
+			checksum,
+			user.checksum
+		);
 
 		const response = new ApiResponseDto({
 			statusCode: HttpStatus.OK,

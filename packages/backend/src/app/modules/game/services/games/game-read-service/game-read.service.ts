@@ -14,14 +14,25 @@ export class GameReadService {
 		private readonly gameMapService: GameMapService,
 	) {}
 
-	async findById(checksum: string): Promise<GameDetailsResponseDto | null> {
-		const game = await this.gameReadRepository.findById(checksum);
+	async findById(
+		checksum: string,
+		userId?: string
+	): Promise<GameDetailsResponseDto | null> {
+		const game = await this.gameReadRepository.findById(
+			checksum,
+			userId,
+		);
 
 		if (!game) {
 			return null;
 		}
 
-		return this.gameMapService.toGameDetailsDto(game);
+		const isInLibrary = Boolean(game.personalLibraryGames[0])
+
+		return this.gameMapService.toGameDetailsDto(
+			game,
+			isInLibrary
+		);
 	}
 
 	async findAll(
