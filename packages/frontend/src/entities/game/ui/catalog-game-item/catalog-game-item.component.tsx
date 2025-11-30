@@ -1,29 +1,29 @@
 import { memo, useMemo } from "react";
 import clsx from "clsx";
 import { GenreBadge } from "@/entities/genre/ui";
-import { IPersonalLibraryGameItemProps } from "../../model";
+import { ICatalogGameItemProps } from "../../model/interfaces/paginte-game-item.interface";
 
-export const PersonalLibraryGameItem = memo((props: IPersonalLibraryGameItemProps) => {
+export const CatalogGameItem = memo((props: ICatalogGameItemProps) => {
     const {
-        personalLibraryGame
+        game
     } = props;
 
     const coverUrl = useMemo(() => {
-        return personalLibraryGame.game.cover?.url ||
+        return game.cover && game.cover.url ||
             'https://placehold.co/260x192/404040/FFFFFF?text=No+Cover';
-    }, [personalLibraryGame.game.cover?.url]);
+    }, [game.cover]);
 
     const uniqueGenres = useMemo(() => {
         const genresMap = new Map();
 
-        personalLibraryGame.game.genres.forEach(item => {
+        game.genres.forEach(item => {
             if (!genresMap.has(item.name)) {
                 genresMap.set(item.name, item);
             }
         });
 
         return Array.from(genresMap.values());
-    }, [personalLibraryGame.game.genres])
+    }, [game.genres])
 
     return (
         <div
@@ -36,7 +36,7 @@ export const PersonalLibraryGameItem = memo((props: IPersonalLibraryGameItemProp
                 <img
                     className="w-full h-full object-cover"
                     src={coverUrl}
-                    alt={`Обкладинка гри ${personalLibraryGame.game.name}`}
+                    alt={`Обкладинка гри ${game.name}`}
                     onError={(e) => {
                         e.currentTarget.src = 'https://placehold.co/260x192/404040/FFFFFF?text=Error';
                     }}
@@ -45,7 +45,7 @@ export const PersonalLibraryGameItem = memo((props: IPersonalLibraryGameItemProp
 
             <div className="flex flex-col gap-2 md:gap-3 p-3 md:p-4 w-full h-full">
                 <p className="font-semibold text-[14px] text-white md:text-lg truncate">
-                    {personalLibraryGame.game.name}
+                    {game.name}
                 </p>
                 <div className="flex flex-col flex-grow justify-between gap-2">
                     <div className="flex flex-wrap gap-x-2 gap-y-1 overflow-hidden">

@@ -1,6 +1,5 @@
 import { memo, useMemo } from "react";
 import { getCatalogGamesRequestSchema, IGetCatalogGamesRequestDto, useGetCatalogGames } from "../../model";
-import { CatalogGameItem } from "../catalog-game-item";
 import { CatalogListEmpty } from "../catalog-list-empty";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +12,7 @@ import { useGetGenres } from "@/entities/genre/model/hooks";
 import { useGetKeywords } from "@/entities/keyword/model/hooks";
 import { getKeywordsRequestSchema } from "@/entities/keyword/model/schemas";
 import { IGetKeywordsRequestDto } from "@/entities/keyword/model/interfaces/get-keywords.interface";
+import { PaginateGameItem } from "@/entities/game/ui";
 
 export const CatalogList = memo(() => {
     const catalogMethods = useForm({
@@ -112,7 +112,7 @@ export const CatalogList = memo(() => {
                     <>
                         <div className="gap-2 gap-y-4 md:gap-6 grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))]">
                             {games.data.map(item => (
-                                <CatalogGameItem
+                                <PaginateGameItem
                                     key={item.checksum}
                                     game={item}
                                 />

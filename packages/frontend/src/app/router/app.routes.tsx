@@ -11,6 +11,7 @@ import { PageLoader } from '@/shared/components';
 import { ProfilePageAsync } from '@/pages/profile';
 import { RankingsPageAsync } from '@/pages/rankings';
 import { PersonalLibraryPageAsync } from '@/pages/personal-library';
+import { ProfileInitPageAsync } from '@/pages/profile-init';
 
 export const AppRoutes = () => {
     return (
@@ -25,7 +26,7 @@ export const AppRoutes = () => {
                 </Route>
 
                 <Route element={<ProtectedRoute />}> 
-                    <Route path={ROUTES.PROFILE_INIT} element={<div>profile init</div>} />
+                    <Route path={ROUTES.PROFILE_INIT} element={<ProfileInitPageAsync />} />
                     <Route path={ROUTES.PERSONAL_LIBRARY} element={<PersonalLibraryPageAsync />} />
                     <Route path={ROUTES.PROFILE} element={<ProfilePageAsync />} />
                     <Route path={ROUTES.RANKINGS} element={<RankingsPageAsync />} />

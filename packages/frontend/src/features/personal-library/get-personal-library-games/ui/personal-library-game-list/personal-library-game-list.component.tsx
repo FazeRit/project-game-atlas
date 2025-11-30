@@ -7,12 +7,12 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { EPersonalLibraryGameSortField } from "../../model/enums";
 import { getPersonalLibraryGamesRequestSchema, IGetPersonalLibraryGamesRequestDto, useGetPersonalLibraryGames } from "../../model";
 import { PersonalLibraryListEmpty } from "../personal-library-game-list-empty";
-import { PersonalLibraryGameItem } from "../personal-library-game-item";
 import { useGetGenres } from "@/entities/genre/model/hooks";
 import { PersonalLibraryGameListFilters } from "../personal-library-game-list-filters";
 import { getKeywordsRequestSchema } from "@/entities/keyword/model/schemas";
 import { useGetKeywords } from "@/entities/keyword";
 import { IGetKeywordsRequestDto } from "@/entities/keyword/model/interfaces/get-keywords.interface";
+import { PaginateGameItem } from "@/entities/game/ui";
 
 export const PersonalLibraryGameList = memo(() => {
     const personalLibraryGamesMethods = useForm({
@@ -112,9 +112,9 @@ export const PersonalLibraryGameList = memo(() => {
                     <>
                         <div className="gap-2 gap-y-4 md:gap-6 grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))]">
                             {games.data.map(item => (
-                                <PersonalLibraryGameItem
+                                <PaginateGameItem
                                     key={item.checksum}
-                                    personalLibraryGame={item}
+                                    game={item.game}
                                 />
                             ))}
                         </div>

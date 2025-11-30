@@ -1,13 +1,13 @@
 import { memo, useMemo } from "react";
 import clsx from "clsx";
 import { GenreBadge } from "@/entities/genre/ui";
-import { ICatalogGameItemProps } from "../../model/interfaces/catalog-game-item.interface";
+import { IPaginteGameItemProps } from "@/features/catalog/get-catalog-games";
 
-export const CatalogGameItem = memo((props: ICatalogGameItemProps) => {
+export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
     const {
         game
     } = props;
-    
+
     const coverUrl = useMemo(() => {
         return game.cover && game.cover.url ||
             'https://placehold.co/260x192/404040/FFFFFF?text=No+Cover';
@@ -26,7 +26,7 @@ export const CatalogGameItem = memo((props: ICatalogGameItemProps) => {
     }, [game.genres])
 
     return (
-        <div 
+        <div
             className={clsx(
                 "flex flex-col rounded-xl overflow-hidden",
                 "bg-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] h-full"
@@ -44,11 +44,11 @@ export const CatalogGameItem = memo((props: ICatalogGameItemProps) => {
             </div>
 
             <div className="flex flex-col gap-2 md:gap-3 p-3 md:p-4 w-full h-full">
-                <p className="font-semibold text-[14px] text-white md:text-lg truncate"> 
+                <p className="font-semibold text-[14px] text-white md:text-lg truncate">
                     {game.name}
                 </p>
                 <div className="flex flex-col flex-grow justify-between gap-2">
-                    <div className="flex flex-wrap gap-x-2 gap-y-1 overflow-hidden"> 
+                    <div className="flex flex-wrap gap-x-2 gap-y-1 overflow-hidden">
                         {uniqueGenres.map(item => (
                             <GenreBadge
                                 key={item.name}
