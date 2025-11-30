@@ -1,7 +1,7 @@
 import { IGameDetailsResponse, IPaginateGameResponse } from '@/entities/game';
 import { EPersonalLibraryGameRank, EPersonalLibraryGameStatus } from '../enums';
 
-export interface IPersonalLibraryGame {
+export interface IPersonalLibraryGameResponse {
     checksum: string;
     gameId: string;
     personalLibraryId: string;
@@ -12,10 +12,10 @@ export interface IPersonalLibraryGame {
     updatedAt: Date;
 }
 
-export interface IPaginatePersonalLibraryGame extends IPersonalLibraryGame {
+export interface IPaginatePersonalLibraryGame extends IPersonalLibraryGameResponse {
     game: IPaginateGameResponse;
 }
 
-export interface IPersonalLibraryGameDetails extends IPersonalLibraryGame {
+export interface IPersonalLibraryGameDetails extends IPersonalLibraryGameResponse {
     game: IGameDetailsResponse
 }

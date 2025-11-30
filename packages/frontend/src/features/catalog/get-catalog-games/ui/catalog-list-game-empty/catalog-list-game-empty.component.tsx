@@ -1,7 +1,7 @@
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/shared/components/ui/empty";
 import { memo } from "react";
 
-export const CatalogListEmpty = memo(() => {
+export const CatalogListGameEmpty = memo(() => {
     return (
         <Empty>
             <EmptyHeader>

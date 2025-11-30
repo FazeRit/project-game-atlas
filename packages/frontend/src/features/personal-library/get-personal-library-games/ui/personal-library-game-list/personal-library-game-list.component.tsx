@@ -15,6 +15,7 @@ import { IGetKeywordsRequestDto } from "@/entities/keyword/model/interfaces/get-
 import { PaginateGameItem } from "@/entities/game/ui";
 
 export const PersonalLibraryGameList = memo(() => {
+
     const personalLibraryGamesMethods = useForm({
         resolver: zodResolver(getPersonalLibraryGamesRequestSchema),
         defaultValues: {
@@ -105,7 +106,7 @@ export const PersonalLibraryGameList = memo(() => {
                 />
 
                 {(!games || games.data.length === 0) ? (
-                    <div className="flex justify-center items-center w-full min-h-[400px]">
+                    <div className="flex justify-center items-center w-full min-h-[200px]">
                         <PersonalLibraryListEmpty />
                     </div>
                 ) : (

@@ -28,14 +28,16 @@ export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
     return (
         <div
             className={clsx(
-                "flex flex-col rounded-xl overflow-hidden",
+                "flex flex-col pt-4 rounded-xl overflow-hidden",
                 "bg-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] h-full"
             )}
         >
             <div className="relative w-full min-h-[192px] max-h-[192px] overflow-hidden">
                 <img
-                    className="w-full h-full object-cover"
+                    className="z-10 relative w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     src={coverUrl}
+                    loading="lazy"
+                    decoding="async"
                     alt={`Обкладинка гри ${game.name}`}
                     onError={(e) => {
                         e.currentTarget.src = 'https://placehold.co/260x192/404040/FFFFFF?text=Error';

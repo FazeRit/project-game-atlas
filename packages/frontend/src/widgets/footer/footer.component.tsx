@@ -2,7 +2,7 @@ import ControllerIcon from '@/assets/icons/controller.svg?react'
 
 export const Footer = () => {
     return (
-        <div className="flex flex-row justify-between gap-6 px-4 md:px-20 py-5 border-b border-b-[#404040] w-full h-fit">
+        <div className="flex flex-row justify-between gap-6 px-4 md:px-20 py-5 border-t border-t-[#404040] w-full h-fit">
             <div
                 className="flex flex-row items-center gap-2 cursor-pointer"
                 role="button"

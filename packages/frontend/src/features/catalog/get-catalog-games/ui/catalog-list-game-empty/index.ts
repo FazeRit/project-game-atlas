@@ -1,0 +1,1 @@
+export * from './catalog-list-game-empty.component';

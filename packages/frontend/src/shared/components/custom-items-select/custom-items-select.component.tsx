@@ -1,5 +1,6 @@
 import { ICustomItemsListProps } from "./interfaces";
 import { CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, Command } from "../ui/command";
+import { Check } from "lucide-react";
 
 export function CustomItemsSelect(props: ICustomItemsListProps) {
     const {
@@ -7,11 +8,19 @@ export function CustomItemsSelect(props: ICustomItemsListProps) {
         onValueSelected,
         selectedValues,
         searchPlaceholder,
+        searchQuery,
+        onSearchChange,
     } = props;
 
+    const isExternalSearch = typeof onSearchChange === 'function';
+
     return (
-        <Command>
-            <CommandInput placeholder={searchPlaceholder} />
+        <Command shouldFilter={!isExternalSearch}>
+            <CommandInput 
+                placeholder={searchPlaceholder} 
+                value={searchQuery}
+                onValueChange={onSearchChange}
+            />
 
             <CommandList>
                 <CommandEmpty>
@@ -30,11 +39,9 @@ export function CustomItemsSelect(props: ICustomItemsListProps) {
                                     onValueSelected(item.value);
                                 }}
                             >
-                                <span
-                                    className={`mr-2 h-4 w-4 ${isSelected ? 'opacity-100' : 'opacity-0'}`}
-                                >
-                                    ✔
-                                </span>
+                                <div className={`mr-2 flex h-4 w-4 items-center justify-center ${isSelected ? 'opacity-100' : 'opacity-0'}`}>
+                                    <Check className="w-4 h-4" /> 
+                                </div>
                                 {item.label}
                             </CommandItem>
                         );

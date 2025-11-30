@@ -39,6 +39,8 @@ export const Header = memo(() => {
             startTransition(() => {
                 setActiveIndex(matchingItem.index);
             });
+        } else {
+            setActiveIndex(-1)
         }
     }, [location.pathname, setActiveIndex])
 

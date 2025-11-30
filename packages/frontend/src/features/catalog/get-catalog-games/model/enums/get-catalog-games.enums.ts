@@ -4,4 +4,4 @@ export enum ECatalogGameSortField {
     NAME = 'name',
     TOTAL_RATING = 'totalRating',
     TOTAL_RATING_COUNT = 'totalRatingCount',
-} 
+}

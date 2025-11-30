@@ -18,11 +18,11 @@ export const RegisterForm = memo(() => {
         }
     })
 
-    const mutation = useRegister();
+    const { mutateAsync: register } = useRegister();
 
     const handleSubmit =  useCallback(async (data: TRegisterSchema) => {
-        await mutation.mutateAsync(data);
-    }, [mutation]);
+        await register(data);
+    }, [register]);
 
     return (
         <Form

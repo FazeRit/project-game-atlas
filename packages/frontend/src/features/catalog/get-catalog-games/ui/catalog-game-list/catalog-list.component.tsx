@@ -1,18 +1,18 @@
 import { memo, useMemo } from "react";
 import { getCatalogGamesRequestSchema, IGetCatalogGamesRequestDto, useGetCatalogGames } from "../../model";
-import { CatalogListEmpty } from "../catalog-list-empty";
+import { CatalogListGameEmpty } from "../catalog-list-game-empty";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ECatalogGameSortField } from "../../model/enums/get-catalog-games.enums";
 import { ESortOrder } from "@/shared";
 import { CustomPagination } from "@/shared/components";
-import { CatalogListFilters } from "../catalog-list-filters";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useGetGenres } from "@/entities/genre/model/hooks";
 import { useGetKeywords } from "@/entities/keyword/model/hooks";
 import { getKeywordsRequestSchema } from "@/entities/keyword/model/schemas";
 import { IGetKeywordsRequestDto } from "@/entities/keyword/model/interfaces/get-keywords.interface";
 import { PaginateGameItem } from "@/entities/game/ui";
+import { CatalogListFilters } from "../catalog-game-filters";
 
 export const CatalogList = memo(() => {
     const catalogMethods = useForm({
@@ -105,8 +105,8 @@ export const CatalogList = memo(() => {
                 />
 
                 {(!games || games.data.length === 0) ? (
-                    <div className="flex justify-center items-center w-full min-h-[400px]">
-                        <CatalogListEmpty />
+                    <div className="flex justify-center items-center w-full min-h-[200px]">
+                        <CatalogListGameEmpty />
                     </div>
                 ) : (
                     <>

@@ -7,6 +7,8 @@ export const buttonVariants = cva(
       variant: {
         lightgray:
           "bg-[#737373] hover:bg-[#8c8c8c] text-white shadow",
+        blue: 
+          "bg-blue-600 hover:bg-blue-700 text-white shadow",
       },
       size: {
         default: "h-8 px-3 text-xs md:h-10 md:px-4 md:text-sm", 
