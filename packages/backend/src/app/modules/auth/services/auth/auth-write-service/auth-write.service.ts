@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-payload.dto';
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
@@ -64,7 +64,7 @@ export class AuthWriteService {
 		);
 
         if (!user) {
-            return;
+            throw new NotFoundException('Користувача не знайдено');
         }
 
         const otp = await this.otpService.createOtp(user.checksum);
@@ -79,10 +79,9 @@ export class AuthWriteService {
 
 	async resetPassword(code: string, newPassword: string): Promise<void> {
         const otp = await this.otpService.validateOtp(code);
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         await this.userWriteService.update(otp.userId, {
-            password: hashedPassword,
+            password: newPassword,
         });
 
         await this.otpService.deleteOtp(otp.checksum);

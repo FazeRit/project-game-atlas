@@ -1,0 +1,1 @@
+export * from './profile-init-popular-choices.component';

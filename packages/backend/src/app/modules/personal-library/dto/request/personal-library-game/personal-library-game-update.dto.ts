@@ -10,11 +10,6 @@ export class PersonalLibraryGameUpdateDto {
 	gameId?: string;
 
 	@IsOptional()
-	@IsString()
-	@Expose()
-	personalLibraryId?: string;
-
-	@IsOptional()
 	@IsEnum(EPlayStatus)
 	@Expose()
 	status?: EPlayStatus;

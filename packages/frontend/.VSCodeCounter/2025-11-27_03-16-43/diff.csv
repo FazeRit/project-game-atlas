@@ -1,0 +1,123 @@
+"filename", "language", "JSON", "TypeScript JSX", "TypeScript", "comment", "blank", "total"
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/package.json", "JSON", 1, 0, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/App.tsx", "TypeScript JSX", 0, 9, 0, 0, 0, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/app.routes.tsx", "TypeScript JSX", 0, 19, 0, 0, 1, 20
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/auth-routes/auth.routes.tsx", "TypeScript JSX", 0, -10, 0, 0, -1, -11
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/auth-routes/index.ts", "TypeScript", 0, 0, -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/home-routes/home.routes.tsx", "TypeScript JSX", 0, -18, 0, 0, -3, -21
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/home-routes/index.ts", "TypeScript", 0, 0, -1, 0, -1, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/protected-route/protected-route.tsx", "TypeScript JSX", 0, 4, 0, 0, 2, 6
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/public-route/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/public-route/public-route.tsx", "TypeScript JSX", 0, 10, 0, 0, 3, 13
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/interfaces/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/interfaces/jwt-response.interface.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/interfaces/user-store.interface.ts", "TypeScript", 0, 0, 14, 0, 3, 17
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/interfaces/user.interface.ts", "TypeScript", 0, 0, 7, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/types/index.ts", "TypeScript", 0, 0, -2, 0, 0, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/types/user-store.interface.ts", "TypeScript", 0, 0, -14, 0, -3, -17
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/types/user.interface.ts", "TypeScript", 0, 0, -8, 0, -1, -9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/api/forgot-password.api.ts", "TypeScript", 0, 0, 7, 0, 2, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/api/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/hooks/forgot-password.hook.ts", "TypeScript", 0, 0, 25, 0, 3, 28
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/hooks/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/interfaces/forgot-password-request.interface.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/schemas/forgot-password.schema.ts", "TypeScript", 0, 0, 7, 0, 2, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/model/schemas/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/ui/forgot-password-form/forgot-password-form.component.tsx", "TypeScript JSX", 0, 70, 0, 0, 8, 78
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/ui/forgot-password-form/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/index.ts", "TypeScript", 0, 0, -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/model/hooks/login.hook.ts", "TypeScript", 0, 0, 10, 0, 2, 12
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/model/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/model/interfaces/jwt-response.interface.ts", "TypeScript", 0, 0, -3, 0, 0, -3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/model/schemas/login.schema.ts", "TypeScript", 0, 0, 5, 0, 1, 6
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/ui/login-form/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/ui/login-form/login-form.component.tsx", "TypeScript JSX", 0, 95, 0, 0, 9, 104
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/api/index.ts", "TypeScript", 0, 0, 1, 0, -1, 0
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/api/register.api.ts", "TypeScript", 0, 0, 6, 0, 0, 6
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/index.ts", "TypeScript", 0, 0, -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/model/hooks/register.hook.ts", "TypeScript", 0, 0, 19, 0, 6, 25
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/model/interfaces/register-request.interface.ts", "TypeScript", 0, 0, -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/model/schemas/register.schema.ts", "TypeScript", 0, 0, 6, 0, 0, 6
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/ui/register-form/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/ui/register-form/register-form.component.tsx", "TypeScript JSX", 0, 83, 0, 0, 8, 91
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/api/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/api/reset-password.api.ts", "TypeScript", 0, 0, 7, 0, 2, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/hooks/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/hooks/reset-password.hook.ts", "TypeScript", 0, 0, 25, 0, 3, 28
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/interfaces/reset-password-request.interface.ts", "TypeScript", 0, 0, 4, 0, 0, 4
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/schemas/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/model/schemas/reset-password.schema.ts", "TypeScript", 0, 0, 13, 0, 2, 15
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/ui/reset-password-form/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/ui/reset-password-form/reset-password-form.component.tsx", "TypeScript JSX", 0, 96, 0, 0, 10, 106
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/api/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/api/verify-forgot-password.api.ts", "TypeScript", 0, 0, 7, 0, 2, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/hooks/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/hooks/verify-forgot-password.hook.ts", "TypeScript", 0, 0, 29, 0, 4, 33
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/interfaces/verify-forgot-password-request.interface.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/schemas/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/model/schemas/verify-forgot-password.schema.ts", "TypeScript", 0, 0, 7, 0, 2, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/ui/verify-forgot-password-form/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/ui/verify-forgot-password-form/verify-forgot-password-form.component.tsx", "TypeScript JSX", 0, 78, 0, 0, 8, 86
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/forgot-password/forgot-password.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/forgot-password/forgot-password.page.tsx", "TypeScript JSX", 0, 9, 0, 0, 1, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/forgot-password/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/login/login.page.async.ts", "TypeScript", 0, 0, 0, 0, -1, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/login/login.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/login/login.page.tsx", "TypeScript JSX", 0, 3, 0, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/register/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/register/register.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/register/register.page.tsx", "TypeScript JSX", 0, 9, 0, 0, 1, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/reset-password/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/reset-password/reset-password.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/reset-password/reset-password.page.tsx", "TypeScript JSX", 0, 9, 0, 0, 1, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/verify-forgot-password/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/verify-forgot-password/verify-forgot-password.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/auth/verify-forgot-password/verify-forgot-password.page.tsx", "TypeScript JSX", 0, 9, 0, 0, 1, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/api/api-instance.ts", "TypeScript", 0, 0, 1, 0, 1, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/button/button.component.tsx", "TypeScript JSX", 0, 19, 0, 0, 3, 22
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/button/button.tsx", "TypeScript JSX", 0, -19, 0, 0, -3, -22
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/button/const/button-variants.const.ts", "TypeScript", 0, 0, -9, 0, 0, -9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/const/form-variants.const.ts", "TypeScript", 0, 0, -30, 0, -1, -31
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/const/index.ts", "TypeScript", 0, 0, -1, 0, 0, -1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/form.component.tsx", "TypeScript JSX", 0, 147, 0, 0, 23, 170
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/form.tsx", "TypeScript JSX", 0, -156, 0, 0, -27, -183
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/interfaces/button.interface.ts", "TypeScript", 0, 0, -7, 0, -1, -8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/form/interfaces/form.interface.ts", "TypeScript", 0, 0, 26, 0, 8, 34
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input-otp/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input-otp/input-otp.tsx", "TypeScript JSX", 0, 63, 0, 0, 8, 71
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input/const/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input/const/input.const.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/input/input.tsx", "TypeScript JSX", 0, 20, 0, 0, 3, 23
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label.tsx", "TypeScript JSX", 0, -19, 0, 0, -4, -23
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/const/label-variants.const.ts", "TypeScript", 0, 0, -26, 0, 0, -26
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/form.tsx", "TypeScript JSX", 0, -152, 0, 0, -27, -179
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/index.ts", "TypeScript", 0, 0, 1, 0, -1, 0
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/interfaces/button.interface.ts", "TypeScript", 0, 0, -7, 0, -1, -8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/interfaces/label.interface.ts", "TypeScript", 0, 0, 7, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/label/label.component.tsx", "TypeScript JSX", 0, 18, 0, 0, 3, 21
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/enums/routes.enum.ts", "TypeScript", 0, 0, 3, 0, 1, 4
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/response.interface.ts", "TypeScript", 0, 0, 17, 0, 1, 18
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/auth-layout/auth.layout.tsx", "TypeScript JSX", 0, 2, 0, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/centered-layout/centered.layout.tsx", "TypeScript JSX", 0, -2, 0, 0, 0, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/index.ts", "TypeScript", 0, 0, 0, 0, 1, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/tsconfig.app.json", "JSON", 3, 0, 0, 0, 0, 3
+"Total", "-", 4, 431, 213, 0, 70, 718

@@ -1,18 +1,21 @@
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { GameWhereBuilder } from '../../../utils/game-where-builder.util';
-import { GameWithDetails } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game.types';
 import { IGameReadRepository } from '../abstracts/igame-read.repository';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 
 @Injectable()
 export class GameReadRepository implements IGameReadRepository {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(private readonly prisma: PrismaService) { }
 
-	async findById(checksum: string): Promise<GameWithDetails | null> {
+	async findById(
+		checksum: string,
+		userId?: string
+	): Promise<TGameWithDetails | null> {
 		return this.prisma.game.findUnique({
 			where: {
-				checksum
+				checksum,
 			},
 			include: {
 				cover: true,
@@ -32,11 +35,13 @@ export class GameReadRepository implements IGameReadRepository {
 						company: true
 					}
 				},
-				gamePlatforms: {
-					include: {
-						platform: true
+				personalLibraryGames: {
+					where: {
+						personalLibrary: {
+							userId: userId ? userId : 'non-existent-user'
+						}
 					}
-				},
+				}
 			},
 		});
 	}
@@ -47,7 +52,7 @@ export class GameReadRepository implements IGameReadRepository {
 		filters?: GameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<Array<GameWithDetails>> {
+	): Promise<Array<TPaginateGameDto>> {
 		const where = GameWhereBuilder.build(filters, search);
 
 		const skip = (page - 1) * limit;
@@ -62,21 +67,6 @@ export class GameReadRepository implements IGameReadRepository {
 						genre: true
 					}
 				},
-				gameKeywords: {
-					include: {
-						keyword: true
-					}
-				},
-				gameCompanies: {
-					include: {
-						company: true
-					}
-				},
-				gamePlatforms: {
-					include: {
-						platform: true
-					}
-				},
 			},
 			skip,
 			take: limit,
@@ -84,7 +74,10 @@ export class GameReadRepository implements IGameReadRepository {
 		});
 	}
 
-	async count(filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<number> {
+	async count(
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number> {
 		const where = GameWhereBuilder.build(filters, search);
 		return this.prisma.game.count({ where });
 	}

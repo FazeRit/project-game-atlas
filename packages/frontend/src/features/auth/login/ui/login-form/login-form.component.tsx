@@ -6,8 +6,9 @@ import { Input } from "@/shared/components/ui/input"
 import { Link } from "react-router-dom"
 import { ROUTES } from "@/shared"
 import { Button } from "@/shared/components"
+import { memo, useCallback } from "react"
 
-export const LoginForm = () => {
+export const LoginForm = memo(() => {
     const form = useForm({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -18,9 +19,9 @@ export const LoginForm = () => {
 
     const mutation = useLogin();
 
-    const handleSubmit = (data: TLoginSchema) => {
-        mutation.mutateAsync(data);
-    }
+    const handleSubmit = useCallback(async (data: TLoginSchema) => {
+        await mutation.mutateAsync(data);
+    }, [mutation])
 
     return (
         <Form
@@ -28,14 +29,14 @@ export const LoginForm = () => {
         >
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-col gap-6 bg-[#262626] p-8 w-full md:w-[448px]"
+                className="flex flex-col gap-4 md:gap-6 bg-[#262626] p-4 md:p-8 rounded-xl w-[320px] md:w-[448px]"
             >
                 
                 <div className="flex flex-col items-center gap-2">
-                    <p className="text-white text-2xl">
+                    <p className="text-white text-lg md:text-2xl">
                         Ввійти в Game Atlas
                     </p>
-                    <p className="text-[#a3a3a3] text-sm">
+                    <p className="text-[#a3a3a3] text-xs md:text-sm">
                         З поверненням! Будь ласка, введіть свої дані.
                     </p>
                 </div>
@@ -79,14 +80,14 @@ export const LoginForm = () => {
                 
                 <Link
                     to={ROUTES.FORGET_PASSWORD}
-                    className="self-end text-[#a3a3a3] text-sm"
+                    className="self-end text-[#a3a3a3] text-xs md:text-sm"
                 >
                     Забули пароль?
                 </Link>
 
                 <Button
                     variant="lightgray"
-                    size="lg"
+                    size="default"
                     type="submit"
                 >
                     Ввійти
@@ -94,11 +95,11 @@ export const LoginForm = () => {
 
                 <Link
                     to={ROUTES.REGISTER}
-                    className="self-center text-[#a3a3a3] text-sm"
+                    className="self-center text-[#a3a3a3] text-xs md:text-sm"
                 >
                     Не маєте аккаунт? <span className="font-bold">Зареєструйтеся</span>
                 </Link>
             </form>
         </Form>
     )
-}
+})

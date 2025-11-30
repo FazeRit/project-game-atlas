@@ -26,10 +26,10 @@ export class BasePaginateDto {
     @IsOptional()
     searchQuery?: string;
 
-    // @Expose()
-    // @IsOptional()
-    // @IsString()
-    // sort?: string;
+    @Expose()
+    @IsOptional()
+    @IsString()
+    sort?: string;
 
     constructor(data?: {
         page?: number;
@@ -40,6 +40,6 @@ export class BasePaginateDto {
         this.page = data?.page || 1;
         this.limit = data?.limit || 10;
         this.searchQuery = data?.searchQuery;
-        // this.sort = data?.sort;
+        this.sort = data?.sort;
     }
 }

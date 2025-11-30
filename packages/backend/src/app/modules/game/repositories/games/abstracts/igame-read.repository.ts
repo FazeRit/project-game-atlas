@@ -1,15 +1,23 @@
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
-import { GameWithDetails } from '../../../types/game/game-with-details.type';
+import { TGameWithDetails, TPaginateGameDto } from '../../../types/game/game.types';
 import { IReadRepository } from '../../../../../shared/repositories/iread.repository';
 
-export abstract class IGameReadRepository extends IReadRepository<GameWithDetails> {
+export abstract class IGameReadRepository extends IReadRepository<TGameWithDetails> {
+	abstract override findById(
+		checksum: string,
+		userId?: string
+	): Promise<TGameWithDetails | null>;
+
 	abstract findAll(
 		page: number,
 		limit: number,
 		filters?: GameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<Array<GameWithDetails>>;
+	): Promise<Array<TPaginateGameDto>>;
 
-	abstract count(filters?: GameFiltersDto, search?: Record<string, unknown>): Promise<number>;
+	abstract count(
+		filters?: GameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number>;
 }

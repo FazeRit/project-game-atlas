@@ -2,7 +2,11 @@ import { PersonalLibraryGameFiltersDto } from '../dto/request/personal-library-g
 import { Prisma } from '@prisma/client';
 
 export class PersonalLibraryGameWhereBuilder {
-	static build(userId: string, filters?: PersonalLibraryGameFiltersDto, search?: Record<string, unknown>): Prisma.PersonalLibraryGameWhereInput {
+	static build(
+		userId: string,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>
+	): Prisma.PersonalLibraryGameWhereInput {
 		const where: Prisma.PersonalLibraryGameWhereInput = {
 			personalLibrary: {
 				userId
@@ -49,24 +53,15 @@ export class PersonalLibraryGameWhereBuilder {
 
 			where.game = where.game ?? {}
 
-			where.game.gameGenres = {
-				some: {
-					genre: {
-						OR: [
-							{
-								slug: {
-									in: normalizedGenres
-								}
-							},
-							{
-								name: {
-									in: filters.genres
-								}
-							}
-						]
-					}
-				}
-			};
+			where.game.AND = normalizedGenres.map(genre => ({
+				gameGenres: {
+					some: {
+						genre: {
+							slug: genre,
+						},
+					},
+				},
+			}));
 		}
 	}
 
@@ -77,24 +72,23 @@ export class PersonalLibraryGameWhereBuilder {
 		if (filters?.keywords && filters.keywords.length > 0) {
 			where.game = where.game ?? {}
 
-			where.game.gameKeywords = {
-				some: {
-					keyword: {
-						OR: [
-							{
-								slug: {
-									in: filters.keywords
-								}
-							},
-							{
-								name: {
-									in: filters.keywords
-								}
-							}
-						]
-					}
-				}
-			};
+			const normalizedKeywords = filters.keywords.map(k => k.toLowerCase());
+
+			const keywordConditions = normalizedKeywords.map(keyword => ({
+				gameKeywords: {
+					some: {
+						keyword: {
+							slug: keyword,
+						},
+					},
+				},
+			}));
+
+			if (where.game.AND && Array.isArray(where.game.AND)) {
+				where.game.AND.push(...keywordConditions);
+			} else {
+				where.game.AND = keywordConditions;
+			}
 		}
 	}
 

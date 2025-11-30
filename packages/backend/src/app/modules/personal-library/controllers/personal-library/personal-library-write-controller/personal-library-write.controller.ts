@@ -1,14 +1,12 @@
 import {
-	Body,
 	Controller,
 	Delete,
+	HttpStatus,
 	Post,
-	Put
 } from '@nestjs/common';
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
-import { PersonalLibrary } from '@prisma/client';
-import { PersonalLibraryCreateDto, PersonalLibraryUpdateDto } from '../../../dto';
 import { PersonalLibraryWriteService } from '../../../services/personal-library/personal-library-write-service/personal-library-write.service';
+import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 
 @Controller('personal-libraries')
 export class PersonalLibraryWriteController {
@@ -19,27 +17,35 @@ export class PersonalLibraryWriteController {
 	@Post()
 	async create(
         @GetUser('checksum') userId: string,
-        @Body() data: PersonalLibraryCreateDto,
-    ): Promise<PersonalLibrary> {
-		return this.personalLibraryWriteService.create({
-			...data,
+    ): Promise<ApiResponseDto<void>> {
+		await this.personalLibraryWriteService.create({
 			userId
 		});
-	}
 
-	@Put()
-	async update(
-        @GetUser('checksum') userId: string,
-        @Body() data: PersonalLibraryUpdateDto,
-    ): Promise<PersonalLibrary> {
-		return this.personalLibraryWriteService.update(userId, data);
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.CREATED,
+			data: undefined,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+		
+		return response;
 	}
 
 	@Delete()
 	async delete(
         @GetUser('checksum') userId: string,
-    ): Promise<void> {
-		return this.personalLibraryWriteService.delete(userId);
+    ): Promise<ApiResponseDto<void>> {
+		await this.personalLibraryWriteService.delete(userId);
+	
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data: undefined,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 }
 

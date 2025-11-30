@@ -22,24 +22,15 @@ export class GameWhereBuilder {
 		if (filters?.genres && filters.genres.length > 0) {
 			const normalizedGenres = filters.genres.map(g => g.toLowerCase());
 
-			where.gameGenres = {
-				some: {
-					genre: {
-						OR: [
-							{
-								slug: {
-									in: normalizedGenres
-								}
-							},
-							{
-								name: {
-									in: filters.genres
-								}
-							}
-						]
-					}
-				}
-			};
+			where.AND = normalizedGenres.map(genre => ({
+				gameGenres: {
+					some: {
+						genre: {
+							slug: genre,
+						},
+					},
+				},
+			}));
 		}
 	}
 
@@ -48,24 +39,23 @@ export class GameWhereBuilder {
 		filters?: GameFiltersDto
 	): void {
 		if (filters?.keywords && filters.keywords.length > 0) {
-			where.gameKeywords = {
-				some: {
-					keyword: {
-						OR: [
-							{
-								slug: {
-									in: filters.keywords
-								}
-							},
-							{
-								name: {
-									in: filters.keywords
-								}
-							}
-						]
-					}
-				}
-			};
+			const normalizedKeywords = filters.keywords.map(k => k.toLowerCase());
+
+			const keywordConditions = normalizedKeywords.map(keyword => ({
+				gameKeywords: {
+					some: {
+						keyword: {
+							slug: keyword,
+						},
+					},
+				},
+			}));
+
+			if (where.AND && Array.isArray(where.AND)) {
+				where.AND.push(...keywordConditions);
+			} else {
+				where.AND = keywordConditions;
+			}
 		}
 	}
 

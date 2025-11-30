@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export type PersonalLibraryGameWithDetails = Prisma.PersonalLibraryGameGetPayload<{
+export type TPersonalLibraryGameWithDetails = Prisma.PersonalLibraryGameGetPayload<{
 	include: {
 		game: {
 			include: {
@@ -21,13 +21,23 @@ export type PersonalLibraryGameWithDetails = Prisma.PersonalLibraryGameGetPayloa
 						company: true;
 					};
 				};
-				gamePlatforms: {
+			};
+		};
+	};
+}>;
+
+export type TPaginatePersonalLibraryGameDto = Prisma.PersonalLibraryGameGetPayload<{
+	include: {
+		game: {
+			include: {
+				cover: true;
+				screenshots: true;
+				gameGenres: {
 					include: {
-						platform: true;
+						genre: true;
 					};
 				};
 			};
 		};
 	};
 }>;
-

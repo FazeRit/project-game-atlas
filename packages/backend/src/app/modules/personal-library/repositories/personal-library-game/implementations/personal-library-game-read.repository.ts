@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { IPersonalLibraryGameReadRepository } from '../abstracts/ipersonal-library-game-read.repository';
 import { PersonalLibraryGameFiltersDto } from '../../../dto/request/personal-library-game/personal-library-game-filters.dto';
 import { PersonalLibraryGameWhereBuilder } from '../../../utils/personal-library-game-where-builder.util';
-import { PersonalLibraryGameWithDetails } from '../../../types/personal-library-game/personal-library-game-with-details.type';
+import { TPersonalLibraryGameWithDetails, TPaginatePersonalLibraryGameDto } from '../../../types/personal-library-game/personal-library-game-with-details.type';
 import { PrismaService } from '../../../../prisma/prisma.service';
 
 @Injectable()
 export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameReadRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async findById(checksum: string): Promise<PersonalLibraryGameWithDetails | null> {
+	async findById(checksum: string): Promise<TPersonalLibraryGameWithDetails | null> {
 		return this.prisma.personalLibraryGame.findUnique({
 			where: {
 				checksum
@@ -34,11 +34,6 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 								company: true
 							}
 						},
-						gamePlatforms: {
-							include: {
-								platform: true
-							}
-						},
 					}
 				}
 			},
@@ -52,7 +47,7 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 		filters?: PersonalLibraryGameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<Array<PersonalLibraryGameWithDetails>> {
+	): Promise<Array<TPaginatePersonalLibraryGameDto>> {
 		const where = PersonalLibraryGameWhereBuilder.build(
 			userId,
 			filters,
@@ -73,21 +68,6 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 								genre: true
 							}
 						},
-						gameKeywords: {
-							include: {
-								keyword: true
-							}
-						},
-						gameCompanies: {
-							include: {
-								company: true
-							}
-						},
-						gamePlatforms: {
-							include: {
-								platform: true
-							}
-						},
 					}
 				}
 			},
@@ -97,7 +77,23 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 		});
 	}
 
-	async findByUserIdAndGameId(userId: string, gameId: string): Promise<PersonalLibraryGameWithDetails | null> {
+	async count(
+		userId: string,
+		filters?: PersonalLibraryGameFiltersDto,
+		search?: Record<string, unknown>
+	): Promise<number> {4
+		const where = PersonalLibraryGameWhereBuilder.build(
+			userId,
+			filters,
+			search
+		);
+
+		return this.prisma.personalLibraryGame.count({
+			where,
+		});
+	}
+
+	async findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null> {
 		return this.prisma.personalLibraryGame.findFirst({
 			where: {
 				gameId,
@@ -125,18 +121,13 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 								company: true
 							}
 						},
-						gamePlatforms: {
-							include: {
-								platform: true
-							}
-						},
 					}
 				}
 			},
 		});
 	}
 
-	async findByUserIdAndId(userId: string, checksum: string): Promise<PersonalLibraryGameWithDetails | null> {
+	async findByUserIdAndId(userId: string, checksum: string): Promise<TPersonalLibraryGameWithDetails | null> {
 		return this.prisma.personalLibraryGame.findFirst({
 			where: {
 				checksum,
@@ -162,11 +153,6 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 						gameCompanies: {
 							include: {
 								company: true
-							}
-						},
-						gamePlatforms: {
-							include: {
-								platform: true
 							}
 						},
 					}

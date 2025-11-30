@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { EPlayStatus, ETierRank, PersonalLibraryGame } from '@prisma/client';
+import { EPlayStatus, ETierRank } from '@prisma/client';
 import { HeuristicEngineService } from '../../../../analytics/services/heuristic-engine-service/heuristic-engine.service';
 import { IPersonalLibraryGameWriteRepository } from '../../../repositories/personal-library-game/abstracts/ipersonal-library-game-write.repository';
 import { PersonalLibraryGameCreateDto, PersonalLibraryGameUpdateDto } from '../../../dto';
@@ -15,13 +15,9 @@ export class PersonalLibraryGameWriteService {
 		private readonly heuristicEngine: HeuristicEngineService,
 	) {}
 
-	async create(userId: string, data: PersonalLibraryGameCreateDto): Promise<PersonalLibraryGame> {
+	async create(userId: string, data: PersonalLibraryGameCreateDto): Promise<void> {
 		if (!data.gameId) {
 			throw new BadRequestException('gameId is required');
-		}
-
-		if (!data.personalLibraryId) {
-			throw new BadRequestException('personalLibraryId is required');
 		}
 
 		const personalLibrary = await this.personalLibraryReadService.findByUserId(userId);
@@ -30,11 +26,15 @@ export class PersonalLibraryGameWriteService {
 			throw new BadRequestException('Personal library not found');
 		}
 
-		if (personalLibrary.checksum !== data.personalLibraryId) {
-			throw new BadRequestException('Personal library does not belong to this user');
-		}
+		console.log({
+			...data,
+			personalLibraryId: personalLibrary.checksum
+		})
 
-		const personalLibraryGame = await this.personalLibraryGameWriteRepository.create(data);
+		const personalLibraryGame = await this.personalLibraryGameWriteRepository.create({
+			...data,
+			personalLibraryId: personalLibrary.checksum
+		});
 
 		if (!personalLibraryGame) {
 			throw new BadRequestException('Failed to create personal library game');
@@ -53,11 +53,9 @@ export class PersonalLibraryGameWriteService {
                 personalLibraryGame.rank,
             );
         }
-
-		return personalLibraryGame;
 	}
 
-	async update(userId: string, data: PersonalLibraryGameUpdateDto): Promise<PersonalLibraryGame> {
+	async update(userId: string, data: PersonalLibraryGameUpdateDto): Promise<void> {
 		if (!data.gameId) {
 			throw new BadRequestException('gameId is required');
 		}
@@ -94,8 +92,6 @@ export class PersonalLibraryGameWriteService {
                 oldRank
             );
         }
-
-		return updatedPersonalLibraryGame;
 	}
 
 	async delete(userId: string, checksum: string): Promise<void> {

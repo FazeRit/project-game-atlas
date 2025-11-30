@@ -1,10 +1,11 @@
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
-import { GameMapService } from '../game-map-service/game-map.service';
 import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
+import { PaginateGameResponseDto } from '../../../dto';
+import { GameMapService } from '../game-map-service/game-map.service';
 
 @Injectable()
 export class GameReadService {
@@ -13,14 +14,25 @@ export class GameReadService {
 		private readonly gameMapService: GameMapService,
 	) {}
 
-	async findById(checksum: string): Promise<GameDetailsResponseDto | null> {
-		const game = await this.gameReadRepository.findById(checksum);
+	async findById(
+		checksum: string,
+		userId?: string
+	): Promise<GameDetailsResponseDto | null> {
+		const game = await this.gameReadRepository.findById(
+			checksum,
+			userId,
+		);
 
 		if (!game) {
 			return null;
 		}
 
-		return this.gameMapService.toGameDetailsDto(game);
+		const isInLibrary = Boolean(game.personalLibraryGames[0])
+
+		return this.gameMapService.toGameDetailsDto(
+			game,
+			isInLibrary
+		);
 	}
 
 	async findAll(
@@ -29,7 +41,7 @@ export class GameReadService {
 		filters?: GameFiltersDto,
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
-	): Promise<PaginatedResponseDto<GameDetailsResponseDto, PaginationMetaDto>> {
+	): Promise<PaginatedResponseDto<PaginateGameResponseDto, PaginationMetaDto>> {
 		const [games, totalItems] = await Promise.all([
 			this.gameReadRepository.findAll(page, limit, filters, search, sort),
 			this.gameReadRepository.count(filters, search),
@@ -46,7 +58,9 @@ export class GameReadService {
 		meta.hasNext = page < totalPages;
 		meta.hasPrev = page > 1;
 
-		const data = games.map(game => this.gameMapService.toGameDetailsDto(game));
+		const data = games.map(
+			game => this.gameMapService.toPaginateGameDto(game)
+		);
 
 		return {
 			data,

@@ -1,0 +1,96 @@
+"filename", "language", "JSON", "TypeScript JSX", "TypeScript", "comment", "blank", "total"
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/package.json", "JSON", 1, 0, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/App.tsx", "TypeScript JSX", 0, 3, 0, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/providers/query/query.provider.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/app/router/app.routes.tsx", "TypeScript JSX", 0, 7, 0, 0, 0, 7
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/company/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/company/model/index.ts", "TypeScript", 0, 0, 1, 0, 1, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/company/model/interfaces/company.interface.ts", "TypeScript", 0, 0, 15, 0, 1, 16
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/company/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/cover/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/cover/model/index.ts", "TypeScript", 0, 0, 1, 0, 1, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/cover/model/interfaces/cover.interface.ts", "TypeScript", 0, 0, 10, 0, 0, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/cover/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/game/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/game/model/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/game/model/interfaces/game.interface.ts", "TypeScript", 0, 0, 22, 0, 5, 27
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/game/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/genre/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/genre/model/index.ts", "TypeScript", 0, 0, 1, 0, 1, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/genre/model/interfaces/genre.interface.ts", "TypeScript", 0, 0, 7, 0, 0, 7
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/genre/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/keyword/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/keyword/model/index.ts", "TypeScript", 0, 0, 1, 0, 1, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/keyword/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/keyword/model/interfaces/keyword.interface.ts", "TypeScript", 0, 0, 8, 0, 0, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/screenshot/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/screenshot/model/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/screenshot/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/screenshot/model/interfaces/screenshot.interface.ts", "TypeScript", 0, 0, 10, 0, 0, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/hooks/get-user.hook.ts", "TypeScript", 0, 0, -2, 0, 0, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/entities/user/model/interfaces/user.interface.ts", "TypeScript", 0, 0, -1, 0, -1, -2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/forgot-password/ui/forgot-password-form/forgot-password-form.component.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/login/ui/login-form/login-form.component.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/register/ui/register-form/register-form.component.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/reset-password/ui/reset-password-form/reset-password-form.component.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/auth/verify-forgot-password/ui/verify-forgot-password-form/verify-forgot-password-form.component.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/api/get-catalog-games.api.ts", "TypeScript", 0, 0, 12, 0, 2, 14
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/api/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/hooks/get-catalog-games.hook.ts", "TypeScript", 0, 0, 12, 0, 2, 14
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/hooks/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/index.ts", "TypeScript", 0, 0, 3, 0, 0, 3
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/interfaces/get-catalog-games.interface.ts", "TypeScript", 0, 0, 6, 0, 1, 7
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/schemas/get-catalog-games.schema.ts", "TypeScript", 0, 0, 44, 0, 12, 56
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/schemas/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/types/get-catalog-games.types.ts", "TypeScript", 0, 0, 7, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/model/types/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/get-catalog-games/ui/index.ts", "TypeScript", 0, 0, 0, 0, 1, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/features/catalog/index.ts", "TypeScript", 0, 0, 0, 0, 1, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/catalog/catalog.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/catalog/catalog.page.tsx", "TypeScript JSX", 0, 8, 0, 0, 1, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/catalog/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/my-library/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/my-library/my-library.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/my-library/my-library.page.tsx", "TypeScript JSX", 0, 8, 0, 0, 1, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/profile/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/profile/profile.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/profile/profile.page.tsx", "TypeScript JSX", 0, 8, 0, 0, 1, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/rankings/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/rankings/rankings.page.async.tsx", "TypeScript JSX", 0, 7, 0, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/pages/rankings/rankings.page.tsx", "TypeScript JSX", 0, 8, 0, 0, 1, 9
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/page-loader/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/page-loader/page-loader.component.tsx", "TypeScript JSX", 0, 9, 0, 0, 2, 11
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/sheet/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/components/ui/sheet/sheet.component.tsx", "TypeScript JSX", 0, 124, 0, 0, 14, 138
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/enums/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/enums/sort-order.enum.ts", "TypeScript", 0, 0, 4, 0, 0, 4
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/api-request.interface.ts", "TypeScript", 0, 0, 7, 0, 1, 8
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/api-response.interface.ts", "TypeScript", 0, 0, 25, 0, 2, 27
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/interfaces/response.interface.ts", "TypeScript", 0, 0, -17, 0, -1, -18
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/auth-layout/auth.layout.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/centered-layout/centered.layout.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/header-layout/header.layout.tsx", "TypeScript JSX", 0, 20, 0, 0, 2, 22
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/header-layout/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/header-layout/interfaces/header-layout.interface.ts", "TypeScript", 0, 0, 5, 0, 1, 6
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/shared/layouts/header-layout/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/config/header.config.ts", "TypeScript", 0, 0, 24, 0, 1, 25
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/config/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/header.component.tsx", "TypeScript JSX", 0, 88, 0, 0, 11, 99
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/interfaces/header.interface.ts", "TypeScript", 0, 0, 6, 0, 1, 7
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/providers/header.provider.tsx", "TypeScript JSX", 0, 29, 0, 0, 7, 36
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/providers/index.ts", "TypeScript", 0, 0, 2, 0, 0, 2
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/providers/interfaces/header-provider.interface.ts", "TypeScript", 0, 0, 8, 0, 2, 10
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/providers/interfaces/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/ui/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/ui/mobile-header/index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/header/ui/mobile-header/mobile-header.component.tsx", "TypeScript JSX", 0, 98, 0, 0, 10, 108
+"/home/denis/vscode_projects/project-game-atlas/packages/frontend/src/widgets/index.ts", "TypeScript", 0, 0, 1, 0, -1, 0
+"Total", "-", 1, 446, 267, 0, 89, 803

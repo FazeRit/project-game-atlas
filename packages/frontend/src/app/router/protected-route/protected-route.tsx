@@ -6,10 +6,6 @@ export const ProtectedRoute = () => {
     useGetUser();
 
     const isAuthenticated = useUserStore((state) => state.isAuthenticated);
-    const user = useUserStore((state) => state.user)
-
-    console.log(isAuthenticated);
-    console.log(user);
 
     if (!isAuthenticated) {
         return <Navigate to={`${ROUTES.LOGIN}`} replace />;

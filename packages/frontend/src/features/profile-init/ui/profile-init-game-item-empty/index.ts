@@ -1,0 +1,1 @@
+export * from './profile-init-game-item-empty.component';

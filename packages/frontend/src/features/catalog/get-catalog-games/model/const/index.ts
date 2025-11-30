@@ -1,0 +1,1 @@
+export * from './catalog-game-pagination.const';
