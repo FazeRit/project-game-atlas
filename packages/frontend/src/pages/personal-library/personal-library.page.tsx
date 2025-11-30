@@ -1,10 +1,10 @@
 import { PersonalLibraryGameList } from "@/features/personal-library/get-personal-library-games/ui/personal-library-game-list"
-import { HeaderLayout } from "@/shared/layouts/header-layout"
+import { MainLayout } from "@/shared/layouts/main-layout"
 
 export const PersonaLibraryPage = () => {
     return (
-        <HeaderLayout>
+        <MainLayout>
             <PersonalLibraryGameList />
-        </HeaderLayout>
+        </MainLayout>
     )
 }

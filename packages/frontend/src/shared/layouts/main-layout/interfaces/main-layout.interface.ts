@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface IHeaderLayoutProps {
+export interface IMainLayoutProps {
     className?: string;
     children: ReactNode
 }

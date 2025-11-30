@@ -1,9 +1,10 @@
 import { cn } from "@/shared/utils";
-import { IHeaderLayoutProps } from "./interfaces"
+import { IMainLayoutProps } from "./interfaces"
 import { memo } from "react";
 import { Header } from "@/widgets";
+import { Footer } from "@/widgets/footer";
 
-export const HeaderLayout = memo((props: IHeaderLayoutProps) => {
+export const MainLayout = memo((props: IMainLayoutProps) => {
     const {
         children,
         className
@@ -19,6 +20,7 @@ export const HeaderLayout = memo((props: IHeaderLayoutProps) => {
             <div className="px-5 md:px-[112px] py-8">
                 {children}
             </div>
+            <Footer />
         </div>
     )
 })

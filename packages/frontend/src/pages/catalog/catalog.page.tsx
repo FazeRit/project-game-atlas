@@ -1,10 +1,10 @@
 import { CatalogList } from "@/features/catalog/get-catalog-games/ui/catalog-game-list"
-import { HeaderLayout } from "@/shared/layouts/header-layout"
+import { MainLayout } from "@/shared/layouts/main-layout"
 
 export const CatalogPage = () => {
     return (
-        <HeaderLayout>
+        <MainLayout>
             <CatalogList />
-        </HeaderLayout>
+        </MainLayout>
     )
 }

@@ -1,9 +1,9 @@
-import { HeaderLayout } from "@/shared/layouts/header-layout"
+import { MainLayout } from "@/shared/layouts/main-layout"
 
 export const ProfilePage = () => {
     return (
-        <HeaderLayout>
+        <MainLayout>
             1234
-        </HeaderLayout>
+        </MainLayout>
     )
 }

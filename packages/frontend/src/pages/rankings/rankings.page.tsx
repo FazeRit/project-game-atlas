@@ -1,9 +1,9 @@
-import { HeaderLayout } from "@/shared/layouts/header-layout"
+import { MainLayout } from "@/shared/layouts/main-layout"
 
 export const RankingsPage = () => {
     return (
-        <HeaderLayout>
+        <MainLayout>
             rankings
-        </HeaderLayout>
+        </MainLayout>
     )
 }

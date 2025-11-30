@@ -23,6 +23,7 @@ export interface IGameDetailsResponse extends IGameResponse {
     genres: Array<IGenreResponse>;
     keywords: Array<IKeywordResponse>;
     companies: Array<IGameCompany>;
+    inLibrary?: boolean;
 }
 
 export interface IPaginateGameResponse extends IGameResponse {
