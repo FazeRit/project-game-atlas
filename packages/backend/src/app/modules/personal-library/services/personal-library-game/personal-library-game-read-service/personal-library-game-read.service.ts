@@ -76,4 +76,11 @@ export class PersonalLibraryGameReadService {
 			meta,
 		};
 	}
+
+	async exists(
+		userId: string,
+		gameId: string
+	): Promise<boolean> {
+		return this.personalLibraryGameReadRepository.exists(userId, gameId);
+	}
 }

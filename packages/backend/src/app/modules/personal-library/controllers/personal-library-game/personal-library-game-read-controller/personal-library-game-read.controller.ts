@@ -53,4 +53,22 @@ export class PersonalLibraryGameReadController {
 
 		return response;
 	}
+
+	@Get('exists')
+    async exists(
+        @GetUser('checksum') userId: string, 
+        @Query('gameId') gameId: string,
+    ): Promise<ApiResponseDto<boolean>> {
+        const data = await this.personalLibraryGameReadService.exists(userId, gameId);
+
+        const response = new ApiResponseDto({
+            statusCode: HttpStatus.OK,
+            data,
+            timestamp: new Date().toISOString(),
+            success: true,
+            path: '',
+        });
+
+        return response;
+    }
 }

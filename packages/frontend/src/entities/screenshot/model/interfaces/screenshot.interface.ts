@@ -1,4 +1,4 @@
-export interface IScreenshot {
+export interface IScreenshotResponse {
     checksum: string;
     gameId: string;
     imageId: string;

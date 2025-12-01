@@ -1,4 +1,4 @@
-export interface ICover{
+export interface ICoverResponse {
     checksum: string;
     gameId: string;
     imageId: string;

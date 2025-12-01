@@ -16,6 +16,10 @@ export abstract class IPersonalLibraryGameReadRepository extends IReadRepository
 		filters?: PersonalLibraryGameFiltersDto,
 		search?: Record<string, unknown>
 	): Promise<number>;
+	abstract exists(
+		userId: string,
+		gameId: string
+	): Promise<boolean>;
 	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null>;
 	abstract findByUserIdAndId(userId: string, checksum: string): Promise<TPersonalLibraryGameWithDetails | null>;
 }

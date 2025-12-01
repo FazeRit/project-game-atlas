@@ -26,11 +26,6 @@ export class PersonalLibraryGameWriteService {
 			throw new BadRequestException('Personal library not found');
 		}
 
-		console.log({
-			...data,
-			personalLibraryId: personalLibrary.checksum
-		})
-
 		const personalLibraryGame = await this.personalLibraryGameWriteRepository.create({
 			...data,
 			personalLibraryId: personalLibrary.checksum

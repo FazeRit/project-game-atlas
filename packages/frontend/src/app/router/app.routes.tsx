@@ -12,6 +12,7 @@ import { ProfilePageAsync } from '@/pages/profile';
 import { RankingsPageAsync } from '@/pages/rankings';
 import { PersonalLibraryPageAsync } from '@/pages/personal-library';
 import { ProfileInitPageAsync } from '@/pages/profile-init';
+import { GameDetailsPageAsync } from '@/pages/game-details';
 
 export const AppRoutes = () => {
     return (
@@ -34,7 +35,7 @@ export const AppRoutes = () => {
                 </Route>
 
                 <Route index path={ROUTES.CATALOG} element={<CatalogPageAsync />} />
-                <Route path={ROUTES.CATALOG_ITEM} element={<div>catalog item</div>} />
+                <Route path={ROUTES.GAME_DETAILS} element={<GameDetailsPageAsync />} />
             </Routes>
         </Suspense>
     );

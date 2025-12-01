@@ -9,9 +9,6 @@ import { GameResponseDto } from './game.dto';
 @Exclude()
 export class GameDetailsResponseDto extends GameResponseDto {
 	@Expose()
-	inLibrary: boolean;
-
-	@Expose()
 	@Type(() => CoverResponseDto)
 	cover?: CoverResponseDto;
 
@@ -55,7 +52,6 @@ export class GameDetailsResponseDto extends GameResponseDto {
 				supporting: boolean;
 				company: CompanyResponseDto;
 			}>,
-			inLibrary: boolean,
 			createdAt: Date,
 			updatedAt: Date
 		}
@@ -66,6 +62,5 @@ export class GameDetailsResponseDto extends GameResponseDto {
 		this.genres = data.genres;
 		this.keywords = data.keywords;
 		this.companies = data.companies;
-		this.inLibrary = data.inLibrary;
 	}
 }

@@ -1,12 +1,16 @@
-import { memo, useMemo } from "react";
+import { memo, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { GenreBadge } from "@/entities/genre/ui";
 import { IPaginteGameItemProps } from "@/features/catalog/get-catalog-games";
+import { AspectRatio, CustomBadge } from "@/shared/components";
+import { ROUTES } from "@/shared";
 
 export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
     const {
         game
     } = props;
+
+    const navigate = useNavigate();
 
     const coverUrl = useMemo(() => {
         return game.cover && game.cover.url ||
@@ -23,26 +27,37 @@ export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
         });
 
         return Array.from(genresMap.values());
-    }, [game.genres])
+    }, [game.genres]);
+    
+    const handleGameClick = useCallback(() => {
+        const path = ROUTES.GAME_DETAILS
+            .replace(':checksum', game.checksum);
+
+        navigate(path);
+    }, [game.checksum, navigate]);
+
 
     return (
         <div
+            onClick={handleGameClick}
             className={clsx(
-                "flex flex-col pt-4 rounded-xl overflow-hidden",
+                "flex flex-col pt-4 rounded-xl overflow-hidden cursor-pointer",
                 "bg-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] h-full"
             )}
         >
             <div className="relative w-full min-h-[192px] max-h-[192px] overflow-hidden">
-                <img
-                    className="z-10 relative w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    src={coverUrl}
-                    loading="lazy"
-                    decoding="async"
-                    alt={`Обкладинка гри ${game.name}`}
-                    onError={(e) => {
-                        e.currentTarget.src = 'https://placehold.co/260x192/404040/FFFFFF?text=Error';
-                    }}
-                />
+                <AspectRatio ratio={2 / 3} className="w-full overflow-hidden">
+                    <img
+                        className="z-10 relative w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        src={coverUrl}
+                        loading="lazy"
+                        decoding="async"
+                        alt={`Обкладинка гри ${game.name}`}
+                        onError={(e) => {
+                            e.currentTarget.src = 'https://placehold.co/260x192/404040/FFFFFF?text=Error';
+                        }}
+                    />
+                </AspectRatio>
             </div>
 
             <div className="flex flex-col gap-2 md:gap-3 p-3 md:p-4 w-full h-full">
@@ -52,9 +67,9 @@ export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
                 <div className="flex flex-col flex-grow justify-between gap-2">
                     <div className="flex flex-wrap gap-x-2 gap-y-1 overflow-hidden">
                         {uniqueGenres.map(item => (
-                            <GenreBadge
+                            <CustomBadge
                                 key={item.name}
-                                genreName={item.name}
+                                name={item.name}
                             />
                         ))}
                     </div>

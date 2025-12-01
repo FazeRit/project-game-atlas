@@ -12,7 +12,6 @@ import { PaginateGameResponseDto } from '../../../dto';
 export class GameMapService {
 	toGameDetailsDto(
 		game: TGameWithDetails,
-		inLibrary: boolean = false
 	): GameDetailsResponseDto {
 		const coverDto = game.cover ? new CoverResponseDto(
 			game.cover.checksum,
@@ -82,7 +81,6 @@ export class GameMapService {
 			genres: genresDto,
 			keywords: keywordsDto,
 			companies: companiesDto,
-			inLibrary,
 			createdAt:game.createdAt,
 			updatedAt: game.updatedAt
 		});
