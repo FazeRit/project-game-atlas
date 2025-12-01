@@ -1,14 +1,14 @@
 import { memo } from "react";
-import { IGenreBadgeProps } from "./interfaces";
+import { ICustomBadgeProps } from "./interfaces";
 
-export const GenreBadge = memo((props: IGenreBadgeProps) => {
+export const CustomBadge = memo((props: ICustomBadgeProps) => {
     const {
-        genreName
+        name
     } = props;
 
     return (
         <div className="flex justify-center items-center bg-[#525252] px-1 py-0.5 rounded-md h-fit text-[10px] text-white md:text-[14px]">
-            {genreName}
+            {name}
         </div>
     )
 })

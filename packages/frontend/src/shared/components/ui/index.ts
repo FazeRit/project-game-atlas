@@ -6,3 +6,4 @@ export * from './sheet';
 export * from './pagination';
 export * from './popover';
 export * from './drawer';
+export * from './aspect-ratio';

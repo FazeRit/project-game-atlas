@@ -4,7 +4,7 @@ import { CatalogListGameEmpty } from "../catalog-list-game-empty";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ECatalogGameSortField } from "../../model/enums/get-catalog-games.enums";
-import { ESortOrder } from "@/shared";
+import { ESortOrder, ROUTES } from "@/shared";
 import { CustomPagination } from "@/shared/components";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useGetGenres } from "@/entities/genre/model/hooks";
@@ -111,12 +111,19 @@ export const CatalogList = memo(() => {
                 ) : (
                     <>
                         <div className="gap-2 gap-y-4 md:gap-6 grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))]">
-                            {games.data.map(item => (
-                                <PaginateGameItem
-                                    key={item.checksum}
-                                    game={item}
-                                />
-                            ))}
+                            {games.data.map(item => {
+                                const itemChecksum = item.checksum; 
+
+                                const fullGamePath = `${ROUTES.GAME_DETAILS}`.replace(':checksum', itemChecksum);
+
+                                return (
+                                    <PaginateGameItem
+                                        key={item.checksum}
+                                        game={item}
+                                        to={fullGamePath}
+                                    />
+                                );
+                            })}
                         </div>
                         {totalPages > 1 && (
                             <div className="flex justify-center">

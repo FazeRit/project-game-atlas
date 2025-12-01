@@ -3,9 +3,9 @@ import {
 	Controller,
 	Delete,
 	HttpStatus,
+	Param,
 	Post,
 	Put,
-	Query
 } from '@nestjs/common';
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
 import { PersonalLibraryGameCreateDto, PersonalLibraryGameUpdateDto } from '../../../dto';
@@ -52,12 +52,12 @@ export class PersonalLibraryGameWriteController {
 		return response;
 	}
 
-	@Delete(':checksum')
+	@Delete(':gameId')
 	async delete(
         @GetUser('checksum') userId: string,
-        @Query('checksum') checksum: string,
+        @Param('gameId') gameId: string,
     ): Promise<ApiResponseDto<void>> {
-		await this.personalLibraryGameWriteService.delete(userId, checksum);
+		await this.personalLibraryGameWriteService.delete(userId, gameId);
 	
 		const response = new ApiResponseDto({
 			statusCode: HttpStatus.OK,

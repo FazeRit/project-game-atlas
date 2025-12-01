@@ -1,0 +1,1 @@
+export const textareaStyles = "flex bg-[#171717] text-[#ADAEBC] disabled:opacity-50 shadow-sm px-3 py-2 border border-[#E5E7EB] rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring w-full min-h-[60px] placeholder:text-[#ADAEBC] md:text-sm text-base disabled:cursor-not-allowed";

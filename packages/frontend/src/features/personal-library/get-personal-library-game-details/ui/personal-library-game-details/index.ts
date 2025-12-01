@@ -1,0 +1,1 @@
+export * from './personal-library-game-details.component';

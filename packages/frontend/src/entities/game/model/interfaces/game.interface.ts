@@ -1,8 +1,8 @@
 import { IGameCompany } from "@/entities/company";
-import { ICover } from "@/entities/cover";
+import { ICoverResponse } from "@/entities/cover";
 import { IGenreResponse } from "@/entities/genre";
 import { IKeywordResponse } from "@/entities/keyword";
-import { IScreenshot } from "@/entities/screenshot/model/interfaces/screenshot.interface";
+import { IScreenshotResponse } from "@/entities/screenshot";
 
 export interface IGameResponse {
     checksum: string;
@@ -18,15 +18,14 @@ export interface IGameResponse {
 }
 
 export interface IGameDetailsResponse extends IGameResponse {
-    cover?: ICover;
-    screenshots: Array<IScreenshot>;
+    cover?: ICoverResponse;
+    screenshots: Array<IScreenshotResponse>;
     genres: Array<IGenreResponse>;
     keywords: Array<IKeywordResponse>;
     companies: Array<IGameCompany>;
-    inLibrary?: boolean;
 }
 
 export interface IPaginateGameResponse extends IGameResponse {
-    cover?: ICover;
+    cover?: ICoverResponse;
     genres: Array<IGenreResponse>;
 }

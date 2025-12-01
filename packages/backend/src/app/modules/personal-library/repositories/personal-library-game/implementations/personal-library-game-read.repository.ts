@@ -93,6 +93,22 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 		});
 	}
 
+	async exists(
+		userId: string,
+		gameId: string
+	): Promise<boolean> {
+		const count = await this.prisma.personalLibraryGame.count({
+			where: {
+				gameId,
+				personalLibrary: {
+					userId
+				}
+			}
+		});
+
+		return count > 0;
+	}
+
 	async findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null> {
 		return this.prisma.personalLibraryGame.findFirst({
 			where: {

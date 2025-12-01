@@ -20,7 +20,6 @@ export type TGameWithDetails = Prisma.GameGetPayload<{
 				company: true;
 			};
 		};
-		personalLibraryGames: true;
 	};
 }>;
 

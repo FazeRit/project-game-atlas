@@ -27,11 +27,8 @@ export class GameReadService {
 			return null;
 		}
 
-		const isInLibrary = Boolean(game.personalLibraryGames[0])
-
 		return this.gameMapService.toGameDetailsDto(
 			game,
-			isInLibrary
 		);
 	}
 

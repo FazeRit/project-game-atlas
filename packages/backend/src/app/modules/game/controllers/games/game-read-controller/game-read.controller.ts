@@ -30,7 +30,7 @@ export class GameReadController {
 	): Promise<ApiResponseDto<GameDetailsResponseDto | null>> {
 		const data = await this.gameReadService.findById(
 			checksum,
-			user.checksum
+			user?.checksum,
 		);
 
 		const response = new ApiResponseDto({

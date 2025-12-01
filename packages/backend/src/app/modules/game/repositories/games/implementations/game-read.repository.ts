@@ -11,10 +11,9 @@ export class GameReadRepository implements IGameReadRepository {
 
 	async findById(
 		checksum: string,
-		userId?: string
 	): Promise<TGameWithDetails | null> {
 		return this.prisma.game.findUnique({
-			where: {
+        where: {
 				checksum,
 			},
 			include: {
@@ -35,13 +34,6 @@ export class GameReadRepository implements IGameReadRepository {
 						company: true
 					}
 				},
-				personalLibraryGames: {
-					where: {
-						personalLibrary: {
-							userId: userId ? userId : 'non-existent-user'
-						}
-					}
-				}
 			},
 		});
 	}

@@ -1,8 +1,10 @@
 export enum ROUTES {
 	CATALOG = "/",
-	CATALOG_ITEM = "/:checksum",
+	GAME_DETAILS = "games/:checksum",
 
 	PERSONAL_LIBRARY = "/personal-library",
+	PERSONAL_LIBRARY_GAME_DETAILS = '/personal-library/:gameId',
+
 	PROFILE = "/profile",
 	RANKINGS = "/rankings",
 
