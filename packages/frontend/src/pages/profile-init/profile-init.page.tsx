@@ -1,4 +1,4 @@
-import { ProfileInitList } from "@/features/profile-init/ui/profile-init-list"
+import { ProfileInitList } from "@/features/profile/profile-init/ui/profile-init-list"
 import { MainLayout } from "@/shared/layouts/main-layout"
 
 export const ProfileInitPage = () => {

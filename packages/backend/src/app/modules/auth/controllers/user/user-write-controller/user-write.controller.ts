@@ -7,6 +7,7 @@ import {
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
 import { UserResponseDto, UserUpdateDto } from '../../../dto';
 import { UserWriteService } from '../../../services/user/user-write-service/user-write.service';
+import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 
 @Controller('users')
 export class UserWriteController {
@@ -25,8 +26,17 @@ export class UserWriteController {
 	@Delete()
 	async delete(
         @GetUser('checksum') userId: string,
-    ): Promise<void> {
-		return this.userWriteService.delete(userId);
+    ): Promise<ApiResponseDto<null>> {
+		await this.userWriteService.delete(userId);
+
+		const response = new ApiResponseDto({
+			statusCode: 200,
+			data: null,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;
 	}
 }
 

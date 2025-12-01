@@ -7,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TODO: add indexes
-
 model Game {
     checksum             String   @id @default(uuid())
     name                 String
@@ -27,7 +25,7 @@ model Game {
 
     gameCompanies        GameCompany[]
 
-	personalLibraryGames PersonalLibraryGame[]
+    personalLibraryGames PersonalLibraryGame[]
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -40,8 +38,8 @@ model GameKeyword {
     gameId               String   @map("game_id")
     keywordId            String   @map("keyword_id")
 
-    game                 Game     @relation(fields: [gameId], references: [checksum])
-    keyword              Keyword  @relation(fields: [keywordId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+    keyword              Keyword  @relation(fields: [keywordId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -72,8 +70,8 @@ model GameCompany {
     publisher            Boolean
     supporting           Boolean
 
-    game                 Game     @relation(fields: [gameId], references: [checksum])
-    company              Company  @relation(fields: [companyId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+    company              Company  @relation(fields: [companyId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -104,7 +102,7 @@ model Cover {
     width                Int?
     url                  String?
 
-    game                 Game     @relation(fields: [gameId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -121,7 +119,7 @@ model Screenshots {
     width                Int?
     url                  String?
 
-    game                 Game     @relation(fields: [gameId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -134,8 +132,8 @@ model GameGenre {
     gameId               String   @map("game_id")
     genreId              String   @map("genre_id")
 
-    game                 Game     @relation(fields: [gameId], references: [checksum])
-    genre                Genre    @relation(fields: [genreId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+    genre                Genre    @relation(fields: [genreId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -166,7 +164,7 @@ model User {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
-	personalLibraries	 PersonalLibrary?
+    personalLibraries    PersonalLibrary?
 
     otps                 Otp[]
     @@map("users")
@@ -178,7 +176,7 @@ model Otp {
     code                  String
     expiresAt            DateTime
 
-    user                 User     @relation(fields: [userId], references: [checksum])
+    user                 User     @relation(fields: [userId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -188,54 +186,54 @@ model Otp {
 
 model PersonalLibraryGame {
     checksum             String   @id @default(uuid())
-	gameId				 String   @map("game_id")
-	personalLibraryId	 String   @map("personal_library_id")
+    gameId               String   @map("game_id")
+    personalLibraryId    String   @map("personal_library_id")
 
-	status				 EPlayStatus	  @default(BACKLOG)
-	rank				 ETierRank @default(UNRANKED)
+    status               EPlayStatus      @default(BACKLOG)
+    rank                 ETierRank @default(UNRANKED)
 
     note                 String?
 
-	game 				 Game 	  @relation(fields: [gameId], references: [checksum])
-	personalLibrary		 PersonalLibrary   @relation(fields: [personalLibraryId], references: [checksum])
+    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+    personalLibrary      PersonalLibrary   @relation(fields: [personalLibraryId], references: [checksum], onDelete: Cascade)
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
-	@@map("personal_library_games")
+    @@map("personal_library_games")
 }
 
 model PersonalLibrary {
     checksum             String   @id @default(uuid())
-	userId				 String	  @map("user_id")   @unique
+    userId               String   @map("user_id")   @unique
 
-	user				 User     @relation(fields: [userId], references: [checksum])
+    user                 User     @relation(fields: [userId], references: [checksum], onDelete: Cascade)
 
-	personalLibraryGames PersonalLibraryGame[]
+    personalLibraryGames PersonalLibraryGame[]
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
-	@@map("personal_libraries")
+    @@map("personal_libraries")
 }
 
 enum EPlayStatus {
     PREFERENCE
-	PLAYING
-	COMPLETED
-	DROPPED
-	ON_HOLD
-	BACKLOG
+    PLAYING
+    COMPLETED
+    DROPPED
+    ON_HOLD
+    BACKLOG
 }
 
 enum ETierRank {
-	S
-	A
-	B
-	C
-	D
-	F
-	UNRANKED
+    S
+    A
+    B
+    C
+    D
+    F
+    UNRANKED
 }
 
 enum ERecommendationReason {
