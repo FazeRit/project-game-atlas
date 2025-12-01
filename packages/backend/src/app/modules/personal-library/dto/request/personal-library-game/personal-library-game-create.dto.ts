@@ -19,7 +19,6 @@ export class PersonalLibraryGameCreateDto {
 	@Expose()
 	personalLibraryId?: string;
 
-
 	@IsOptional()
 	@IsEnum(EPlayStatus)
 	@Expose()

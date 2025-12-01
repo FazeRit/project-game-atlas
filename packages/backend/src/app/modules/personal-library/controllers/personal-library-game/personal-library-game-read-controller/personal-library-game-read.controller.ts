@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Query } from '@nestjs/common';
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
 import { PersonalLibraryGameFiltersDto } from '../../../dto/request/personal-library-game/personal-library-game-filters.dto';
 import { PersonalLibraryGamePaginateDto } from '../../../dto/request/personal-library-game/personal-library-game-paginate.dto';
@@ -7,7 +7,7 @@ import { SearchParams } from '../../../../../shared/decorators/pagination/search
 import { SortParams } from '../../../../../shared/decorators/pagination/sort-params.decorator';
 import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
-import { PaginatePersonalLibraryGameResponseDto } from '../../../dto';
+import { PaginatePersonalLibraryGameResponseDto, PersonalLibraryGameDetailsResponseDto } from '../../../dto';
 
 @Controller('personal-library-games')
 export class PersonalLibraryGameReadController {
@@ -54,10 +54,10 @@ export class PersonalLibraryGameReadController {
 		return response;
 	}
 
-	@Get('exists')
+	@Get('exists/:gameId')
     async exists(
         @GetUser('checksum') userId: string, 
-        @Query('gameId') gameId: string,
+        @Param('gameId') gameId: string,
     ): Promise<ApiResponseDto<boolean>> {
         const data = await this.personalLibraryGameReadService.exists(userId, gameId);
 
@@ -71,4 +71,21 @@ export class PersonalLibraryGameReadController {
 
         return response;
     }
+
+	@Get(':gameId')
+	async findById(
+		@GetUser('checksum') userId: string,
+		@Param('gameId') gameId: string,
+	): Promise<ApiResponseDto<PersonalLibraryGameDetailsResponseDto | null>> {
+		const data = await this.personalLibraryGameReadService.findByUserIdAndGameId(userId, gameId)
+
+		const response = new ApiResponseDto({
+			statusCode: HttpStatus.OK,
+			data,
+			timestamp: new Date().toISOString(),
+			success: true,
+		})
+
+		return response;	
+	}
 }

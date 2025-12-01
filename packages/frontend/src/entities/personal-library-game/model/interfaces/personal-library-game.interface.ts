@@ -12,10 +12,10 @@ export interface IPersonalLibraryGameResponse {
     updatedAt: Date;
 }
 
-export interface IPaginatePersonalLibraryGame extends IPersonalLibraryGameResponse {
+export interface IPaginatePersonalLibraryGameResponse extends IPersonalLibraryGameResponse {
     game: IPaginateGameResponse;
 }
 
-export interface IPersonalLibraryGameDetails extends IPersonalLibraryGameResponse {
+export interface IPersonalLibraryGameDetailsResponse extends IPersonalLibraryGameResponse {
     game: IGameDetailsResponse
 }

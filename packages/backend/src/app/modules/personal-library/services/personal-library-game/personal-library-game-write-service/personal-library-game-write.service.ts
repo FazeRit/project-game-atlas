@@ -64,7 +64,10 @@ export class PersonalLibraryGameWriteService {
 		const oldStatus = existingPersonalLibraryGame.status;
         const oldRank = existingPersonalLibraryGame.rank;
 
-		const updatedPersonalLibraryGame = await this.personalLibraryGameWriteRepository.update(existingPersonalLibraryGame.checksum, data);
+		const updatedPersonalLibraryGame = await this.personalLibraryGameWriteRepository.update(
+			existingPersonalLibraryGame.checksum,
+			data
+		);
 
 		if (!updatedPersonalLibraryGame) {
 			throw new BadRequestException('Failed to update personal library game');
@@ -90,7 +93,9 @@ export class PersonalLibraryGameWriteService {
 	}
 
 	async delete(userId: string, checksum: string): Promise<void> {
-		const existingPersonalLibraryGame = await this.personalLibraryGameReadService.findByUserIdAndId(userId, checksum);
+		const existingPersonalLibraryGame = await this.personalLibraryGameReadService.findByUserIdAndChecksum(userId, checksum);
+
+		console.log(existingPersonalLibraryGame)
 
 		if (!existingPersonalLibraryGame) {
 			throw new BadRequestException('Personal library game not found');
@@ -100,7 +105,7 @@ export class PersonalLibraryGameWriteService {
         const oldRank = existingPersonalLibraryGame.rank;
         const gameId = existingPersonalLibraryGame.gameId;
 
-		await this.personalLibraryGameWriteRepository.delete(checksum);
+		await this.personalLibraryGameWriteRepository.delete(existingPersonalLibraryGame.checksum);
 
 		await this.heuristicEngine.processStatusUpdate(
             userId,

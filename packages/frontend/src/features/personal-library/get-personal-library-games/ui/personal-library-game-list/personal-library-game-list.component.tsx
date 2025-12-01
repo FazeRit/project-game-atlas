@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ESortOrder } from "@/shared";
+import { ESortOrder, ROUTES } from "@/shared";
 import { CustomPagination } from "@/shared/components";
 import { useDebounce } from "@uidotdev/usehooks";
 import { EPersonalLibraryGameSortField } from "../../model/enums";
@@ -112,12 +112,19 @@ export const PersonalLibraryGameList = memo(() => {
                 ) : (
                     <>
                         <div className="gap-2 gap-y-4 md:gap-6 grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))]">
-                            {games.data.map(item => (
-                                <PaginateGameItem
-                                    key={item.checksum}
-                                    game={item.game}
-                                />
-                            ))}
+                            {games.data.map(item => {
+                                const gameId = item.game.checksum; 
+
+                                const fullGamePath = `${ROUTES.PERSONAL_LIBRARY_GAME_DETAILS}`.replace(':gameId', gameId);
+                                
+                                return (
+                                    <PaginateGameItem
+                                        key={item.checksum}
+                                        game={item.game}
+                                        to={fullGamePath}
+                                    />
+                                );
+                            })}
                         </div>
                         {totalPages > 1 && (
                             <div className="flex justify-center">

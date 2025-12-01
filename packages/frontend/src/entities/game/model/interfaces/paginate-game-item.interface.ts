@@ -1,5 +1,6 @@
 import {  IPaginateGameResponse } from "@/entities/game";
 
-export interface IPaginteGameItemProps {
+export interface IPaginateGameItemProps {
     game: IPaginateGameResponse;
+    to: string;
 }

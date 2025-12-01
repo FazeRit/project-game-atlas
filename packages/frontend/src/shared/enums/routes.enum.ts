@@ -3,7 +3,7 @@ export enum ROUTES {
 	GAME_DETAILS = "games/:checksum",
 
 	PERSONAL_LIBRARY = "/personal-library",
-	PERSONAL_LIBRARY_GAME = '/personal-library/:checksum',
+	PERSONAL_LIBRARY_GAME_DETAILS = '/personal-library/:gameId',
 
 	PROFILE = "/profile",
 	RANKINGS = "/rankings",

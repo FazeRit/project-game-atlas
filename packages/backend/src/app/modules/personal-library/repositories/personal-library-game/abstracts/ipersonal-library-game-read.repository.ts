@@ -21,6 +21,5 @@ export abstract class IPersonalLibraryGameReadRepository extends IReadRepository
 		gameId: string
 	): Promise<boolean>;
 	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null>;
-	abstract findByUserIdAndId(userId: string, checksum: string): Promise<TPersonalLibraryGameWithDetails | null>;
 }
 

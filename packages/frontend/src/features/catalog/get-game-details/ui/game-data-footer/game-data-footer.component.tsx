@@ -16,7 +16,7 @@ export const GameDataFooter = memo((props: IGameDataFooterProps) => {
 
     const { 
         data: existsData, 
-        isLoading: isLoadingExists, 
+        isLoading: isLoadingExists,
         isError: isExistsError 
     } = useExistsPersonalLibraryGame(game.checksum);
     

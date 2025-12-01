@@ -13,6 +13,7 @@ import { RankingsPageAsync } from '@/pages/rankings';
 import { PersonalLibraryPageAsync } from '@/pages/personal-library';
 import { ProfileInitPageAsync } from '@/pages/profile-init';
 import { GameDetailsPageAsync } from '@/pages/game-details';
+import { PersonalLibraryGameDetailsPageAsync } from '@/pages/personal-library-game-details';
 
 export const AppRoutes = () => {
     return (
@@ -29,6 +30,7 @@ export const AppRoutes = () => {
                 <Route element={<ProtectedRoute />}> 
                     <Route path={ROUTES.PROFILE_INIT} element={<ProfileInitPageAsync />} />
                     <Route path={ROUTES.PERSONAL_LIBRARY} element={<PersonalLibraryPageAsync />} />
+                    <Route path={ROUTES.PERSONAL_LIBRARY_GAME_DETAILS} element={<PersonalLibraryGameDetailsPageAsync />} />
                     <Route path={ROUTES.PROFILE} element={<ProfilePageAsync />} />
                     <Route path={ROUTES.RANKINGS} element={<RankingsPageAsync />} />
                     <Route path={ROUTES.COMPATIBILITY} element={<div>compatibility</div>} />

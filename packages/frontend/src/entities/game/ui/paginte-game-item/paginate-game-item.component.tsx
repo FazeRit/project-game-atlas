@@ -1,13 +1,13 @@
 import { memo, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { IPaginteGameItemProps } from "@/features/catalog/get-catalog-games";
+import { IPaginateGameItemProps } from "@/features/catalog/get-catalog-games";
 import { AspectRatio, CustomBadge } from "@/shared/components";
-import { ROUTES } from "@/shared";
 
-export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
+export const PaginateGameItem = memo((props: IPaginateGameItemProps) => {
     const {
-        game
+        game,
+        to
     } = props;
 
     const navigate = useNavigate();
@@ -30,12 +30,8 @@ export const PaginateGameItem = memo((props: IPaginteGameItemProps) => {
     }, [game.genres]);
     
     const handleGameClick = useCallback(() => {
-        const path = ROUTES.GAME_DETAILS
-            .replace(':checksum', game.checksum);
-
-        navigate(path);
+        navigate(to);
     }, [game.checksum, navigate]);
-
 
     return (
         <div
