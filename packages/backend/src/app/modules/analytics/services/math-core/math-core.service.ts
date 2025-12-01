@@ -3,42 +3,34 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class MathCoreService {
     calculateSimilarity(
-		firstVector: Record<string, number>,
-		secondVector: Record<string, number>
+		sourceVector: Record<string, number>, 
+        targetVector: Record<string, number>
     ): number {
-        const allKeys = Array.from(new Set([
-			...Object.keys(firstVector),
-			...Object.keys(secondVector)
-		]));
+        const sourceKeys = Object.keys(sourceVector);
 
-		const vecA = allKeys.map(key => {
-			return firstVector[key] ?? 0
-		})
+        if (sourceKeys.length === 0) return 0;
 
-		const vecB = allKeys.map(key => {
-			return secondVector[key] ?? 0
-		})
+        let dotProduct = 0;
+        let sourceMagnitudeSq = 0;
+        let targetMagnitudeSq = 0;
 
-		const dotProduct = vecA.reduce(
-			(sum, val, i) => sum + val * vecB[i], 0
-		);
+        for (const key of sourceKeys) {
+            const sourceVal = sourceVector[key] ?? 0;
+            const targetVal = targetVector[key] ?? 0;
 
-		const magnitudeA = Math.sqrt(
-			vecA.reduce(
-				(sum, val) => sum + val * val, 0
-			)
-		);
-		const magnitudeB = Math.sqrt(
-			vecB.reduce(
-				(sum, val) => sum + val * val, 0
-			)
-		);
+            dotProduct += sourceVal * targetVal;
+            sourceMagnitudeSq += sourceVal * sourceVal;
+            targetMagnitudeSq += targetVal * targetVal;
+        }
 
-		if (magnitudeA === 0 || magnitudeB === 0) {
-			return 0;
-		}
+        const sourceMagnitude = Math.sqrt(sourceMagnitudeSq);
+        const targetMagnitude = Math.sqrt(targetMagnitudeSq);
 
-		return dotProduct / (magnitudeA * magnitudeB);
+        if (sourceMagnitude === 0 || targetMagnitude === 0) {
+            return 0;
+        }
+
+        return dotProduct / (sourceMagnitude * targetMagnitude);
 	}
 
 	mergeVector(

@@ -60,17 +60,15 @@ export class HeuristicEngineService {
     }
 
     private getRankWeight(rank: ETierRank): number {
-        switch (rank) {
-            case ETierRank.S: return 20;
-            case ETierRank.A: return 15;
-            case ETierRank.B: return 10;
-            case ETierRank.C: return 5;
-            case ETierRank.D: return -5;
-            case ETierRank.F: return -20;
-            case ETierRank.UNRANKED: return 0;
-            default: return 0;
-        }
+    switch (rank) {
+        case ETierRank.A: return 15;
+        case ETierRank.B: return 10;
+        case ETierRank.C: return 5;
+        case ETierRank.D: return -0;
+        case ETierRank.UNRANKED: return 0;
+        default: return 0;
     }
+}
 
 	private async applyWeightDelta(
 		userId: string,

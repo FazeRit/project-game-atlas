@@ -227,12 +227,10 @@ enum EPlayStatus {
 }
 
 enum ETierRank {
-    S
     A
     B
     C
     D
-    F
     UNRANKED
 }
 

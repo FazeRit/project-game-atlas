@@ -1,0 +1,1 @@
+export * from './rankings-item.component';
