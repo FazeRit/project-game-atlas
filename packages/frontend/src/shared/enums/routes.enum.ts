@@ -1,6 +1,6 @@
 export enum ROUTES {
 	CATALOG = "/",
-	GAME_DETAILS = "games/:checksum",
+	GAME_DETAILS = "games/:gameId",
 
 	PERSONAL_LIBRARY = "/personal-library",
 	PERSONAL_LIBRARY_GAME_DETAILS = '/personal-library/:gameId',
@@ -8,7 +8,7 @@ export enum ROUTES {
 	PROFILE = "/profile",
 	RANKINGS = "/rankings",
 
-	COMPATIBILITY = "/compatibility/:checksum",
+	COMPATIBILITY = "/compatibility/:gameId",
 	
 	REGISTER = "/register",
 	LOGIN = "/login",

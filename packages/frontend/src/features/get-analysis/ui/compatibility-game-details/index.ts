@@ -1,0 +1,1 @@
+export * from './compatibility-game-details.component';

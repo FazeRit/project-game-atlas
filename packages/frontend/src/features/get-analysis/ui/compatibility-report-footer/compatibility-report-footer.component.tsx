@@ -2,16 +2,14 @@ import { memo, useCallback } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components";
 import { useUserStore } from "@/entities";
-import { IGameDataFooterProps } from "../../model/interfaces/game-data-footer.interface";
 import { useCreatePersonalLibraryGame } from "@/entities/personal-library-game";
 import { EPersonalLibraryGameRank, EPersonalLibraryGameStatus } from "@/entities/personal-library-game/model/enums";
 import { useExistsPersonalLibraryGame } from "@/entities/personal-library-game/model/hooks/exists-personal-library-game.hook";
-import { Link, useNavigate } from "react-router-dom";
-import { ROUTES } from "@/shared";
+import { ICompatibilityReportFooterProps } from "../../model";
 
-export const GameDataFooter = memo((props: IGameDataFooterProps) => {
+export const CompatibilityReportFooter = memo((props: ICompatibilityReportFooterProps) => {
     const {
-        game,
+        game
     } = props;
 
     const isAuthenticated = useUserStore(state => state.isAuthenticated);
@@ -68,24 +66,12 @@ export const GameDataFooter = memo((props: IGameDataFooterProps) => {
                     </p>
                 )
             )}
-            
-            <Button 
-                disabled={isLibraryCheckPending}
-            >
-                <Link
-                    to={`${ROUTES.COMPATIBILITY
-                        .replace(':gameId', game.checksum)}`
-                    }
-                >
-                    Проаналізувати сумісність
-                </Link>
-            </Button>
 
             {!isGameInLibrary && (
                 <Button 
                     onClick={handleAddToLibrary}
                     disabled={isAdding || isLoadingExists}
-                    className="flex items-center gap-2"
+                    className="flex justify-center items-center gap-2 w-full"
                 >
                     {!isAdding && <Plus className="w-5 h-5" />}
                     {isAdding ? 'Додавання...' : 'Додати до бібліотеки'} 

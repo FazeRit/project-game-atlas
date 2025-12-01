@@ -17,6 +17,7 @@ export class RecommendationCuratorService {
 		userId: string,
 		gameId: string
 	): Promise<PredictionResponseDto> {
+		console.log(userId, gameId)
 		const userVector = await this.userReadService.getTasteProfile(userId);
 
 		const gameVector = await this.gameReadService.getGameVector(gameId);
@@ -57,11 +58,11 @@ export class RecommendationCuratorService {
             if (gameVector[key] > 0) {
                 const userInterest = userVector[key] || 0;
 
-                if (userInterest >= 10) {
+                if (userInterest >= 15) {
                     greenFlags.push(key);
                 }
 
-                if (userInterest <= -5) {
+                if (userInterest <= -10) {
                     redFlags.push(key);
                 }
             }
