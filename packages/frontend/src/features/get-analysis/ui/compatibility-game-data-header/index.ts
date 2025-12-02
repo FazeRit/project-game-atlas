@@ -1,0 +1,1 @@
+export * from './compatibility-analysis-game-data-header.component';

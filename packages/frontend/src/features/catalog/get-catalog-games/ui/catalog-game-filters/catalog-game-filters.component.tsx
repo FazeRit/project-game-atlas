@@ -13,7 +13,7 @@ export const CatalogListFilters = memo((props: ICatalogListFiltersProps) => {
         onGenresChange,
         availableKeywords,
         selectedKeywords,
-        onKeywordsChange,
+        onKeywordsChange
     } = props;
 
     const { control } = useFormContext();

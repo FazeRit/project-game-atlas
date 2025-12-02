@@ -1,1 +1,1 @@
-export * from './paginte-game-item';
+export * from './paginate-game-item';

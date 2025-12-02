@@ -31,7 +31,7 @@ export const CatalogList = memo(() => {
         resolver: zodResolver(getKeywordsRequestSchema),
         defaultValues: {
             page: 1,
-            limit: 50,
+            limit: 1000,
         }
     })
 
@@ -39,10 +39,11 @@ export const CatalogList = memo(() => {
     const keywordsFormValues = keywordsMethods.watch();
 
     const debouncedCatalogFormValues = useDebounce(catalogFormValues, 500);
+    const debouncedKeywordsFormValues = useDebounce(keywordsFormValues, 500);
 
     const { data: games } = useGetCatalogGames(debouncedCatalogFormValues as IGetCatalogGamesRequestDto);
 
-    const { data: keywords } = useGetKeywords(keywordsFormValues as IGetKeywordsRequestDto);
+    const { data: keywords } = useGetKeywords(debouncedKeywordsFormValues as IGetKeywordsRequestDto);
     
     const { data: genres } = useGetGenres();
 
@@ -112,9 +113,9 @@ export const CatalogList = memo(() => {
                     <>
                         <div className="gap-2 gap-y-4 md:gap-6 grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(240px,1fr))]">
                             {games.data.map(item => {
-                                const itemChecksum = item.checksum; 
+                                const gameId = item.checksum; 
 
-                                const fullGamePath = `${ROUTES.GAME_DETAILS}`.replace(':checksum', itemChecksum);
+                                const fullGamePath = `${ROUTES.GAME_DETAILS}`.replace(':gameId', gameId);
 
                                 return (
                                     <PaginateGameItem

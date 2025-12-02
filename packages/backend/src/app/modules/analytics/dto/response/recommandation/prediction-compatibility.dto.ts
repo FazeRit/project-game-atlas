@@ -1,8 +1,8 @@
 import { Expose } from 'class-transformer';
 import { EPredictionVerdict } from '@prisma/client';
-import { PredictionFlagsDto } from './prediction-flags.dto';
+import { PredictionFlagsResponseDto } from './prediction-flags.dto';
 
-export class PredictionResponseDto extends PredictionFlagsDto{
+export class PredictionResponseDto extends PredictionFlagsResponseDto {
     @Expose()
     gameId: string;
 

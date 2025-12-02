@@ -6,6 +6,8 @@ import { IGameDataFooterProps } from "../../model/interfaces/game-data-footer.in
 import { useCreatePersonalLibraryGame } from "@/entities/personal-library-game";
 import { EPersonalLibraryGameRank, EPersonalLibraryGameStatus } from "@/entities/personal-library-game/model/enums";
 import { useExistsPersonalLibraryGame } from "@/entities/personal-library-game/model/hooks/exists-personal-library-game.hook";
+import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from "@/shared";
 
 export const GameDataFooter = memo((props: IGameDataFooterProps) => {
     const {
@@ -70,7 +72,13 @@ export const GameDataFooter = memo((props: IGameDataFooterProps) => {
             <Button 
                 disabled={isLibraryCheckPending}
             >
-                Проаналізувати сумісність
+                <Link
+                    to={`${ROUTES.COMPATIBILITY
+                        .replace(':gameId', game.checksum)}`
+                    }
+                >
+                    Проаналізувати сумісність
+                </Link>
             </Button>
 
             {!isGameInLibrary && (

@@ -1,6 +1,5 @@
 import {
 	Controller,
-	Delete,
 	HttpStatus,
 	Post,
 } from '@nestjs/common';
@@ -29,22 +28,6 @@ export class PersonalLibraryWriteController {
 			success: true,
 		})
 		
-		return response;
-	}
-
-	@Delete()
-	async delete(
-        @GetUser('checksum') userId: string,
-    ): Promise<ApiResponseDto<void>> {
-		await this.personalLibraryWriteService.delete(userId);
-	
-		const response = new ApiResponseDto({
-			statusCode: HttpStatus.OK,
-			data: undefined,
-			timestamp: new Date().toISOString(),
-			success: true,
-		})
-
 		return response;
 	}
 }

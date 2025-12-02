@@ -14,6 +14,7 @@ import { PersonalLibraryPageAsync } from '@/pages/personal-library';
 import { ProfileInitPageAsync } from '@/pages/profile-init';
 import { GameDetailsPageAsync } from '@/pages/game-details';
 import { PersonalLibraryGameDetailsPageAsync } from '@/pages/personal-library-game-details';
+import { CompatibilityPageAsync } from '@/pages/compatibility';
 
 export const AppRoutes = () => {
     return (
@@ -33,7 +34,7 @@ export const AppRoutes = () => {
                     <Route path={ROUTES.PERSONAL_LIBRARY_GAME_DETAILS} element={<PersonalLibraryGameDetailsPageAsync />} />
                     <Route path={ROUTES.PROFILE} element={<ProfilePageAsync />} />
                     <Route path={ROUTES.RANKINGS} element={<RankingsPageAsync />} />
-                    <Route path={ROUTES.COMPATIBILITY} element={<div>compatibility</div>} />
+                    <Route path={ROUTES.COMPATIBILITY} element={<CompatibilityPageAsync />} />
                 </Route>
 
                 <Route index path={ROUTES.CATALOG} element={<CatalogPageAsync />} />

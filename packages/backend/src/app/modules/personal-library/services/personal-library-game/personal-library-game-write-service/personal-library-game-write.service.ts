@@ -95,8 +95,6 @@ export class PersonalLibraryGameWriteService {
 	async delete(userId: string, checksum: string): Promise<void> {
 		const existingPersonalLibraryGame = await this.personalLibraryGameReadService.findByUserIdAndChecksum(userId, checksum);
 
-		console.log(existingPersonalLibraryGame)
-
 		if (!existingPersonalLibraryGame) {
 			throw new BadRequestException('Personal library game not found');
 		}

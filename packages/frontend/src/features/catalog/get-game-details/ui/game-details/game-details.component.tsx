@@ -5,18 +5,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GameData } from "../game-data";
 import { ArrowLeft } from "lucide-react";
 import { ScreenshotsCarousel } from "@/entities/screenshot";
-
 export const GameDetails = memo(() => {
     const navigate = useNavigate();
 
-    const { checksum } = useParams();
+    const { gameId } = useParams();
 
-    if (!checksum) {
+    if (!gameId) {
         navigate(ROUTES.CATALOG);
         return null;
     }
 
-    const { data: game, isError } = useGetGameDetails(checksum); 
+    const { data: game, isError } = useGetGameDetails(gameId); 
     
     if (isError || !game?.data) {
         navigate(ROUTES.CATALOG);

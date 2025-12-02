@@ -6,7 +6,9 @@ export const KeywordsFilter  = memo((props: IKeywordsFiltersProps) => {
     const {
         availableKeywords,
         selectedKeywords,
-        onKeywordsChange,
+        onKeywordsChange,       
+        keywordsSearchQuery,
+        keywordsOnSearchChange
     } = props;
 
     return (
@@ -15,6 +17,8 @@ export const KeywordsFilter  = memo((props: IKeywordsFiltersProps) => {
             selectedValues={selectedKeywords}
             onValuesSelected={onKeywordsChange}
             triggerPlaceholder="Вибрати ключові слова"
+            searchQuery={keywordsSearchQuery}
+            onSearchChange={keywordsOnSearchChange}
         />
     )
 })

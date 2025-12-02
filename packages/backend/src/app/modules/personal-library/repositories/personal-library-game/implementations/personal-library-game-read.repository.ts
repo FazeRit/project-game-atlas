@@ -4,6 +4,7 @@ import { PersonalLibraryGameFiltersDto } from '../../../dto/request/personal-lib
 import { PersonalLibraryGameWhereBuilder } from '../../../utils/personal-library-game-where-builder.util';
 import { TPersonalLibraryGameWithDetails, TPaginatePersonalLibraryGameDto } from '../../../types/personal-library-game/personal-library-game-with-details.type';
 import { PrismaService } from '../../../../prisma/prisma.service';
+import { EPlayStatus } from '@prisma/client';
 
 @Injectable()
 export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameReadRepository {
@@ -76,6 +77,26 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 			...(sort && { orderBy: sort }),
 		});
 	}
+
+	async findExplorationCandidates(
+        userId: string,
+        limit: number = 500
+    ): Promise<Array<string>> {
+        const where = PersonalLibraryGameWhereBuilder.buildExplorationWhere(userId);
+
+        const gamesNotInLibrary = await this.prisma.game.findMany({
+            where,
+            select: {
+                checksum: true,
+            },
+            take: limit,
+			orderBy: {
+				totalRatingCount: 'desc',
+			}
+        });
+
+        return gamesNotInLibrary.map(game => game.checksum);
+    }
 
 	async count(
 		userId: string,
@@ -175,6 +196,23 @@ export class PersonalLibraryGameReadRepository implements IPersonalLibraryGameRe
 				}
 			},
 		});
+	}
+
+	async findLastSignificantGameId(userId: string): Promise<string | null> {
+		const data = await this.prisma.personalLibraryGame.findFirst({
+            where: { 
+                personalLibrary: { userId },
+                status: { in: [
+					EPlayStatus.COMPLETED,
+					EPlayStatus.DROPPED,
+					EPlayStatus.PREFERENCE
+				]}
+            },
+            orderBy: { updatedAt: 'desc' },
+            select: { gameId: true }
+        });
+
+		return data?.gameId ?? null;
 	}
 }
 

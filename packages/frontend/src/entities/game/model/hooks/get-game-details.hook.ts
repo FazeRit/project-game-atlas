@@ -3,10 +3,10 @@ import { IApiResponse } from "@/shared";
 import { IGameDetailsResponse } from "../interfaces";
 import { getGameDetails } from "../../api";
 
-export const useGetGameDetails = (checksum: string) => {
+export const useGetGameDetails = (gameId: string) => {
     return useQuery<IApiResponse<IGameDetailsResponse>>({
-        queryKey: ['game', checksum],
-        queryFn: () => getGameDetails(checksum),
-        enabled: !!checksum,
+        queryKey: ['game', gameId],
+        queryFn: () => getGameDetails(gameId),
+        enabled: !!gameId,
     });
 }
