@@ -7,12 +7,6 @@ export class RecommendationItemResponseDto {
     gameId: string;
 
     @Expose()
-    title: string; 
-
-    @Expose()
-    coverUrl?: string;
-
-    @Expose()
     reason: ERecommendationReason;
 
     @Expose()
@@ -23,15 +17,11 @@ export class RecommendationItemResponseDto {
 
     constructor(data: {
         gameId: string;
-        title: string;
-        coverUrl?: string;
         reason: ERecommendationReason;
         score: number;
         description: string;
     }) {
         this.gameId = data.gameId;
-        this.title = data.title;
-        this.coverUrl = data.coverUrl;
         this.reason = data.reason;
         this.score = data.score;
         this.description = data.description;
