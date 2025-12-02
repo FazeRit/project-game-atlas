@@ -11,8 +11,6 @@ import { BacklogCandidates, PredictionResponseDto, PredictionFlagsResponseDto } 
 
 @Injectable()
 export class RecommendationCuratorService {
-    // private readonly logger = new Logger(RecommendationCuratorService.name); // Видалено Logger
-
     constructor(
         private readonly userReadService: UserReadService,
         private readonly gameReadService: GameReadService,
@@ -42,17 +40,17 @@ export class RecommendationCuratorService {
             this.runGeneralAffinity(userVector, explorationCandidates)
         ]);
         
-        const rawItems = [...antiBurnoutItems, ...blindSpotItems, ...affinityItems];
+        const rawItems = [
+            ...antiBurnoutItems,
+            ...blindSpotItems,
+            ...affinityItems
+        ];
 
         const uniqueItems = this.deduplicate(rawItems);
 
         const response = await Promise.all(uniqueItems.map(async (item) => {
-            const details = await this.gameReadService.findById(item.gameId);
-
             const recommendationItem = new RecommendationItemResponseDto({
                 gameId: item.gameId,
-                title: details?.name || 'Unknown Game',
-                coverUrl: details?.cover?.url,
                 reason: item.reason,
                 score: Math.round(item.score * 100),
                 description: item.description
@@ -71,7 +69,7 @@ export class RecommendationCuratorService {
         const data = await this.personalLibraryGameReadService.findAll(
             userId,
             1,
-            500,
+            1000,
             filters,
         );
 
@@ -93,7 +91,7 @@ export class RecommendationCuratorService {
     private async getExplorationCandidates(userId: string): Promise<Array<BacklogCandidates>> {
         const candidatesIds = await this.personalLibraryGameReadService.findExplorationCandidates(
             userId,
-            10000 
+            5000 
         );
 
         const candidates: Array<BacklogCandidates | null> = await Promise.all(
@@ -131,7 +129,7 @@ export class RecommendationCuratorService {
         scoredCandidates.sort((a, b) => a.score - b.score);
 
         const top1 = scoredCandidates.slice(0, 1);
-
+        
         return top1.map(match => new RecommandationCandidateResponseDto({
             gameId: match.checksum,
             score: match.score,
