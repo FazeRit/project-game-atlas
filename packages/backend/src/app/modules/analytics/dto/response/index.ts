@@ -1,2 +1,2 @@
-export * from './prediction-compatibility.dto';
-export * from './prediction-flags.dto';
+export * from './heurestic-engine';
+export * from './recommandation';

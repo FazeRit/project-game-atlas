@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { MatchResponseDto } from '../../dto';
 
 @Injectable()
 export class MathCoreService {
@@ -61,4 +62,33 @@ export class MathCoreService {
 			)
 		);
 	}
+
+	public findNearestNeighbor<T extends { tasteVector: Record<string, number> }>(
+        targetVector: Record<string, number>,
+        candidates: T[],
+        mode: 'nearest' | 'furthest' = 'nearest'
+    ): MatchResponseDto<T> | null {
+        if (!candidates.length) return null;
+
+        let bestMatch: T | null = null;
+        let bestScore = mode === 'nearest' ? -2 : 2; 
+
+        for (const candidate of candidates) {
+            const score = this.calculateSimilarity(targetVector, candidate.tasteVector);
+
+            const isBetter = mode === 'nearest' 
+                ? score > bestScore 
+                : score < bestScore;
+
+            if (isBetter) {
+                bestScore = score;
+                bestMatch = candidate;
+            }
+        }
+
+        return bestMatch ? {
+            item: bestMatch,
+            score: bestScore
+        } : null;
+    }
 }

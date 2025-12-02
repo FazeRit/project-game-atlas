@@ -31,7 +31,7 @@ export const CatalogList = memo(() => {
         resolver: zodResolver(getKeywordsRequestSchema),
         defaultValues: {
             page: 1,
-            limit: 50,
+            limit: 1000,
         }
     })
 
@@ -39,10 +39,11 @@ export const CatalogList = memo(() => {
     const keywordsFormValues = keywordsMethods.watch();
 
     const debouncedCatalogFormValues = useDebounce(catalogFormValues, 500);
+    const debouncedKeywordsFormValues = useDebounce(keywordsFormValues, 500);
 
     const { data: games } = useGetCatalogGames(debouncedCatalogFormValues as IGetCatalogGamesRequestDto);
 
-    const { data: keywords } = useGetKeywords(keywordsFormValues as IGetKeywordsRequestDto);
+    const { data: keywords } = useGetKeywords(debouncedKeywordsFormValues as IGetKeywordsRequestDto);
     
     const { data: genres } = useGetGenres();
 

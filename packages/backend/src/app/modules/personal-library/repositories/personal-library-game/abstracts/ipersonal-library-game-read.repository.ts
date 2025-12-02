@@ -11,15 +11,25 @@ export abstract class IPersonalLibraryGameReadRepository extends IReadRepository
 		search?: Record<string, unknown>,
 		sort?: Record<string, unknown>
 	): Promise<Array<TPaginatePersonalLibraryGameDto>>;
+
+	abstract findExplorationCandidates(
+		userId: string,
+		limit: number,
+	): Promise<Array<string>>;
+	
 	abstract count(
 		userId: string,
 		filters?: PersonalLibraryGameFiltersDto,
 		search?: Record<string, unknown>
 	): Promise<number>;
+	
 	abstract exists(
 		userId: string,
 		gameId: string
 	): Promise<boolean>;
+	
 	abstract findByUserIdAndGameId(userId: string, gameId: string): Promise<TPersonalLibraryGameWithDetails | null>;
+
+	abstract findLastSignificantGameId(userId: string): Promise<string | null>;
 }
 

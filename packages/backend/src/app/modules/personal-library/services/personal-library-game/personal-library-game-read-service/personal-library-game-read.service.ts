@@ -77,10 +77,21 @@ export class PersonalLibraryGameReadService {
 		};
 	}
 
+	async findExplorationCandidates(
+        userId: string,
+        limit: number = 500
+    ): Promise<Array<string>> {
+        return this.personalLibraryGameReadRepository.findExplorationCandidates(userId, limit);
+    }
+
 	async exists(
 		userId: string,
 		gameId: string
 	): Promise<boolean> {
 		return this.personalLibraryGameReadRepository.exists(userId, gameId);
+	}
+
+	async findLastSignificantGameId(userId: string): Promise<string | null> {
+		return this.personalLibraryGameReadRepository.findLastSignificantGameId(userId);
 	}
 }

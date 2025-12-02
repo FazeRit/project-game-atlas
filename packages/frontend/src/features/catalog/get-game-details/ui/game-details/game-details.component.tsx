@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GameData } from "../game-data";
 import { ArrowLeft } from "lucide-react";
 import { ScreenshotsCarousel } from "@/entities/screenshot";
-
 export const GameDetails = memo(() => {
     const navigate = useNavigate();
 

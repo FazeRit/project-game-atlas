@@ -238,7 +238,6 @@ enum ERecommendationReason {
     ANTI_BURNOUT
     BLIND_SPOT
     HIGH_COMPATIBILITY
-    BACKLOG_REMINDER
 }
 
 enum EPredictionVerdict {

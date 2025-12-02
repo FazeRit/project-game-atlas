@@ -1,6 +1,6 @@
 import { AnalyticsModule } from '../analytics/analytics.module';
 import { GameModule } from '../game/game.module';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { PERSONAL_LIBRARY_GAME_PROVIDERS, PERSONAL_LIBRARY_PROVIDERS } from './providers';
 import { PersonalLibraryGameReadController } from './controllers/personal-library-game/personal-library-game-read-controller/personal-library-game-read.controller';
 import { PersonalLibraryGameReadService } from './services/personal-library-game/personal-library-game-read-service/personal-library-game-read.service';
@@ -16,7 +16,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 	imports: [
 		PrismaModule,
 		GameModule,
-		AnalyticsModule,
+		forwardRef(() => AnalyticsModule),
 	],
 	controllers: [
 		PersonalLibraryReadController,

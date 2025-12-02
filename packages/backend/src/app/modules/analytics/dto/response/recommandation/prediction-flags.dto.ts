@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class PredictionFlagsDto {
+export class PredictionFlagsResponseDto {
     @Expose()
     greenFlags: Array<string>;
 

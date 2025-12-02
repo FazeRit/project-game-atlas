@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { IPaginateGameItemProps } from "@/features/catalog/get-catalog-games";
 import { AspectRatio, CustomBadge } from "@/shared/components";
+import { transformCoverUrl } from "@/shared/utils/transform-cover-url.util";
 
 export const PaginateGameItem = memo((props: IPaginateGameItemProps) => {
     const {
@@ -13,9 +14,10 @@ export const PaginateGameItem = memo((props: IPaginateGameItemProps) => {
     const navigate = useNavigate();
 
     const coverUrl = useMemo(() => {
-        return game.cover && game.cover.url ||
-            'https://placehold.co/260x192/404040/FFFFFF?text=No+Cover';
-    }, [game.cover]);
+        const coverUrl = game?.cover?.url ?? null; 
+
+        return transformCoverUrl(coverUrl);
+    }, [game.cover?.url]);
 
     const uniqueGenres = useMemo(() => {
         const genresMap = new Map();
