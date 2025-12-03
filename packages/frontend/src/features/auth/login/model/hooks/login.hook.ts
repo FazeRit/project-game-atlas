@@ -5,7 +5,6 @@ import { AxiosError } from "axios";
 import { ROUTES, IApiResponse, IApiErrorResponse } from "@/shared";
 import { loginApi } from "../../api";
 import { ILoginRequestDto } from "../interfaces/login-request.interface";
-import { IJwtTokenResponse } from "@/entities/user/model/interfaces/jwt-response.interface";
 import { useUserStore, getUser } from "@/entities/user"; 
 
 export const useLogin = () => {
@@ -13,21 +12,18 @@ export const useLogin = () => {
     const queryClient = useQueryClient();
     
     const {
-        setAccessToken,
         setIsAuthenticated,
         setUser
     } = useUserStore();
 
     return useMutation<
-        IApiResponse<IJwtTokenResponse>, 
+        IApiResponse<null>, 
         AxiosError<IApiErrorResponse>, 
         ILoginRequestDto
     >({
         mutationFn: loginApi,
         mutationKey: ['login'],
         onSuccess: async (response) => {
-            setAccessToken(response.data.accessToken);
-                
             const userData = await queryClient.fetchQuery({
                 queryKey: ['user'],
                 queryFn: getUser

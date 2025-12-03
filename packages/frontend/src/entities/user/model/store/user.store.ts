@@ -12,9 +12,6 @@ export const useUserStore = create<IUserStore>()(
             setUser: (user: IUser) => {
                 set({ user });
             },
-            setAccessToken: (accessToken: string) => {
-                set({ accessToken });
-            },
             setIsAuthenticated: (isAuthenticated: boolean) => {
                 set({ isAuthenticated });
             },
@@ -22,11 +19,6 @@ export const useUserStore = create<IUserStore>()(
                 set({
                     ...DEFAULT_USER_STORE,
                     isAuthenticated: false,
-                });
-            },
-            removeAccessToken: () => {
-                set({
-                    accessToken: DEFAULT_USER_STORE.accessToken,
                 });
             },
         }),
