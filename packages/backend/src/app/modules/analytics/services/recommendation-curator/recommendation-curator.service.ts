@@ -174,7 +174,6 @@ export class RecommendationCuratorService {
         userVector: Record<string, number>,
         candidates: Array<BacklogCandidates>
     ): Promise<Array<RecommandationCandidateResponseDto>> {
-
         if (candidates.length === 0) {
             return [];
         }
@@ -184,7 +183,7 @@ export class RecommendationCuratorService {
             return { ...candidate, score: similarity };
         });
 
-        const AFFINITY_MIN_SCORE = 0.65;
+        const AFFINITY_MIN_SCORE = 0.75;
 
         const affinityCandidates = scoredCandidates
             .filter(c => c.score >= AFFINITY_MIN_SCORE);

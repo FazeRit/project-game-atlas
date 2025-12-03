@@ -5,16 +5,18 @@ import {
 	HttpCode,
 	HttpStatus,
 	Post,
+	Res,
 	UseGuards
 } from '@nestjs/common';
 import { ForgotPasswordDto } from '../../../dto/request/auth/forgot-password.dto';
 import { GetUser } from '../../../../../shared/decorators/get-user.decorator';
-import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
+import { UserCreateDto, UserResponseDto } from '../../../dto';
 import { LocalAuthGuard } from '../../../guards/local.guard';
 import { Public } from '../../../../../shared/decorators/public.decorator';
 import { ResetPasswordDto } from '../../../dto/request/auth/reset-password.dto';
 import { VerifyForgotPasswordCodeDto } from '../../../dto/request/auth/verify-forgot-password-code.dto';
 import { ApiResponseDto } from '../../../../../shared/dto/response/api-response.dto';
+import type { Response } from 'express';
 
 @Controller('/auth')
 export class AuthWriteController {
@@ -22,38 +24,58 @@ export class AuthWriteController {
 		private readonly authWriteService: AuthWriteService,
 	) {}
 
-	@Public()
-	@UseGuards(LocalAuthGuard)
-	@HttpCode(HttpStatus.OK)
-	@Post('/login')
-	async login(@GetUser() user: UserResponseDto): Promise<ApiResponseDto<JwtTokenResponseDto>> {
-		const token =  await this.authWriteService.login(user);
+@Public()
+    @UseGuards(LocalAuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post('/login')
+    async login(
+        @Res({ passthrough: true }) res: Response,
+        @GetUser() user: UserResponseDto
+    ): Promise<ApiResponseDto<null>> {
+        const tokenData = await this.authWriteService.login(user);
 
-		const response = new ApiResponseDto({
-			statusCode: HttpStatus.OK,
-			data: token,
-			timestamp: new Date().toISOString(),
-			success: true,
-		})
+        res.cookie('access_token', tokenData.accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 15 * 60 * 1000
+        });
 
-		return response;
-	}
+        const response = new ApiResponseDto({
+            statusCode: HttpStatus.OK,
+            data: null,
+            timestamp: new Date().toISOString(),
+            success: true,
+        });
 
-	@Public()
-	@HttpCode(HttpStatus.CREATED)
-	@Post('/register')
-	async register(@Body() user: UserCreateDto): Promise<ApiResponseDto<JwtTokenResponseDto>> {
-		const token =  await this.authWriteService.register(user);
+        return response;
+    }
 
-		const response = new ApiResponseDto({
-			statusCode: HttpStatus.OK,
-			data: token,
-			timestamp: new Date().toISOString(),
-			success: true,
-		})
+    @Public()
+    @HttpCode(HttpStatus.CREATED)
+    @Post('/register')
+    async register(
+        @Body() user: UserCreateDto,
+        @Res({ passthrough: true }) res: Response
+    ): Promise<ApiResponseDto<null>> {
+        const tokenData = await this.authWriteService.register(user);
 
-		return response;
-	}
+        res.cookie('access_token', tokenData.accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 15 * 60 * 1000 
+        });
+
+        const response = new ApiResponseDto({
+            statusCode: HttpStatus.OK,
+            data: null,
+            timestamp: new Date().toISOString(),
+            success: true,
+        });
+
+        return response;
+    }
 
 	@Public()
 	@HttpCode(HttpStatus.OK)
