@@ -1,15 +1,18 @@
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 import { PaginateGameResponseDto } from '../../../dto';
 import { GameMapService } from '../game-map-service/game-map.service';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class GameReadService {
 	constructor(
+		@Inject(CACHE_MANAGER)
+		private readonly cacheManager: Cache,
 		private readonly gameReadRepository: IGameReadRepository,
 		private readonly gameMapService: GameMapService,
 	) {}
@@ -66,6 +69,13 @@ export class GameReadService {
 	}
 
 	async getGameVector(checksum: string): Promise<Record<string, number>> {
+		const cacheKey = `game-vector:${checksum}`;
+		const cachedVector = await this.cacheManager.get<Record<string, number>>(cacheKey);
+
+		if (cachedVector) {
+			return cachedVector;
+		}
+
         const game = await this.gameReadRepository.findById(checksum);
 
         if (!game) {
@@ -90,7 +100,8 @@ export class GameReadService {
             });
         }
 
+		await this.cacheManager.set(cacheKey, dnaVector, 24 * 60 * 60 * 1000);
+
         return dnaVector;
     }
 }
-

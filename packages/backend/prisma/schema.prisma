@@ -22,7 +22,6 @@ model Game {
 
     gameGenres           GameGenre[]
     gameKeywords         GameKeyword[]
-
     gameCompanies        GameCompany[]
 
     personalLibraryGames PersonalLibraryGame[]
@@ -30,6 +29,7 @@ model Game {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
     @@map("games")
 }
 
@@ -44,6 +44,8 @@ model GameKeyword {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([gameId])
+    @@index([keywordId])
     @@map("game_keywords")
 }
 
@@ -58,6 +60,7 @@ model Keyword {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([slug])
     @@map("keywords")
 }
 
@@ -76,6 +79,8 @@ model GameCompany {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([gameId])
+    @@index([companyId])
     @@map("game_companies")
 }
 
@@ -91,6 +96,7 @@ model Company {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([slug])
     @@map("companies")
 }
 
@@ -124,6 +130,7 @@ model Screenshots {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([gameId])
     @@map("screenshots")
 }
 
@@ -138,6 +145,8 @@ model GameGenre {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([gameId])
+    @@index([genreId])
     @@map("game_genres")
 }
 
@@ -151,6 +160,7 @@ model Genre {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([slug])
     @@map("genres")
 }
 
@@ -160,6 +170,8 @@ model User {
     password             String
 
     tasteVector          Json?    @map("taste_vector") @default("{}")
+
+    lastAccessedAt       DateTime @default(now()) @map("last_accessed_at")
 
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
@@ -181,6 +193,7 @@ model Otp {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([userId])
     @@map("otps")
 }
 
@@ -200,6 +213,8 @@ model PersonalLibraryGame {
     createdAt            DateTime @default(now()) @map("created_at")
     updatedAt            DateTime @updatedAt @map("updated_at")
 
+    @@index([personalLibraryId])
+    @@index([gameId])
     @@map("personal_library_games")
 }
 

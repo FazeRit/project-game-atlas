@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { memo, useMemo } from "react";
 import { IProfileInitItemProps } from "../../model";
+import { transformCoverUrl } from "@/shared/utils/transform-cover-url.util";
 
 export const ProfileInitItem = memo((props: IProfileInitItemProps) => {
     const {
@@ -8,8 +9,7 @@ export const ProfileInitItem = memo((props: IProfileInitItemProps) => {
     } = props;
 
     const coverUrl = useMemo(() => {
-        return game.coverUrl ||
-            'https://placehold.co/260x192/404040/FFFFFF?text=No+Cover';
+        return transformCoverUrl(game.coverUrl)
     }, [game.coverUrl]);
 
     return (
