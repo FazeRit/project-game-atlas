@@ -13,7 +13,7 @@ export const getKeywordsRequestSchema = z.object({
     })
         .int({ message: "Поле 'limit' має бути цілим числом." })
         .min(1, { message: "Ліміт має бути не менше 1." })
-        .max(100, { message: "Ліміт не може перевищувати 100." })
+        .max(10000, { message: "Ліміт не може перевищувати 100." })
         .default(10)
 });
 

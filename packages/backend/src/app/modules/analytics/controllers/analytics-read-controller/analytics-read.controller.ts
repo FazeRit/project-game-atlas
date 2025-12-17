@@ -8,17 +8,17 @@ import { PredictionResponseDto, RecommendationItemResponseDto } from "../../dto"
 export class AnalyticsReadController {
     constructor(
         private readonly recommendationCuratorService: RecommendationCuratorService
-    ) {}
+    ) { }
 
     @Get('predict/:gameId')
     async predictCompatibility(
         @GetUser('checksum') userId: string,
         @Param('gameId') gameId: string,
     ): Promise<ApiResponseDto<PredictionResponseDto>> {
-        const data =  await this.recommendationCuratorService.predictCompatibility(
-			userId,
-			gameId
-		);
+        const data = await this.recommendationCuratorService.predictCompatibility(
+            userId,
+            gameId
+        );
 
         const response = new ApiResponseDto({
             statusCode: HttpStatus.OK,
@@ -34,9 +34,9 @@ export class AnalyticsReadController {
     async getRecommandations(
         @GetUser('checksum') userId: string,
     ): Promise<ApiResponseDto<Array<RecommendationItemResponseDto>>> {
-        const data =  await this.recommendationCuratorService.getRecommandations(
-			userId,
-		);
+        const data = await this.recommendationCuratorService.getRecommandations(
+            userId,
+        );
 
         const response = new ApiResponseDto({
             statusCode: HttpStatus.OK,
@@ -44,7 +44,6 @@ export class AnalyticsReadController {
             timestamp: new Date().toISOString(),
             success: true,
         })
-
 
         return response;
     }

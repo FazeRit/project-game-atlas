@@ -38,7 +38,7 @@ export class AuthWriteController {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 15 * 60 * 1000
+            maxAge: 60 * 60 * 1000
         });
 
         const response = new ApiResponseDto({
@@ -64,7 +64,7 @@ export class AuthWriteController {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
-            maxAge: 15 * 60 * 1000 
+            maxAge: 60 * 60 * 1000
         });
 
         const response = new ApiResponseDto({

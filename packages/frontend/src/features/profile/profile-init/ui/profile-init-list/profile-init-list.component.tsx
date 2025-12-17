@@ -69,7 +69,7 @@ export const ProfileInitList = memo(() => {
                 return {
                     checksum: foundInCatalog.checksum,
                     name: foundInCatalog.name,
-                    coverUrl: foundInCatalog.cover?.url || '',
+                    coverUrl: foundInCatalog.cover?.url || '', 
                 };
             }
 
@@ -135,11 +135,15 @@ export const ProfileInitList = memo(() => {
                 </div>
 
                 <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
-                    {selectedGamesObjects.map((game) => (
-                        <div key={game.checksum} className="h-full">
-                            <ProfileInitItem game={game} />
-                        </div>
-                    ))}
+                    {selectedGamesObjects.map((game) => {
+                        return (
+                            <div key={game.checksum} className="h-full">
+                                <ProfileInitItem
+                                    game={game} 
+                                />
+                            </div>
+                        );
+                    })}
 
                     {emptySlots.map((_, index) => (
                         <div key={`empty-${index}`} className="h-full min-h-[240px]">

@@ -2,23 +2,36 @@ import { EPlayStatus, EPredictionVerdict, ERecommendationReason } from "@prisma/
 import { UserReadService } from "../../../auth/services/user/user-read-service/user-read.service";
 import { GameReadService } from "../../../game/services/games/game-read-service/game-read.service";
 import { MathCoreService } from "../math-core/math-core.service";
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { RecommandationCandidateResponseDto } from "../../dto/response/recommandation/recommendation-candidate.dto";
 import { RecommendationItemResponseDto } from "../../dto/response/recommandation/recommandation-item.dto";
 import { PersonalLibraryGameReadService } from "../../../personal-library/services/personal-library-game/personal-library-game-read-service/personal-library-game-read.service";
 import { PersonalLibraryGameFiltersDto } from "../../../personal-library/dto/request/personal-library-game/personal-library-game-filters.dto";
 import { BacklogCandidates, PredictionResponseDto, PredictionFlagsResponseDto } from "../../dto";
+import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Injectable()
 export class RecommendationCuratorService {
     constructor(
+        @Inject(CACHE_MANAGER)
+        private readonly cacheManager: Cache,
         private readonly userReadService: UserReadService,
         private readonly gameReadService: GameReadService,
         private readonly mathCoreService: MathCoreService,
         private readonly personalLibraryGameReadService: PersonalLibraryGameReadService
     ) { }
 
-    async getRecommandations(userId: string): Promise<Array<RecommendationItemResponseDto>> {
+    async getRecommandations(
+        userId: string
+    ): Promise<Array<RecommendationItemResponseDto>> {
+        const cacheKey = `recommandations:user:${userId}`;
+
+        const cachedRecommandations: Array<RecommendationItemResponseDto> | undefined = await this.cacheManager.get<Array<RecommendationItemResponseDto>>(cacheKey);
+
+        if (cachedRecommandations) {
+            return cachedRecommandations;
+        }
+
         const userVector = await this.userReadService.getTasteProfile(userId);
 
         if (Object.keys(userVector).length === 0) {
@@ -57,6 +70,8 @@ export class RecommendationCuratorService {
             });
             return recommendationItem;
         }));
+
+        await this.cacheManager.set(cacheKey, response, 5 * 60 * 1000);
 
         return response;
     }
@@ -204,6 +219,14 @@ export class RecommendationCuratorService {
         userId: string,
         gameId: string
     ): Promise<PredictionResponseDto> {
+        const cacheKey = `predict:user:${userId}:game:${gameId}`
+
+        const cachedPrediction: PredictionResponseDto | undefined = await this.cacheManager.get<PredictionResponseDto>(cacheKey);
+
+        if (cachedPrediction) {
+            return cachedPrediction;
+        }
+
         const userVector = await this.userReadService.getTasteProfile(userId);
         const gameVector = await this.gameReadService.getGameVector(gameId);
 
@@ -228,6 +251,8 @@ export class RecommendationCuratorService {
             greenFlags: greenFlags,
             redFlags: redFlags,
         });
+
+        await this.cacheManager.set(cacheKey, response, 5 * 60 * 1000);
 
         return response;
     }

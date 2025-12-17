@@ -1,5 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import {
+	IsDateString,
 	IsEmail,
 	IsOptional,
 	IsString,
@@ -24,6 +25,11 @@ export class UserUpdateDto {
 	@IsOptional()
 	@Expose()
 	tasteVector?: Record<string, number>;
+
+	@IsOptional()
+    @IsDateString()
+    @Expose()
+    lastAccessedAt?: string;
 
 	constructor(partial: Partial<UserUpdateDto>) {
 		Object.assign(this, partial);
