@@ -67,23 +67,43 @@ export class AuthWriteService {
             throw new NotFoundException('Користувача не знайдено');
         }
 
-        const otp = await this.otpService.createOtp(user.checksum);
+        const otp = await this.otpService.createOtp(email);
 
         await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code);
     }
 
-    async verifyForgotPassword(code: string): Promise<boolean> {
-        await this.otpService.validateOtp(code);
+    async verifyForgotPassword(
+        email: string,
+        code: string
+    ): Promise<boolean> {
+        await this.otpService.validateOtp(
+            email,
+            code,
+            false
+        );
+
         return true;
     }
 
-	async resetPassword(code: string, newPassword: string): Promise<void> {
-        const otp = await this.otpService.validateOtp(code);
+	async resetPassword(
+        email: string,
+        code: string,
+        newPassword: string
+    ): Promise<void> {
+        const otp = await this.otpService.validateOtp(
+            email,
+            code,
+            true
+        );
 
-        await this.userWriteService.update(otp.userId, {
+        if(!otp) {
+            throw new BadRequestException('Invalid code');
+        }
+
+        await this.userWriteService.update(email, {
             password: newPassword,
         });
 
-        await this.otpService.deleteOtp(otp.checksum);
+        await this.otpService.deleteOtp(email);
     }
 }

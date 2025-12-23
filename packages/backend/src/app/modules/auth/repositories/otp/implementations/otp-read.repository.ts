@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { IOtpReadRepository } from '../abstracts/iotp-read.repository';
-import { Otp } from '@prisma/client';
-import { PrismaService } from '../../../../prisma/prisma.service';
+import { OtpResponseDto } from '../../../dto';
+import { RedisService } from '../../../../redis/redis.service';
 
 @Injectable()
 export class OtpReadRepository implements IOtpReadRepository {
-	constructor(private readonly prisma: PrismaService) {}
+    private readonly prefix = 'otp:';
 
-	async findById(checksum: string): Promise<Otp | null> {
-		return this.prisma.otp.findUnique({
-			where: {
-				checksum
-			}
-		});
-	}
+    constructor(
+        private readonly redisService: RedisService,
+    ) {}
 
-	async findByCode(code: string): Promise<Otp | null> {
-		return this.prisma.otp.findFirst({
-			where: {
-				code
-			}
-		});
-	}
+    async findOneByEmail(email: string): Promise<OtpResponseDto | null> {
+        const key = this.getKey(email);
+        const otp = await this.redisService.get(key);
+
+        if (!otp) {
+            return null;
+        }
+
+        return otp;
+    }
+
+    private getKey(identifier: string): string {
+        return `${this.prefix}${identifier}`;
+    }
 }
-

@@ -88,7 +88,12 @@ export class AuthWriteController {
 	@HttpCode(HttpStatus.OK)
 	@Post('/verify-forgot-password')
 	async verifyForgotPassword(@Body() verifyDto: VerifyForgotPasswordCodeDto): Promise<ApiResponseDto<boolean>> {
-		const result =  await this.authWriteService.verifyForgotPassword(verifyDto.code);
+        const {
+            email,
+            code
+        } = verifyDto;
+
+		const result =  await this.authWriteService.verifyForgotPassword(email, code);
 
 		const response = new ApiResponseDto({
 			statusCode: HttpStatus.OK,
@@ -104,9 +109,16 @@ export class AuthWriteController {
 	@HttpCode(HttpStatus.OK)
 	@Post('/reset-password')
 	async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<void> {
+        const {
+            email,
+            code,
+            newPassword
+        } = resetPasswordDto;
+
 		await this.authWriteService.resetPassword(
-			resetPasswordDto.code,
-			resetPasswordDto.newPassword
+            email,
+			code,
+			newPassword
 		);
 	}
 }

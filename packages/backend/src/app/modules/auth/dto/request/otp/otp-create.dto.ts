@@ -7,7 +7,7 @@ export class OtpCreateDto {
 	@IsString()
 	@IsNotEmpty()
 	@Expose()
-	userId!: string;
+	email!: string;
 
 	@IsString()
 	@IsNotEmpty()
@@ -19,5 +19,15 @@ export class OtpCreateDto {
 	@IsNotEmpty()
 	@Expose()
 	expiresAt!: Date;
+
+	constructor(data: {
+		email: string;
+		code: string;
+		expiresAt: Date;
+	}) {
+		this.email = data.email;
+		this.code = data.code;
+		this.expiresAt = data.expiresAt
+	}
 }
 
