@@ -2,19 +2,18 @@ import { EPlayStatus, EPredictionVerdict, ERecommendationReason } from "@prisma/
 import { UserReadService } from "../../../auth/services/user/user-read-service/user-read.service";
 import { GameReadService } from "../../../game/services/games/game-read-service/game-read.service";
 import { MathCoreService } from "../math-core/math-core.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { RecommandationCandidateResponseDto } from "../../dto/response/recommandation/recommendation-candidate.dto";
 import { RecommendationItemResponseDto } from "../../dto/response/recommandation/recommandation-item.dto";
 import { PersonalLibraryGameReadService } from "../../../personal-library/services/personal-library-game/personal-library-game-read-service/personal-library-game-read.service";
 import { PersonalLibraryGameFiltersDto } from "../../../personal-library/dto/request/personal-library-game/personal-library-game-filters.dto";
 import { BacklogCandidates, PredictionResponseDto, PredictionFlagsResponseDto } from "../../dto";
-import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
+import { RedisService } from "../../../redis/redis.service";
 
 @Injectable()
 export class RecommendationCuratorService {
     constructor(
-        @Inject(CACHE_MANAGER)
-        private readonly cacheManager: Cache,
+        private readonly redisService: RedisService,
         private readonly userReadService: UserReadService,
         private readonly gameReadService: GameReadService,
         private readonly mathCoreService: MathCoreService,
@@ -26,7 +25,7 @@ export class RecommendationCuratorService {
     ): Promise<Array<RecommendationItemResponseDto>> {
         const cacheKey = `recommandations:user:${userId}`;
 
-        const cachedRecommandations: Array<RecommendationItemResponseDto> | undefined = await this.cacheManager.get<Array<RecommendationItemResponseDto>>(cacheKey);
+        const cachedRecommandations: Array<RecommendationItemResponseDto> | null = await this.redisService.get<Array<RecommendationItemResponseDto>>(cacheKey);
 
         if (cachedRecommandations) {
             return cachedRecommandations;
@@ -40,7 +39,7 @@ export class RecommendationCuratorService {
 
         const backlogCandidates = await this.getBacklogCandidates(userId);
         const explorationCandidates = await this.getExplorationCandidates(userId);
-        
+
         if (backlogCandidates.length === 0 && explorationCandidates.length === 0) {
             return [];
         }
@@ -52,7 +51,7 @@ export class RecommendationCuratorService {
             this.runBlindSpot(userVector, explorationCandidates),
             this.runGeneralAffinity(userVector, explorationCandidates)
         ]);
-        
+
         const rawItems = [
             ...antiBurnoutItems,
             ...blindSpotItems,
@@ -71,7 +70,7 @@ export class RecommendationCuratorService {
             return recommendationItem;
         }));
 
-        await this.cacheManager.set(cacheKey, response, 5 * 60 * 1000);
+        await this.redisService.set(cacheKey, response, 5 * 60 * 1000);
 
         return response;
     }
@@ -106,7 +105,7 @@ export class RecommendationCuratorService {
     private async getExplorationCandidates(userId: string): Promise<Array<BacklogCandidates>> {
         const candidatesIds = await this.personalLibraryGameReadService.findExplorationCandidates(
             userId,
-            5000 
+            5000
         );
 
         const candidates: Array<BacklogCandidates | null> = await Promise.all(
@@ -144,7 +143,7 @@ export class RecommendationCuratorService {
         scoredCandidates.sort((a, b) => a.score - b.score);
 
         const top1 = scoredCandidates.slice(0, 1);
-        
+
         return top1.map(match => new RecommandationCandidateResponseDto({
             gameId: match.checksum,
             score: match.score,
@@ -157,11 +156,11 @@ export class RecommendationCuratorService {
         userVector: Record<string, number>,
         candidates: Array<BacklogCandidates>
     ): Promise<Array<RecommandationCandidateResponseDto>> {
-        
+
         if (candidates.length === 0) {
             return [];
         }
-        
+
         const scoredCandidates = candidates.map(candidate => {
             const similarity = this.mathCoreService.calculateSimilarity(userVector, candidate.tasteVector);
             return { ...candidate, score: similarity };
@@ -202,7 +201,7 @@ export class RecommendationCuratorService {
 
         const affinityCandidates = scoredCandidates
             .filter(c => c.score >= AFFINITY_MIN_SCORE);
-        
+
         affinityCandidates.sort((a, b) => b.score - a.score);
 
         const top2Affinity = affinityCandidates.slice(0, 2);
@@ -214,14 +213,14 @@ export class RecommendationCuratorService {
             description: "Спорідненість: гра, яка максимально відповідає Вашим улюбленим жанрам."
         }));
     }
-    
+
     async predictCompatibility(
         userId: string,
         gameId: string
     ): Promise<PredictionResponseDto> {
         const cacheKey = `predict:user:${userId}:game:${gameId}`
 
-        const cachedPrediction: PredictionResponseDto | undefined = await this.cacheManager.get<PredictionResponseDto>(cacheKey);
+        const cachedPrediction: PredictionResponseDto | null = await this.redisService.get<PredictionResponseDto>(cacheKey);
 
         if (cachedPrediction) {
             return cachedPrediction;
@@ -252,7 +251,7 @@ export class RecommendationCuratorService {
             redFlags: redFlags,
         });
 
-        await this.cacheManager.set(cacheKey, response, 5 * 60 * 1000);
+        await this.redisService.set(cacheKey, response, 5 * 60 * 1000);
 
         return response;
     }

@@ -11,7 +11,6 @@ import { Module } from '@nestjs/common';
 import { OTP_PROVIDERS } from './providers/otp/otp.provider';
 import { OtpService } from './services/otp/otp.service';
 import { PassportModule } from '@nestjs/passport';
-import { PrismaModule } from '../prisma/prisma.module';
 import { SmtpModule } from '../smtp/smtp.module';
 import { USER_PROVIDERS } from './providers/user';
 import { UserReadController } from './controllers/user/user-read-controller/user-read.controller';
@@ -22,7 +21,6 @@ import { UserWriteService } from './services/user/user-write-service/user-write.
 @Module({
 	imports: [
 		PassportModule,
-		PrismaModule,
 		SmtpModule,
 		JwtModule.registerAsync({
 			useFactory: (envService: EnvService) => ({
