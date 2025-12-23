@@ -10,11 +10,9 @@ import { PersonalLibraryReadController } from './controllers/personal-library/pe
 import { PersonalLibraryReadService } from './services/personal-library/personal-library-read-service/personal-library-read.service';
 import { PersonalLibraryWriteController } from './controllers/personal-library/personal-library-write-controller/personal-library-write.controller';
 import { PersonalLibraryWriteService } from './services/personal-library/personal-library-write-service/personal-library-write.service';
-import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
 	imports: [
-		PrismaModule,
 		GameModule,
 		forwardRef(() => AnalyticsModule),
 	],

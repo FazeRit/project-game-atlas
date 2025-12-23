@@ -1,8 +1,14 @@
-import { IWriteRepository } from '../../../../../shared/repositories/iwrite.repository';
-import { Otp } from '@prisma/client';
-import { OtpCreateDto, OtpUpdateDto } from '../../../dto';
+import { OtpCreateDto, OtpUpdateDto } from "../../../dto";
 
-export abstract class IOtpWriteRepository extends IWriteRepository<Otp, OtpCreateDto, OtpUpdateDto> {
-	abstract deleteManyByUserId(userId: string): Promise<void>;
+export abstract class IOtpWriteRepository {
+	abstract create(data: OtpCreateDto, ttl?: number): Promise<void>;
+
+	abstract update(data: OtpUpdateDto, email: string): Promise<void>;
+
+	abstract delete(email: string): Promise<void> 
+
+	abstract createMany(data: Array<OtpCreateDto>): Promise<void>
+
+	abstract deleteManyByEmail(email: string): Promise<void>;
 }
 

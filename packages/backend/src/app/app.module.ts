@@ -9,16 +9,14 @@ import { Module } from '@nestjs/common';
 import { PersonalLibraryModule } from './modules/personal-library/personal-library.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { WinstonLoggerModule } from './config/winston-logger/winston-logger.module';
-import { CacheModule } from '@nestjs/cache-manager';
+import { RedisModule } from './modules/redis/redis.module';
 
 @Module({
 	imports: [
-		CacheModule.register({
-			isGlobal: true,
-		}),
 		WinstonLoggerModule,
 		EnvModule,
 		PrismaModule,
+		RedisModule,
 		GameModule,
 		AuthModule,
 		AnalyticsModule,

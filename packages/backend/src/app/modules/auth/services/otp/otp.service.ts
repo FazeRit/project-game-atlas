@@ -2,65 +2,60 @@ import * as crypto from 'crypto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { IOtpReadRepository } from '../../repositories/otp/abstracts/iotp-read.repository';
 import { IOtpWriteRepository } from '../../repositories/otp/abstracts/iotp-write.repository';
-import { Otp } from '@prisma/client';
+import { OtpCreateDto, OtpResponseDto } from '../../dto';
 
 @Injectable()
 export class OtpService {
-	private readonly OTP_EXPIRY_HOURS = 1;
+    private readonly OTP_TTL_SECONDS = 3600;
 
-	constructor(
-		private readonly otpReadRepository: IOtpReadRepository,
-		private readonly otpWriteRepository: IOtpWriteRepository,
-	) {}
+    constructor(
+        private readonly otpReadRepository: IOtpReadRepository,
+        private readonly otpWriteRepository: IOtpWriteRepository,
+    ) {}
 
-	private generateNumericOtp(): string {
-		const min = 100000;
-		const max = 999999;
+    private generateNumericOtp(): string {
+        const min = 100000;
+        const max = 999999;
+        return crypto.randomInt(min, max + 1).toString();
+    }
 
-		const code = crypto.randomInt(min, max + 1).toString();
-		return code;
-	}
+    async createOtp(email: string): Promise<OtpResponseDto> {
+        const code = this.generateNumericOtp();
 
-	async createOtp(userId: string): Promise<Otp> {
-		await this.otpWriteRepository.deleteManyByUserId(userId);
+		const otp = new OtpCreateDto({
+            email,
+            code,
+            expiresAt: new Date(Date.now() + this.OTP_TTL_SECONDS * 1000),
+        });
 
-		const code = this.generateNumericOtp();
+        await this.otpWriteRepository.create(otp, this.OTP_TTL_SECONDS)
 
-		const expiresAt = new Date();
+        return otp;
+    }
 
-		expiresAt.setHours(expiresAt.getHours() + this.OTP_EXPIRY_HOURS);
+    async validateOtp(
+        email: string,
+        code: string,
+        shouldDelete: boolean = true
+    ): Promise<OtpResponseDto> {
+        const otp = await this.otpReadRepository.findOneByEmail(email);
 
-		const otp = await this.otpWriteRepository.create({
-			userId,
-			code,
-			expiresAt,
-		});
+        if (!otp) {
+            throw new BadRequestException('Invalid or expired OTP code');
+        }
 
-		if (!otp) {
-			throw new BadRequestException('Failed to create OTP');
-		}
+        if (otp.code !== code) {
+            throw new BadRequestException('Invalid OTP code');
+        }
 
-		return otp;
-	}
+        if(shouldDelete) {
+            await this.otpWriteRepository.delete(email);
+        }
 
-	async validateOtp(code: string): Promise<Otp> {
-		const otp = await this.otpReadRepository.findByCode(code);
+        return otp;
+    }
 
-		if (!otp) {
-			throw new BadRequestException('Invalid or expired OTP code');
-		}
-
-		if (otp.expiresAt < new Date()) {
-			await this.otpWriteRepository.delete(otp.checksum);
-
-			throw new BadRequestException('OTP code has expired');
-		}
-
-		return otp;
-	}
-
-	async deleteOtp(checksum: string): Promise<void> {
-		await this.otpWriteRepository.delete(checksum);
-	}
+    async deleteOtp(email: string): Promise<void> {
+        await this.otpWriteRepository.delete(email);
+    }
 }
-

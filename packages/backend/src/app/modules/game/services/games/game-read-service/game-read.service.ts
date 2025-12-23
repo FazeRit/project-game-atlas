@@ -1,21 +1,20 @@
 import { GameDetailsResponseDto } from '../../../dto/response/game/game-details.dto';
 import { GameFiltersDto } from '../../../dto/request/game/game-filters.dto';
 import { IGameReadRepository } from '../../../repositories/games/abstracts/igame-read.repository';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../../../../../shared/dto/request/pagination/paginate.dto';
 import { PaginationMetaDto } from '../../../../../shared/dto/request/pagination/paginate-meta.dto';
 import { PaginateGameResponseDto } from '../../../dto';
 import { GameMapService } from '../game-map-service/game-map.service';
-import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { RedisService } from '../../../../redis/redis.service';
 
 @Injectable()
 export class GameReadService {
 	constructor(
-		@Inject(CACHE_MANAGER)
-		private readonly cacheManager: Cache,
+		private readonly redisService: RedisService,
 		private readonly gameReadRepository: IGameReadRepository,
 		private readonly gameMapService: GameMapService,
-	) {}
+	) { }
 
 	async findById(
 		checksum: string,
@@ -70,38 +69,38 @@ export class GameReadService {
 
 	async getGameVector(checksum: string): Promise<Record<string, number>> {
 		const cacheKey = `game-vector:${checksum}`;
-		const cachedVector = await this.cacheManager.get<Record<string, number>>(cacheKey);
+		const cachedVector = await this.redisService.get<Record<string, number>>(cacheKey);
 
 		if (cachedVector) {
 			return cachedVector;
 		}
 
-        const game = await this.gameReadRepository.findById(checksum);
+		const game = await this.gameReadRepository.findById(checksum);
 
-        if (!game) {
-            throw new NotFoundException(`Game with id ${checksum} not found`);
-        }
+		if (!game) {
+			throw new NotFoundException(`Game with id ${checksum} not found`);
+		}
 
-        const dnaVector: Record<string, number> = {};
+		const dnaVector: Record<string, number> = {};
 
-        if (game.gameGenres && Array.isArray(game.gameGenres)) {
-            game.gameGenres.forEach(gameGenre => {
-                if (gameGenre.genre?.slug) {
-                    dnaVector[gameGenre.genre.slug] = 10;
-                }
-            });
-        }
+		if (game.gameGenres && Array.isArray(game.gameGenres)) {
+			game.gameGenres.forEach(gameGenre => {
+				if (gameGenre.genre?.slug) {
+					dnaVector[gameGenre.genre.slug] = 10;
+				}
+			});
+		}
 
-        if (game.gameKeywords && Array.isArray(game.gameKeywords)) {
-            game.gameKeywords.forEach(gameKeyword => {
-                if (gameKeyword.keyword?.slug) {
-                    dnaVector[gameKeyword.keyword.slug] = 10;
-                }
-            });
-        }
+		if (game.gameKeywords && Array.isArray(game.gameKeywords)) {
+			game.gameKeywords.forEach(gameKeyword => {
+				if (gameKeyword.keyword?.slug) {
+					dnaVector[gameKeyword.keyword.slug] = 10;
+				}
+			});
+		}
 
-		await this.cacheManager.set(cacheKey, dnaVector, 24 * 60 * 60 * 1000);
+		await this.redisService.set(cacheKey, dnaVector, 24 * 60 * 60 * 1000);
 
-        return dnaVector;
-    }
+		return dnaVector;
+	}
 }

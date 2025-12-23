@@ -3,7 +3,7 @@ import { Exclude, Expose } from 'class-transformer';
 @Exclude()
 export class OtpResponseDto {
 	@Expose()
-	checksum: string;
+	email: string;
 
 	@Expose()
 	code: string;
@@ -11,19 +11,14 @@ export class OtpResponseDto {
 	@Expose()
 	expiresAt: Date;
 
-	@Expose()
-	createdAt: Date;
-
 	constructor(
-		checksum: string,
+		email: string,
 		code: string,
 		expiresAt: Date,
-		createdAt: Date
 	) {
-		this.checksum = checksum;
+		this.email = email;
 		this.code = code;
 		this.expiresAt = expiresAt;
-		this.createdAt = createdAt;
 	}
 }
 

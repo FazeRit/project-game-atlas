@@ -27,7 +27,6 @@ import { GenreReadService } from './services/genres/genres/genres-read-service/g
 import { GenreWriteService } from './services/genres/genres/genres-write-service/genre-write.service';
 import { KeywordsWriteService } from './services/keywords/keywords/keywords-write-service/keywords-write.service';
 import { Module } from '@nestjs/common';
-import { PrismaModule } from '../prisma/prisma.module';
 import { ScreenshotsReadService } from './services/screenshots/screenshots-read-service/screenshots-read.service';
 import { ScreenshotsWriteService } from './services/screenshots/screenshots-write-service/screenshots-write.service';
 import { GenreReadController } from './controllers/genres/genres-read-controller/genres-read.controller';
@@ -35,9 +34,7 @@ import { KeywordsReadService } from './services/keywords/keywords/keywords-read-
 import { KeywordsReadController } from './controllers/keywords/keywords-read-controller/keywords-read.controller';
 
 @Module({
-	imports: [
-		PrismaModule,
-	],
+	imports: [],
 	controllers: [
 		GenreReadController,
 		GameReadController,

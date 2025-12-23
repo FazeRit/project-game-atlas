@@ -1,7 +1,5 @@
-import { IReadRepository } from '../../../../../shared/repositories/iread.repository';
-import { Otp } from '@prisma/client';
+import { OtpResponseDto } from "../../../dto";
 
-export abstract class IOtpReadRepository extends IReadRepository<Otp> {
-	abstract findByCode(code: string): Promise<Otp | null>;
+export abstract class IOtpReadRepository {
+	abstract findOneByEmail(email: string): Promise<OtpResponseDto | null>;
 }
-
