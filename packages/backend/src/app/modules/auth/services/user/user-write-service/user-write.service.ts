@@ -57,6 +57,26 @@ export class UserWriteService {
 		});
 	}
 
+	async updateByEmail(email: string, data: UserUpdateDto): Promise<UserResponseDto> {
+		const updateData = {
+			...data,
+		};
+
+		if (updateData.password) {
+			updateData.password = await bcrypt.hash(updateData.password, 10);
+		}
+
+		const updatedUser = await this.userWriteRepository.updateByEmail(email, updateData);
+
+		if (!updatedUser) {
+			throw new BadRequestException('User not found');
+		}
+
+		return plainToInstance(UserResponseDto, updatedUser, {
+			excludeExtraneousValues: true,
+		});
+	}
+
 	async delete(checksum: string): Promise<void> {
 		await this.userWriteRepository.delete(checksum);
 	}

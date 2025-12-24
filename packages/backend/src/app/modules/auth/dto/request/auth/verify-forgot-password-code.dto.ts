@@ -1,10 +1,10 @@
 import { Exclude, Expose } from 'class-transformer';
-import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @Exclude()
 export class VerifyForgotPasswordCodeDto {
 	@IsString()
-	@IsEmpty()
+	@IsNotEmpty()
 	@Expose()
 	email!: string
 
