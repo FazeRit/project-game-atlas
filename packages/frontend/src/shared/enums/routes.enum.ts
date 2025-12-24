@@ -14,8 +14,8 @@ export enum ROUTES {
 	LOGIN = "/login",
 
 	FORGET_PASSWORD = "/forget-password",
-	VERIFY_FORGOT_PASSWORD ="/verify-forgot-password",
-	RESET_PASSWORD = "/reset-password/:code",
+	VERIFY_FORGOT_PASSWORD ="/verify-forgot-password/:email",
+	RESET_PASSWORD = "/reset-password/:code/:email",
 
 	PROFILE_INIT = "/profile-init",
 }

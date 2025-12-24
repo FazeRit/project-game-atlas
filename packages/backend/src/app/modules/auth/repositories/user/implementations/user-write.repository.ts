@@ -24,6 +24,15 @@ export class UserWriteRepository implements IUserWriteRepository {
 		})
 	}
 
+	async updateByEmail(email: string, data: UserUpdateDto): Promise<User> {
+		return this.prisma.user.update({
+			where: {
+				email
+			},
+			data
+		})
+	}
+
 	async delete(checksum: string): Promise<void> {
 		await this.prisma.user.delete({
 			where: {

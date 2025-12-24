@@ -10,7 +10,10 @@ import { toast } from "react-toastify"
 import { memo, useCallback } from "react"
 
 export const ResetPasswordForm = memo(() => {
-    const { code } = useParams<{ code: string }>();
+    const {
+        code,
+        email
+    } = useParams();
     
     const form = useForm({
         resolver: zodResolver(resetPasswordSchema),
@@ -23,16 +26,17 @@ export const ResetPasswordForm = memo(() => {
     const mutation = useResetPassword();
 
     const handleSubmit = useCallback(async (data: TResetPasswordSchema) => {
-        if (!code) {
+        if (!code || !email) {
             toast.error("Невірне посилання для відновлення пароля.");
             return;
         }
 
         await mutation.mutateAsync({
             newPassword: data.password,
-            code: code 
+            code, 
+            email,
         });
-    }, [mutation, code]);
+    }, [mutation, code, email]);
 
     return (
         <Form

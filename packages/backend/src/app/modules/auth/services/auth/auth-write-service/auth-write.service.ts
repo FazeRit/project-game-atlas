@@ -1,4 +1,3 @@
-import * as bcrypt from 'bcrypt';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-payload.dto';
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
@@ -96,14 +95,16 @@ export class AuthWriteService {
             true
         );
 
-        if(!otp) {
+        if (!otp) {
             throw new BadRequestException('Invalid code');
         }
 
-        await this.userWriteService.update(email, {
-            password: newPassword,
-        });
-
-        await this.otpService.deleteOtp(email);
+        try {
+            await this.userWriteService.updateByEmail(email, {
+                password: newPassword,
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 }

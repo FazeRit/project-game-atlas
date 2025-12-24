@@ -44,11 +44,11 @@ export class OtpService {
             throw new BadRequestException('Invalid or expired OTP code');
         }
 
-        if (otp.code !== code) {
+        if (String(otp.code) !== String(code)) {
             throw new BadRequestException('Invalid OTP code');
         }
 
-        if(shouldDelete) {
+        if (shouldDelete) {
             await this.otpWriteRepository.delete(email);
         }
 

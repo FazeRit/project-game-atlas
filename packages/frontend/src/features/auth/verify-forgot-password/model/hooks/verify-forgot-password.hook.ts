@@ -22,7 +22,7 @@ export const useVerifyForgotPassword = () => {
             const route = ROUTES.RESET_PASSWORD.replace(
                 ':code',
                 variables.code
-            );
+            ).replace(':email', variables.email);
 
             navigate(route)
         },

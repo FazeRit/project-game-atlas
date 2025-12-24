@@ -16,10 +16,10 @@ export const useForgotPassword = () => {
     >({
         mutationFn: forgotPasswordApi,
         mutationKey: ['forgot-password'],
-        onSuccess: () => {
+        onSuccess: (_, { email }) => {
             toast.success('Код підтвердження надіслано на вашу пошту')
 
-            navigate(ROUTES.VERIFY_FORGOT_PASSWORD)
+            navigate(ROUTES.VERIFY_FORGOT_PASSWORD.replace(':email', email))
         },
         onError: () => {
             toast.error('Не вдалося надіслати запит відновлення.');

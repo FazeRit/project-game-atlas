@@ -8,9 +8,6 @@ export class OtpResponseDto {
 	@Expose()
 	code: string;
 
-	@Expose()
-	expiresAt: Date;
-
 	constructor(
 		email: string,
 		code: string,
@@ -18,7 +15,6 @@ export class OtpResponseDto {
 	) {
 		this.email = email;
 		this.code = code;
-		this.expiresAt = expiresAt;
 	}
 }
 

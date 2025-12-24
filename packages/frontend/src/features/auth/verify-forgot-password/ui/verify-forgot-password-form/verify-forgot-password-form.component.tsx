@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form/form.component"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { ROUTES } from "@/shared"
 import { Button, InputOTP, InputOTPGroup, InputOTPSlot } from "@/shared/components"
 import { TVerifyForgotPasswordSchema, useVerifyForgotPassword, verifyForgotPasswordSchema } from "../../model"
@@ -15,11 +15,19 @@ export const VerifyForgotPasswordForm = memo(() => {
         }
     })
 
+    const { email } = useParams();
     const mutation = useVerifyForgotPassword();
 
     const handleSubmit = useCallback(async (data: TVerifyForgotPasswordSchema) => {
-        await mutation.mutateAsync(data);
-    }, [mutation]);
+        if (!email) {
+            return;
+        }
+
+        await mutation.mutateAsync({
+            ...data,
+            email,
+        });
+    }, [mutation, email]);
 
     return (
         <Form
@@ -35,7 +43,7 @@ export const VerifyForgotPasswordForm = memo(() => {
                         Введіть код
                     </p>
                     <p className="text-[#a3a3a3] text-xs md:text-sm">
-                        Ми надіслали 6-значний код підтвердження на вашу електронну пошту.
+                        Ми надіслали 6-значний код підтвердження на {email}.
                     </p>
                 </div>
 

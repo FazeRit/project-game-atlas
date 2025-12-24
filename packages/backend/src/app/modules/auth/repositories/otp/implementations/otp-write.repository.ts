@@ -13,6 +13,7 @@ export class OtpWriteRepository implements IOtpWriteRepository {
 
     async create(data: OtpCreateDto): Promise<void> {
         const key = this.getKey(data.email);
+
         await this.redisService.set(key, data.code, 300);
     }
 
