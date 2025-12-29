@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
     "db:seed:platform-types": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/platforms/seed-platform-types.command.ts",
     "db:seed:platforms": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/platforms/seed-platforms.command.ts",
     "db:seed:companies": "ts-node -r tsconfig-paths/register --project tsconfig.app.json src/app/modules/seeding/commands/companies/seed-companies.command.ts",
@@ -94,14 +96,21 @@
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
     "@nestjs/schedule": "^6.1.0",
+    "@nestjs/testing": "^11.1.10",
+    "@types/jest": "^30.0.0",
     "cache-manager": "^7.2.7",
     "ioredis": "^5.8.2",
+    "jest": "^30.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "ts-jest": "^29.4.6",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@nestjs/schedule": "^6.1.0",
-    "@nestjs/testing": "^11.0.0"
+    "@nestjs/testing": "^11.1.10",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6"
   }
 }
