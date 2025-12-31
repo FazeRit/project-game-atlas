@@ -15,5 +15,4 @@ export class BacklogCandidates {
         this.checksum = data.checksum;
         this.tasteVector = data.tasteVector;
     }
-
 }
