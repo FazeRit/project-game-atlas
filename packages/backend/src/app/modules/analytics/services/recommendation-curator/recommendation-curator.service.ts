@@ -234,7 +234,7 @@ export class RecommendationCuratorService {
         const {
             greenFlags,
             redFlags
-        } = await this.analyzeGap(userVector, gameVector);
+        } = this.analyzeGap(userVector, gameVector);
 
         const percentageScore = Math.max(0, Math.round(score * 100));
 
@@ -256,10 +256,10 @@ export class RecommendationCuratorService {
         return response;
     }
 
-    private async analyzeGap(
+    private analyzeGap(
         userVector: Record<string, number>,
         gameVector: Record<string, number>
-    ): Promise<PredictionFlagsResponseDto> {
+    ): PredictionFlagsResponseDto {
         const greenFlags: Array<string> = [];
         const redFlags: Array<string> = [];
 
