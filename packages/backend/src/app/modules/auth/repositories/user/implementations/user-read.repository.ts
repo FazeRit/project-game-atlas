@@ -23,7 +23,7 @@ export class UserReadRepository implements IUserReadRepository {
 		})
 	}
 
-	async getTasteProfile(checksum: string): Promise<Record<string, number>> {
+	async getTasteProfile(checksum: string): Promise<Record<string, number> | null> {
         const user = await this.prisma.user.findUnique({
             where: {
                 checksum
