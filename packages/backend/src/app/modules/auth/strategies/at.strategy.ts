@@ -30,6 +30,6 @@ export class AtStrategy extends PassportStrategy(Strategy, 'at') {
     }
 
 	async validate(payload: JwtTokenPayloadDto): Promise<JwtTokenPayloadDto> {
-		return payload;
+        return payload;
 	}
 }

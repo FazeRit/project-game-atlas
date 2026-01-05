@@ -4,18 +4,7 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AppModule } from "../../app/app.module";
 import request from 'supertest';
-
-jest.mock('../../app/modules/auth/dto', () => {
-    return {
-        UserCreateDto: class {},
-        UserUpdateDto: class {},
-        UserResponseDto: class { constructor(data?: any) { Object.assign(this, data); } },
-        OtpCreateDto: class {},
-        OtpUpdateDto: class {},
-        OtpResponseDto: class {},
-        JwtTokenResponseDto: class {},
-    };
-});
+import cookieParser from 'cookie-parser';
 
 jest.mock('../../app/shared/dto/response/api-response.dto', () => {
     return {
@@ -40,6 +29,8 @@ describe('User', () => {
             whitelist: false, 
             transform: true 
         }));
+
+        app.use(cookieParser());
 
         await app.init();
         httpServer = app.getHttpServer();
@@ -71,11 +62,7 @@ describe('User', () => {
                 })
                 .expect(200);
 
-            console.log(JSON.stringify(loginResponse, null, 2));
-
             accessTokenCookie = loginResponse.headers['set-cookie'];
-
-            console.log('👇 DEBUG COOKIE:', accessTokenCookie);
 
             expect(accessTokenCookie)
                 .toBeDefined();
@@ -87,9 +74,11 @@ describe('User', () => {
                 .set('Cookie', accessTokenCookie)
                 .expect(200);
 
-            expect(response.body.success).toBe(true);
+            expect(response.body.data.success)
+                .toBe(true);
             
-            expect(response.body.data.data.email).toEqual(testEmail);
+            expect(response.body.data.data.email)
+                .toEqual(testEmail);
         });
 
         it('should fail with 404 Unauthorized if no cookie is provided', async () => {

@@ -10,11 +10,33 @@ jest.mock('../../app/modules/auth/dto', () => {
     return {
         UserCreateDto: class {},
         UserUpdateDto: class {},
-        UserResponseDto: class { constructor(data?: any) { Object.assign(this, data); } },
+        UserResponseDto: class {
+            checksum: string;
+            email: string;
+            createdAt: Date;
+            updatedAt: Date
+
+            constructor(
+                checksum: string,
+                email: string,
+                createdAt: Date,
+                updatedAt: Date
+            ) {
+                this.checksum = checksum;
+                this.email = email;
+                this.createdAt = createdAt;
+                this.updatedAt = updatedAt;
+            }
+        },
         OtpCreateDto: class {},
         OtpUpdateDto: class {},
         OtpResponseDto: class {},
-        JwtTokenResponseDto: class {},
+        JwtTokenResponseDto: class { 
+            accessToken: string;
+            constructor(accessToken: string) { 
+                this.accessToken = accessToken; 
+            } 
+        },
     };
 });
 
@@ -32,7 +54,7 @@ describe('Auth', () => {
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [AppModule]
+            imports: [AppModule],
         }).compile();
 
         app = module.createNestApplication();
@@ -103,8 +125,6 @@ describe('Auth', () => {
                 .expect(200);
 
             const cookies = response.headers['set-cookie'];
-
-            console.log('NORMAL LOGIN COOKIES', cookies);
 
             expect(cookies).toBeDefined();
             expect(cookies).toHaveLength(1);
