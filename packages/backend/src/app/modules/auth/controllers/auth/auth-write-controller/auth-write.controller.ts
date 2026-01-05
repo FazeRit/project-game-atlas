@@ -24,7 +24,7 @@ export class AuthWriteController {
 		private readonly authWriteService: AuthWriteService,
 	) {}
 
-@Public()
+    @Public()
     @UseGuards(LocalAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/login')
