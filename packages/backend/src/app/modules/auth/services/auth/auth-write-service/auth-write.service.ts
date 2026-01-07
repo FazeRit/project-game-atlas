@@ -3,9 +3,10 @@ import { JwtTokenPayloadDto } from '../../../dto/request/jwt-token/jwt-token-pay
 import { JwtTokenResponseDto, UserCreateDto, UserResponseDto } from '../../../dto';
 import { JwtTokenService } from '../../jwt-token/jwt-token.service';
 import { OtpService } from '../../otp/otp.service';
-import { SmtpAuthService } from '../../../../smtp/services/smtp-auth-service/smtp-auth.service';
 import { UserReadService } from '../../user/user-read-service/user-read.service';
 import { UserWriteService } from '../../user/user-write-service/user-write.service';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class AuthWriteService {
@@ -14,7 +15,8 @@ export class AuthWriteService {
         private readonly userReadService: UserReadService,
         private readonly jwtTokenService: JwtTokenService,
         private readonly otpService: OtpService,
-        private readonly smtpAuthService: SmtpAuthService,
+        @InjectQueue('forgot-password')
+        private readonly forgotPasswordQueue: Queue
     ) {}
 
     async login(data: UserResponseDto): Promise<JwtTokenResponseDto> {
@@ -68,7 +70,10 @@ export class AuthWriteService {
 
         const otp = await this.otpService.createOtp(email);
 
-        await this.smtpAuthService.sendForgotPasswordEmail(email, otp.code);
+        await this.forgotPasswordQueue.add('forgot-password', {
+            email,
+            code: otp.code
+        })
     }
 
     async verifyForgotPassword(

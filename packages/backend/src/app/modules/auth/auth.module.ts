@@ -31,7 +31,7 @@ import { UserWriteService } from './services/user/user-write-service/user-write.
 				},
 			}),
 			inject: [EnvService],
-		}),
+		})
 	],
 	controllers: [
 		AuthWriteController,

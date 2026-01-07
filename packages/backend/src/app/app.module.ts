@@ -10,6 +10,7 @@ import { PersonalLibraryModule } from './modules/personal-library/personal-libra
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { WinstonLoggerModule } from './config/winston-logger/winston-logger.module';
 import { RedisModule } from './modules/redis/redis.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
 	imports: [
@@ -17,6 +18,12 @@ import { RedisModule } from './modules/redis/redis.module';
 		EnvModule,
 		PrismaModule,
 		RedisModule,
+		BullModule.forRoot({
+			connection: {
+				host: 'localhost',
+				port: 6379
+			}
+		}),
 		GameModule,
 		AuthModule,
 		AnalyticsModule,
