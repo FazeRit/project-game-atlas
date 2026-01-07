@@ -8,16 +8,15 @@ export class SmtpAuthService {
 		private readonly smtpCoreService: SmtpCoreService,
 	) {}
 
-	async sendForgotPasswordEmail(email: string, otpCode: string): Promise<void> {
-		try {
-			const subject = 'Reset Your Password';
+	async sendForgotPasswordEmail(
+		email: string,
+		code: string
+	): Promise<void> {
+		const subject = 'Reset Your Password';
 
-			const html = ForgotPasswordTemplate.generateHtml(otpCode, email);
-			const text = ForgotPasswordTemplate.generateText(otpCode, email);
+		const html = ForgotPasswordTemplate.generateHtml(code, email);
+		const text = ForgotPasswordTemplate.generateText(code, email);
 
-			await this.smtpCoreService.sendEmail(email, subject, text, html);
-		} catch (error) {
-			throw error;
-		}
+		await this.smtpCoreService.sendEmail(email, subject, text, html);
 	}
-}
+} 
