@@ -17,6 +17,8 @@ import { UserReadController } from './controllers/user/user-read-controller/user
 import { UserReadService } from './services/user/user-read-service/user-read.service';
 import { UserWriteController } from './controllers/user/user-write-controller/user-write.controller';
 import { UserWriteService } from './services/user/user-write-service/user-write.service';
+import { BullModule } from '@nestjs/bullmq';
+import { LastAccessedAtProcessor } from './processors/last-accessed-at.processor';
 
 @Module({
 	imports: [
@@ -31,6 +33,9 @@ import { UserWriteService } from './services/user/user-write-service/user-write.
 				},
 			}),
 			inject: [EnvService],
+		}),
+		BullModule.registerQueue({
+			name: 'last-accessed-at'
 		})
 	],
 	controllers: [
@@ -45,6 +50,7 @@ import { UserWriteService } from './services/user/user-write-service/user-write.
 		LocalStrategy,
 		JwtTokenService,
 		OtpService,
+		LastAccessedAtProcessor,
 		...USER_PROVIDERS,
 		...OTP_PROVIDERS,
 	],
