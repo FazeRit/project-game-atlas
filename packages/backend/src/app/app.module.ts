@@ -11,6 +11,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { WinstonLoggerModule } from './config/winston-logger/winston-logger.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { BullModule } from '@nestjs/bullmq';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
 	imports: [
@@ -24,6 +25,7 @@ import { BullModule } from '@nestjs/bullmq';
 				port: 6379
 			}
 		}),
+		ScheduleModule.forRoot(),
 		GameModule,
 		AuthModule,
 		AnalyticsModule,

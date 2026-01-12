@@ -4,4 +4,3 @@ export * from './game';
 export * from './genres';
 export * from './keywords';
 export * from './screenshots';
-

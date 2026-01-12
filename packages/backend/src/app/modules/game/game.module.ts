@@ -32,6 +32,7 @@ import { ScreenshotsWriteService } from './services/screenshots/screenshots-writ
 import { GenreReadController } from './controllers/genres/genres-read-controller/genres-read.controller';
 import { KeywordsReadService } from './services/keywords/keywords/keywords-read-service/keywords-read.service';
 import { KeywordsReadController } from './controllers/keywords/keywords-read-controller/keywords-read.controller';
+import { GAME_BATTLE_PROVIDERS } from './providers/game-battles';
 
 @Module({
 	imports: [],
@@ -50,6 +51,7 @@ import { KeywordsReadController } from './controllers/keywords/keywords-read-con
 		...GAME_GENRE_PROVIDERS,
 		...GAME_KEYWORD_PROVIDERS,
 		...GAME_PROVIDERS,
+		...GAME_BATTLE_PROVIDERS
 	],
 	exports: [
 		CompanyReadService,
