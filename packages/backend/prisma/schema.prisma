@@ -8,239 +8,286 @@ datasource db {
 }
 
 model Game {
-    checksum             String   @id @default(uuid())
-    name                 String
-    summary              String?
-    storyline            String?
-    totalRating          Float?   @map("total_rating")
-    totalRatingCount     Int?     @map("total_rating_count")
-    url                  String?
-    firstReleaseDate     DateTime? @map("first_release_date")
+  checksum         String    @id @default(uuid())
+  name             String
+  summary          String?
+  storyline        String?
+  totalRating      Float?    @map("total_rating")
+  totalRatingCount Int?      @map("total_rating_count")
+  url              String?
+  firstReleaseDate DateTime? @map("first_release_date")
 
-    cover                Cover?
-    screenshots          Screenshots[]
+  cover       Cover?
+  screenshots Screenshots[]
 
-    gameGenres           GameGenre[]
-    gameKeywords         GameKeyword[]
-    gameCompanies        GameCompany[]
+  gameGenres    GameGenre[]
+  gameKeywords  GameKeyword[]
+  gameCompanies GameCompany[]
 
-    personalLibraryGames PersonalLibraryGame[]
+  personalLibraryGames PersonalLibraryGame[]
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([name])
-    @@map("games")
+  @@index([name])
+  @@map("games")
 }
 
 model GameKeyword {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    keywordId            String   @map("keyword_id")
+  checksum  String @id @default(uuid())
+  gameId    String @map("game_id")
+  keywordId String @map("keyword_id")
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
-    keyword              Keyword  @relation(fields: [keywordId], references: [checksum], onDelete: Cascade)
+  game    Game    @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  keyword Keyword @relation(fields: [keywordId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([gameId])
-    @@index([keywordId])
-    @@map("game_keywords")
+  @@index([gameId])
+  @@index([keywordId])
+  @@map("game_keywords")
 }
 
 model Keyword {
-    checksum             String   @id @default(uuid())
-    name                 String
-    slug                 String
-    url                  String?
+  checksum String  @id @default(uuid())
+  name     String
+  slug     String
+  url      String?
 
-    gameKeywords         GameKeyword[]
+  gameKeywords GameKeyword[]
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([slug])
-    @@map("keywords")
+  @@index([slug])
+  @@map("keywords")
 }
 
 model GameCompany {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    companyId            String   @map("company_id")
+  checksum  String @id @default(uuid())
+  gameId    String @map("game_id")
+  companyId String @map("company_id")
 
-    developer            Boolean
-    publisher            Boolean
-    supporting           Boolean
+  developer  Boolean
+  publisher  Boolean
+  supporting Boolean
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
-    company              Company  @relation(fields: [companyId], references: [checksum], onDelete: Cascade)
+  game    Game    @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([gameId])
-    @@index([companyId])
-    @@map("game_companies")
+  @@index([gameId])
+  @@index([companyId])
+  @@map("game_companies")
 }
 
 model Company {
-    checksum             String   @id @default(uuid())
-    name                 String
-    slug                 String?
-    country              Int?
-    startDate            DateTime? @map("start_date")
+  checksum  String    @id @default(uuid())
+  name      String
+  slug      String?
+  country   Int?
+  startDate DateTime? @map("start_date")
 
-    gameCompanies        GameCompany[]
+  gameCompanies GameCompany[]
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([slug])
-    @@map("companies")
+  @@index([slug])
+  @@map("companies")
 }
 
 model Cover {
-    checksum             String   @id @default(uuid())
-    gameId               String   @unique @map("game_id")
-    imageId              String   @map("image_id")
-    height               Int?
-    width                Int?
-    url                  String?
+  checksum String  @id @default(uuid())
+  gameId   String  @unique @map("game_id")
+  imageId  String  @map("image_id")
+  height   Int?
+  width    Int?
+  url      String?
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@map("covers")
+  @@map("covers")
 }
 
 model Screenshots {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    imageId              String   @map("image_id")
+  checksum String @id @default(uuid())
+  gameId   String @map("game_id")
+  imageId  String @map("image_id")
 
-    height               Int?
-    width                Int?
-    url                  String?
+  height Int?
+  width  Int?
+  url    String?
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([gameId])
-    @@map("screenshots")
+  @@index([gameId])
+  @@map("screenshots")
 }
 
 model GameGenre {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    genreId              String   @map("genre_id")
+  checksum String @id @default(uuid())
+  gameId   String @map("game_id")
+  genreId  String @map("genre_id")
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
-    genre                Genre    @relation(fields: [genreId], references: [checksum], onDelete: Cascade)
+  game  Game  @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([gameId])
-    @@index([genreId])
-    @@map("game_genres")
+  @@index([gameId])
+  @@index([genreId])
+  @@map("game_genres")
 }
 
 model Genre {
-    checksum             String   @id @default(uuid())
-    name                 String
-    slug                 String
+  checksum String @id @default(uuid())
+  name     String
+  slug     String
 
-    gameGenres           GameGenre[]
+  gameGenres GameGenre[]
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([slug])
-    @@map("genres")
+  @@index([slug])
+  @@map("genres")
 }
 
 model User {
-    checksum             String   @id @default(uuid())
-    email                String   @unique
-    password             String
+  checksum String @id @default(uuid())
+  email    String @unique
+  password String
 
-    tasteVector          Json?    @map("taste_vector") @default("{}")
+  tasteVector Json? @default("{}") @map("taste_vector")
 
-    lastAccessedAt       DateTime @default(now()) @map("last_accessed_at")
+  lastAccessedAt DateTime @default(now()) @map("last_accessed_at")
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    personalLibraries    PersonalLibrary?
+  personalLibraries PersonalLibrary?
 
-    @@map("users")
+  gameBattleVotes GameBattleVote[]
+
+  @@map("users")
 }
 
 model PersonalLibraryGame {
-    checksum             String   @id @default(uuid())
-    gameId               String   @map("game_id")
-    personalLibraryId    String   @map("personal_library_id")
+  checksum          String @id @default(uuid())
+  gameId            String @map("game_id")
+  personalLibraryId String @map("personal_library_id")
 
-    status               EPlayStatus      @default(BACKLOG)
-    rank                 ETierRank @default(UNRANKED)
+  status EPlayStatus @default(BACKLOG)
+  rank   ETierRank   @default(UNRANKED)
 
-    note                 String?
+  note String?
 
-    game                 Game     @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
-    personalLibrary      PersonalLibrary   @relation(fields: [personalLibraryId], references: [checksum], onDelete: Cascade)
+  game            Game            @relation(fields: [gameId], references: [checksum], onDelete: Cascade)
+  personalLibrary PersonalLibrary @relation(fields: [personalLibraryId], references: [checksum], onDelete: Cascade)
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([personalLibraryId])
-    @@index([gameId])
-    @@map("personal_library_games")
+  @@index([personalLibraryId])
+  @@index([gameId])
+  @@map("personal_library_games")
 }
 
 model PersonalLibrary {
-    checksum             String   @id @default(uuid())
-    userId               String   @map("user_id")   @unique
+  checksum String @id @default(uuid())
+  userId   String @unique @map("user_id")
 
-    user                 User     @relation(fields: [userId], references: [checksum], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [checksum], onDelete: Cascade)
 
-    personalLibraryGames PersonalLibraryGame[]
+  personalLibraryGames PersonalLibraryGame[]
 
-    createdAt            DateTime @default(now()) @map("created_at")
-    updatedAt            DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@map("personal_libraries")
+  @@map("personal_libraries")
+}
+
+model GameBattle {
+  checksum String @id @default(uuid())
+  gameAId  String @map("game_A_id")
+  gameBId  String @map("game_B_id")
+
+  votesA Int @default(0) @map("votes_A")
+  votesB Int @default(0) @map("votes_B")
+
+  isActive Boolean @default(true) @map("is_active")
+
+  votes GameBattleVote[]
+
+  endsAt    DateTime @map("ends_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@index([endsAt])
+  @@map("game_battles")
+}
+
+model GameBattleVote {
+  checksum String @id @default(uuid())
+  userId   String @map("user_id")
+  battleId String @map("battle_id")
+
+  side EBattleVoteSide
+
+  user   User       @relation(fields: [userId], references: [checksum], onDelete: Cascade)
+  battle GameBattle @relation(fields: [battleId], references: [checksum], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, battleId])
+  @@index([battleId])
+  @@index([userId])
+  @@map("game_battle_votes")
+}
+
+enum EBattleVoteSide {
+  A
+  B
 }
 
 enum EPlayStatus {
-    PREFERENCE
-    PLAYING
-    COMPLETED
-    DROPPED
-    ON_HOLD
-    BACKLOG
+  PREFERENCE
+  PLAYING
+  COMPLETED
+  DROPPED
+  ON_HOLD
+  BACKLOG
 }
 
 enum ETierRank {
-    A
-    B
-    C
-    D
-    UNRANKED
+  A
+  B
+  C
+  D
+  UNRANKED
 }
 
 enum ERecommendationReason {
-    ANTI_BURNOUT
-    BLIND_SPOT
-    HIGH_COMPATIBILITY
+  ANTI_BURNOUT
+  BLIND_SPOT
+  HIGH_COMPATIBILITY
 }
 
 enum EPredictionVerdict {
-    EXCELLENT
-    GOOD
-    RISKY
+  EXCELLENT
+  GOOD
+  RISKY
 }

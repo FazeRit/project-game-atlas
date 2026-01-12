@@ -10,3 +10,5 @@ export * from './platform';
 export * from './platform-type';
 export * from './screenshots';
 export * from './keywords';
+export * from './game-battle';
+export * from './game-battle-vote';
