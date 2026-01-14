@@ -1,9 +1,10 @@
-import { GameBattle } from "@prisma/client";
-import { GameBattleCreateDto, GameBattleUpdateDto, GameBattleVoteCreateDto } from "../../../dto";
+import { GameBattleCreateDto, GameBattleUpdateDto } from "../../../dto";
 import { IGameBattleWriteRepository } from "../../../repositories/game-battles/abstracts/igame-battles-write.repository";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { GameBattleReadService } from "../game-battles-read/game-battles-read.service";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class GameBattleWriteService {
     constructor(
         private readonly gameBattleWriteRepository: IGameBattleWriteRepository,
@@ -17,12 +18,10 @@ export class GameBattleWriteService {
     async update(
         checksum: string,
         data: GameBattleUpdateDto
-    ): Promise<GameBattle | null> {
+    ): Promise<void> {
         await this.gameBattleReadService.findById(checksum)
 
-        const updatedGameBattle = await this.gameBattleWriteRepository.update(checksum, data);
-
-        return updatedGameBattle;
+        await this.gameBattleWriteRepository.update(checksum, data);
     }
 
     async delete(checksum: string): Promise<void> {
@@ -33,13 +32,6 @@ export class GameBattleWriteService {
 
     async createMany(data: Array<GameBattleCreateDto>): Promise<void> {
         await this.gameBattleWriteRepository.createMany(data);
-    }
-
-    async vote(
-        userId: string,
-        data: GameBattleVoteCreateDto,
-    ): Promise<void> {
-        await this.gameBattleWriteRepository.vote(userId, data);
     }
 
     @Cron(CronExpression.EVERY_HOUR)

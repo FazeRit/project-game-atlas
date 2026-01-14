@@ -4,3 +4,5 @@ export * from './game';
 export * from './genres';
 export * from './keywords';
 export * from './screenshots';
+export * from './game-battle';
+export * from './game-battle-vote';

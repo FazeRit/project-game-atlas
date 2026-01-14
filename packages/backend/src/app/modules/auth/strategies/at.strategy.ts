@@ -29,7 +29,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'at') {
         return null;
     }
 
-	async validate(payload: JwtTokenPayloadDto): Promise<JwtTokenPayloadDto> {
+	async validate(payload: any): Promise<JwtTokenPayloadDto> {
         return payload;
 	}
 }
