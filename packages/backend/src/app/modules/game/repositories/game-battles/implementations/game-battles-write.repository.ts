@@ -3,7 +3,6 @@ import { IGameBattleWriteRepository } from '../abstracts/igame-battles-write.rep
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { GameBattleCreateDto, GameBattleUpdateDto } from '../../../dto/request/game-battle';
-import { GameBattleVoteCreateDto } from '../../../dto';
 
 @Injectable()
 export class GameBattleWriteRepository implements IGameBattleWriteRepository {
@@ -37,40 +36,6 @@ export class GameBattleWriteRepository implements IGameBattleWriteRepository {
 			data,
 			skipDuplicates: true
 		});
-	}
-
-	async vote(
-		userId: string,
-		data: GameBattleVoteCreateDto
-	): Promise<void> {
-		const {
-			battleId,
-			side
-		} = data;
-
-		await this.prisma.$transaction(async (tx) => {
-			await tx.gameBattleVote.create({
-				data: {
-					userId,
-					battleId,
-					side
-				}
-			})
-
-			await tx.gameBattle.update({
-				where: {
-					checksum: battleId
-				},
-				data: {
-					votesA: side === 'A' ? {
-						increment: 1
-					} : undefined,
-					votesB: side === 'B' ? {
-						increment: 1
-					} : undefined,
-				}
-			})
-		})
 	}
 
 	async deactiveAllInactive(): Promise<void> {

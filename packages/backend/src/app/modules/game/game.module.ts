@@ -33,13 +33,21 @@ import { GenreReadController } from './controllers/genres/genres-read-controller
 import { KeywordsReadService } from './services/keywords/keywords/keywords-read-service/keywords-read.service';
 import { KeywordsReadController } from './controllers/keywords/keywords-read-controller/keywords-read.controller';
 import { GAME_BATTLE_PROVIDERS } from './providers/game-battles';
+import { GAME_BATTLE_VOTE_PROVIDERS } from './providers/game-battle-votes';
+import { GameBattleVotesReadController } from './controllers/game-battle-votes/game-battle-votes-read-controller/game-battle-votes-read.controller';
+import { GameBattlesReadController } from './controllers/game-battles/game-battles-read-controller/game-battles-read.controller';
+import { GameBattleVotesWriteController } from './controllers/game-battle-votes/game-battle-votes-write-controller/game-battle-votes-write.controller';
+import { GameBattlesGateways } from './gateways/game-battles/game-battles.gateways';
 
 @Module({
 	imports: [],
 	controllers: [
 		GenreReadController,
 		GameReadController,
-		KeywordsReadController
+		KeywordsReadController,
+		GameBattleVotesReadController,
+		GameBattleVotesWriteController,
+		GameBattlesReadController
 	],
 	providers: [
 		...COMPANIES_PROVIDERS,
@@ -51,7 +59,8 @@ import { GAME_BATTLE_PROVIDERS } from './providers/game-battles';
 		...GAME_GENRE_PROVIDERS,
 		...GAME_KEYWORD_PROVIDERS,
 		...GAME_PROVIDERS,
-		...GAME_BATTLE_PROVIDERS
+		...GAME_BATTLE_PROVIDERS,
+		...GAME_BATTLE_VOTE_PROVIDERS
 	],
 	exports: [
 		CompanyReadService,
@@ -73,6 +82,7 @@ import { GAME_BATTLE_PROVIDERS } from './providers/game-battles';
 		GameReadService,
 		GameWriteService,
 		GameMapService,
+		GameBattlesGateways
 	],
 })
 

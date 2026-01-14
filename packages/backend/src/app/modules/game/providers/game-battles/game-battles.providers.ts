@@ -5,6 +5,7 @@ import { GameBattleReadRepository } from "../../repositories/game-battles/implem
 import { GameBattleWriteRepository } from "../../repositories/game-battles/implementations/game-battles-write.repository";
 import { GameBattleReadService } from "../../services/game-battles/game-battles-read/game-battles-read.service";
 import { GameBattleWriteService } from "../../services/game-battles/game-battles-write/game-battles-write.service";
+import { GameBattlesGateways } from "../../gateways/game-battles/game-battles.gateways";
 
 export const GAME_BATTLE_PROVIDERS: Array<Provider> = [
     {
@@ -16,5 +17,6 @@ export const GAME_BATTLE_PROVIDERS: Array<Provider> = [
         useClass: GameBattleWriteRepository
     },
 	GameBattleReadService,
-	GameBattleWriteService
+	GameBattleWriteService,
+    GameBattlesGateways
 ]

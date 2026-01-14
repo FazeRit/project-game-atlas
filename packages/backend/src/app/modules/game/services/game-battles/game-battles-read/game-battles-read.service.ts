@@ -1,7 +1,8 @@
 import { IGameBattleReadRepository } from "../../../repositories/game-battles/abstracts/igame-battles-read.repository";
 import { GameBattleResponseDto } from "../../../dto/response/game-battle/game-battle.dto";
-import { NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
+@Injectable()
 export class GameBattleReadService {
     constructor(
         private readonly gameBattleReadRepository: IGameBattleReadRepository,
@@ -14,7 +15,7 @@ export class GameBattleReadService {
             throw new NotFoundException(`Battle with checksum ${checksum} not found`);
         }
 
-        return new GameBattleResponseDto({
+        const result = new GameBattleResponseDto({
             checksum: gameBattle.checksum,
             gameAId: gameBattle.gameAId,
             gameBId: gameBattle.gameBId,
@@ -24,6 +25,8 @@ export class GameBattleReadService {
             endsAt: gameBattle.endsAt,
             createdAt: gameBattle.createdAt,
         });
+
+        return result;
     }
 
     async findActive(): Promise<GameBattleResponseDto | null> {
@@ -33,7 +36,7 @@ export class GameBattleReadService {
             return null;
         }
 
-        return new GameBattleResponseDto({
+        const result = new GameBattleResponseDto({
             checksum: gameBattle.checksum,
             gameAId: gameBattle.gameAId,
             gameBId: gameBattle.gameBId,
@@ -43,5 +46,7 @@ export class GameBattleReadService {
             endsAt: gameBattle.endsAt,
             createdAt: gameBattle.createdAt,
         });
+
+        return result;
     }
 } 

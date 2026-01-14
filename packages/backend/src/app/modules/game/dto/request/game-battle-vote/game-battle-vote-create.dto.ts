@@ -1,20 +1,23 @@
-import { IsEnum, IsUUID, IsNotEmpty } from 'class-validator';
-import { EBattleVoteSide } from '@prisma/client';
+import { EBattleVoteSide } from "@prisma/client";
+import { Expose } from "class-transformer";
+import { IsNotEmpty, IsUUID, IsEnum } from "class-validator";
 
 export class GameBattleVoteCreateDto {
+    @Expose()
     @IsNotEmpty()
     @IsUUID('4')
     battleId: string;
 
+    @Expose()
     @IsNotEmpty()
     @IsEnum(EBattleVoteSide)
     side: EBattleVoteSide;
 
-    constructor(data: {
+    constructor(
         battleId: string,
         side: EBattleVoteSide
-    }) {
-        this.battleId = data.battleId;
-        this.side = data.side;
+    ) {
+        this.battleId = battleId;
+        this.side = side;
     }
 }
