@@ -12,6 +12,7 @@ import { WinstonLoggerModule } from './config/winston-logger/winston-logger.modu
 import { RedisModule } from './modules/redis/redis.module';
 import { BullModule } from '@nestjs/bullmq';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
 	imports: [
@@ -24,6 +25,14 @@ import { ScheduleModule } from '@nestjs/schedule';
 				host: 'localhost',
 				port: 6379
 			}
+		}),
+		ThrottlerModule.forRoot({
+			throttlers: [
+				{
+					ttl: 60000,
+					limit: 10,
+				},
+			],
 		}),
 		ScheduleModule.forRoot(),
 		GameModule,
