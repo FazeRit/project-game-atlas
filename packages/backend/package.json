@@ -100,6 +100,7 @@
     "@nestjs/platform-socket.io": "^11.1.11",
     "@nestjs/schedule": "^6.1.0",
     "@nestjs/testing": "^11.1.10",
+    "@nestjs/throttler": "^6.5.0",
     "@nestjs/websockets": "^11.1.11",
     "@types/jest": "^30.0.0",
     "bullmq": "^5.66.4",
