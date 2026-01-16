@@ -3,6 +3,7 @@ import { AppModule } from './app/app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import helmet from 'helmet';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -16,6 +17,37 @@ async function bootstrap() {
 	app.setGlobalPrefix(globalPrefix);
 
 	app.use(cookieParser())
+
+	app.use(
+		helmet({
+			contentSecurityPolicy: {
+				directives: {
+					...helmet.contentSecurityPolicy.getDefaultDirectives(),
+					"script-src": ["'self'", "'unsafe-inline'"],
+					"style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+				},
+			},
+			crossOriginEmbedderPolicy: false, 
+			crossOriginResourcePolicy: { policy: "cross-origin" },
+
+			dnsPrefetchControl: {
+				allow: false
+			},
+			frameguard: {
+				action: "deny"
+			},
+			hidePoweredBy: true,
+			strictTransportSecurity: {
+				maxAge: 31536000,
+				includeSubDomains: true,
+				preload: true,
+			},
+			xContentTypeOptions: true,
+			referrerPolicy: {
+				policy: "strict-origin-when-cross-origin"
+			},
+		})
+	);
 
 	app.useGlobalPipes(new ValidationPipe({
 		whitelist: true,
